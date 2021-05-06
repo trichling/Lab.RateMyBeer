@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Commands;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NServiceBus;
+
+namespace Lab.RateMyBeer.Api
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
+                .UseNServiceBus(context =>
+                {
+                    var configuration = new EndpointConfiguration("Lab.RateMyBeer.Api");
+                    var transport = configuration.UseTransport<LearningTransport>();
+                    var routing = transport.Routing();
+                    routing.RouteToEndpoint(typeof(CreateCheckinCommand).Assembly, "Lab.RateMyBeer.Checkins");
+
+                    configuration.UsePersistence<LearningPersistence>();
+                    configuration.SendOnly();
+                    configuration.UseSerialization<NewtonsoftSerializer>();
+                    configuration.Conventions()
+                        .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
+                        .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
+                        .DefiningEventsAs(t => t.Namespace.EndsWith("Events"));
+
+
+                    return configuration;
+                });
+    }
+}

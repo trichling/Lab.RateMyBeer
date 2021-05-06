@@ -1,0 +1,55 @@
+﻿@page "/checkinlist"
+@using Contracts.Checkins.ViewModels
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Checkins</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (checkinList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usder Id</th>
+                <th>Created at</th>
+                <th>Beer name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var checkin in checkinList.Items)
+            {
+                <tr>
+                    <td>@checkin.CheckinId</td>
+                    <td>@checkin.UserId</td>
+                    <td>@checkin.CreatedAt</td>
+                    <td>@checkin.BeerName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button @onclick="GotoNewCheckin">Neuer Checkin</button>
+}
+
+@code {
+    private CheckinListViewModel checkinList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>("https://localhost:5011/checkins");
+    }
+
+    private void GotoNewCheckin()
+    {
+        NavigationManager.NavigateTo("CreateCheckin");
+    }
+
+}

@@ -1,0 +1,28 @@
+﻿@page "/createCheckin"
+@using Contracts.Checkins.ViewModels
+@using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Neuer Checkins</h1>
+
+Bier Name:
+<input @bind="BeerName">
+
+<br/>
+
+<button @onclick="SaveCheckin">Speichern</button>
+
+@code {
+
+    private string BeerName { get; set; }
+
+    private void SaveCheckin()
+    {
+        Http.PostAsJsonAsync("https://localhost:5011/checkins", new CreateCheckinCommandViewModel()
+        {
+            BeerName = this.BeerName
+        });
+    }
+}
