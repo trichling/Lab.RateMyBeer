@@ -44,7 +44,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>("https://localhost:5011/checkins");
+        checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>("https://localhost:5001/checkins");
     }
 
     private void GotoNewCheckin()

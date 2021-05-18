@@ -20,7 +20,7 @@ Bier Name:
 
     private void SaveCheckin()
     {
-        Http.PostAsJsonAsync("https://localhost:5011/checkins", new CreateCheckinCommandViewModel()
+        Http.PostAsJsonAsync("https://localhost:5001/checkins", new CreateCheckinCommandViewModel()
         {
             BeerName = this.BeerName
         });

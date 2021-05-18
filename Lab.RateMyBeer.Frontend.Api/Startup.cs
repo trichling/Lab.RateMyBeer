@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RestEase;
 
-namespace Lab.RateMyBeer.Api
+namespace Lab.RateMyBeer.Frontend.Api
 {
     public class Startup
     {
@@ -36,7 +36,8 @@ namespace Lab.RateMyBeer.Api
             });
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
-            services.AddTransient<ICheckinsRestApi>(p => RestClient.For<ICheckinsRestApi>("https://localhost:5001"));
+            var checkinsApiBaseUrl = Configuration.GetValue<string>("Dependencies:APIs:CheckinsApiBaseUrl");
+            services.AddTransient<ICheckinsRestApi>(p => RestClient.For<ICheckinsRestApi>(checkinsApiBaseUrl));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

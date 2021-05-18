@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
 
-namespace Lab.RateMyBeer.Api
+namespace Lab.RateMyBeer.Frontend.Api
 {
     public class Program
     {
