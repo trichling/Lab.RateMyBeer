@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.RateMyBeer.Checkins", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.RateMyBeer.Frontend.Api", "Lab.RateMyBeer.Frontend.Api\Lab.RateMyBeer.Frontend.Api.csproj", "{15D66529-D96A-49F2-A89C-B065843DA39D}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2B75E89D-B40E-4748-9DC8-524BB814865A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{15D66529-D96A-49F2-A89C-B065843DA39D}.Release|x64.Build.0 = Release|Any CPU
 		{15D66529-D96A-49F2-A89C-B065843DA39D}.Release|x86.ActiveCfg = Release|Any CPU
 		{15D66529-D96A-49F2-A89C-B065843DA39D}.Release|x86.Build.0 = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|x64.Build.0 = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B75E89D-B40E-4748-9DC8-524BB814865A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

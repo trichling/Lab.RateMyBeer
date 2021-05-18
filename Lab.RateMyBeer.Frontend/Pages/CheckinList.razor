@@ -1,8 +1,10 @@
 ﻿@page "/checkinlist"
 @using Contracts.Checkins.ViewModels
+@using Microsoft.Extensions.Configuration
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
 
 <h1>Checkins</h1>
 
@@ -44,7 +46,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>("https://localhost:5001/checkins");
+        var checkinListUrl = Configuration["Dependencies:APIs:FrontendApi"];
+        checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>(checkinListUrl);
     }
 
     private void GotoNewCheckin()

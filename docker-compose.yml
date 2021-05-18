@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  lab.ratemybeer.frontend.api:
+    image: ${DOCKER_REGISTRY-}labratemybeerfrontendapi
+    build:
+      context: .
+      dockerfile: Lab.RateMyBeer.Frontend.Api/Dockerfile
+
+  lab.ratemybeer.checkins:
+    image: ${DOCKER_REGISTRY-}labratemybeercheckins
+    build:
+      context: .
+      dockerfile: Lab.RateMyBeer.Checkins/Dockerfile
