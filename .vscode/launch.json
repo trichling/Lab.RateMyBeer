@@ -8,6 +8,26 @@
     ],
     "configurations": [
         {
+            "name": "Checkins.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildCheckinsApi",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Checkins/bin/Debug/net5.0/Lab.RateMyBeer.Checkins.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "Frontend",
             "type": "blazorwasm",
             "request": "launch",

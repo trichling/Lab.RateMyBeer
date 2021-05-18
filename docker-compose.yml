@@ -1,14 +1,49 @@
 version: '3.4'
 
 services:
+
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"
+    hostname: "rabbitmq"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest   
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - "./Lab.RateMyBeer.RabbitMq/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      #- "./Lab.RateMyBeer.RabbitMq/data/:/var/lib/rabbitmq/"
+      #- "./Lab.RateMyBeer.RabbitMq/log/:/var/log/rabbitmq"
+      #- "./Lab.RateMyBeer.RabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+
   lab.ratemybeer.frontend.api:
     image: ${DOCKER_REGISTRY-}labratemybeerfrontendapi
     build:
       context: .
       dockerfile: Lab.RateMyBeer.Frontend.Api/Dockerfile
+    restart: on-failure:10
+    depends_on:
+      - rabbitmq
 
   lab.ratemybeer.checkins:
     image: ${DOCKER_REGISTRY-}labratemybeercheckins
     build:
       context: .
       dockerfile: Lab.RateMyBeer.Checkins/Dockerfile
+    restart: on-failure:10
+    depends_on:
+      - rabbitmq
+
+  lab.ratemybeer.frontend:
+    image: ${DOCKER_REGISTRY-}labratemybeerfrontend
+    build:
+      context: .
+      dockerfile: Lab.RateMyBeer.Frontend/Dockerfile
+    depends_on:
+      - lab.ratemybeer.frontend.api
+
+  
+

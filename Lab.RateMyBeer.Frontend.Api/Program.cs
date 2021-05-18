@@ -27,18 +27,25 @@ namespace Lab.RateMyBeer.Frontend.Api
                 .UseNServiceBus(context =>
                 {
                     var configuration = new EndpointConfiguration("Lab.RateMyBeer.Api");
-                    var transport = configuration.UseTransport<LearningTransport>();
+
+                    var transport = configuration.UseTransport<RabbitMQTransport>();
+                    var transportConnectionString =
+                        context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
+                    transport.ConnectionString(transportConnectionString);
+                    transport.UseConventionalRoutingTopology();
+
                     var routing = transport.Routing();
                     routing.RouteToEndpoint(typeof(CreateCheckinCommand).Assembly, "Lab.RateMyBeer.Checkins");
 
                     configuration.UsePersistence<LearningPersistence>();
-                    configuration.SendOnly();
                     configuration.UseSerialization<NewtonsoftSerializer>();
                     configuration.Conventions()
                         .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
                         .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
                         .DefiningEventsAs(t => t.Namespace.EndsWith("Events"));
 
+                    configuration.SendOnly();
+                    configuration.EnableInstallers();
 
                     return configuration;
                 });
