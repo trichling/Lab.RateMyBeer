@@ -42,7 +42,7 @@
             "request": "launch",
             "preLaunchTask": "buildFrontendApi",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api/bin/Debug/net5.0/Lab.RateMyBeer.Api.dll",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api/bin/Debug/net5.0/Lab.RateMyBeer.Frontend.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api",
             "stopAtEntry": false,

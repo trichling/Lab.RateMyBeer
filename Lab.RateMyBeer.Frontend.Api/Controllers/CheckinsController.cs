@@ -7,6 +7,7 @@ using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NServiceBus;
 
 namespace Lab.RateMyBeer.Frontend.Api.Controllers
@@ -30,19 +31,22 @@ namespace Lab.RateMyBeer.Frontend.Api.Controllers
         {
             var checkinsFromApi = await _checkinsRestApi.GetAll();
 
-            return Ok(new CheckinListViewModel { Items = checkinsFromApi.Select(dto => new CheckinListItemViewModel()
+            return Ok(new CheckinListViewModel
             {
-                BeerName = dto.BeerName,
-                UserId = dto.UserId,
-                CheckinId = dto.CheckinId,
-                CreatedAt = dto.CreatedAt
-            }).ToList() } );
+                Items = checkinsFromApi.Select(dto => new CheckinListItemViewModel()
+                {
+                    BeerName = dto.BeerName,
+                    UserId = dto.UserId,
+                    CheckinId = dto.CheckinId,
+                    CreatedAt = dto.CreatedAt
+                }).ToList()
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCheckin(CreateCheckinCommandViewModel createCheckinCommand)
         {
-           
+
             await _messageSession.Send(new CreateCheckinCommand()
             {
                 CheckinId = Guid.NewGuid(),

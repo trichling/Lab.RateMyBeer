@@ -1,10 +1,12 @@
 ﻿@page "/checkinlist"
 @using Contracts.Checkins.ViewModels
 @using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
+@inject IWebAssemblyHostEnvironment HostEnvironment
 
 <h1>Checkins</h1>
 
@@ -39,6 +41,9 @@ else
     </table>
 
     <button @onclick="GotoNewCheckin">Neuer Checkin</button>
+
+    <p>Environment: @HostEnvironment.Environment</p>
+
 }
 
 @code {
