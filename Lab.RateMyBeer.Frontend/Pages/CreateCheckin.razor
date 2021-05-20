@@ -1,9 +1,11 @@
 ﻿@page "/createCheckin"
 @using Contracts.Checkins.ViewModels
+@using Microsoft.Extensions.Configuration
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
 
 <h1>Neuer Checkins</h1>
 
@@ -20,7 +22,8 @@ Bier Name:
 
     private void SaveCheckin()
     {
-        Http.PostAsJsonAsync("https://localhost:5001/checkins", new CreateCheckinCommandViewModel()
+        var checkinListUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
+        Http.PostAsJsonAsync(checkinListUrl, new CreateCheckinCommandViewModel()
         {
             BeerName = this.BeerName
         });

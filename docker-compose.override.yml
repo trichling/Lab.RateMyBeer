@@ -8,7 +8,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
       - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
-      - Dependencies__APIs__CheckinsApiBaseUrl="https://lab.ratemybeer.checkins/" 
+      - Dependencies__APIs__CheckinsApiBaseUrl=https://lab.ratemybeer.checkins/
     ports:
       - "6000:80"
       - "6001:443"
@@ -22,6 +22,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
       - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
+      - ConnectionStrings__CheckinsDbConnectionString=Server=sqlserver;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
     ports:
       - "6002:80"
       - "6003:443"

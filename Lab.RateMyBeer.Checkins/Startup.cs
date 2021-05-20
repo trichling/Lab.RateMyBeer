@@ -48,6 +48,13 @@ namespace Lab.RateMyBeer.Checkins
         {
             if (env.IsDevelopment())
             {
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var checkinsContext = scope.ServiceProvider.GetRequiredService<CheckinsContext>();
+                    checkinsContext.Database.Migrate();
+                }
+                
+
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lab.RateMyBeer.Checkins v1"));

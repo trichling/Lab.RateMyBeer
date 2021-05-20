@@ -3,6 +3,7 @@ version: '3.4'
 services:
 
   rabbitmq:
+    container_name: "rabbitmq"
     image: "rabbitmq:3-management-alpine"
     hostname: "rabbitmq"
     ports:
@@ -19,7 +20,19 @@ services:
       #- "./Lab.RateMyBeer.RabbitMq/log/:/var/log/rabbitmq"
       #- "./Lab.RateMyBeer.RabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
 
+  sqlserver:
+    container_name: "sqlserver"
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=1stChangeIt!
+    ports:
+    - '1533:1433'
+    volumes:
+    - ./Lab.RateMyBeer.SQLServer/Volumes:/var/opt/mssql/data
+
   lab.ratemybeer.frontend.api:
+    container_name: "lab.ratemybeer.frontend.api"
     image: ${DOCKER_REGISTRY-}labratemybeerfrontendapi
     build:
       context: .
@@ -29,6 +42,7 @@ services:
       - rabbitmq
 
   lab.ratemybeer.checkins:
+    container_name: "lab.ratemybeer.checkins"
     image: ${DOCKER_REGISTRY-}labratemybeercheckins
     build:
       context: .
@@ -38,6 +52,7 @@ services:
       - rabbitmq
 
   lab.ratemybeer.frontend:
+    container_name: "lab.ratemybeer.frontend"
     image: ${DOCKER_REGISTRY-}labratemybeerfrontend
     build:
       context: .

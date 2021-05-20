@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,7 @@ namespace Lab.RateMyBeer.Frontend.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -37,9 +39,32 @@ namespace Lab.RateMyBeer.Frontend.Api
             });
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
+
+            
             var checkinsApiBaseUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
-            checkinsApiBaseUrl = "http://lab.ratemybeer.checkins/";
-            services.AddTransient<ICheckinsRestApi>(p => RestClient.For<ICheckinsRestApi>(checkinsApiBaseUrl));
+            services.AddHttpClient(nameof(ICheckinsRestApi))
+                .ConfigurePrimaryHttpMessageHandler(p => 
+                {
+                    var handler = new HttpClientHandler();
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ServerCertificateCustomValidationCallback = 
+                        (httpRequestMessage, cert, cetChain, policyErrors) =>
+                        {
+                            return true;
+                        };
+
+                    return handler;
+                })
+            .ConfigureHttpClient((services, client) => 
+                {
+                    client.BaseAddress = new Uri(checkinsApiBaseUrl);
+                });
+
+            services.AddTransient<ICheckinsRestApi>(p => 
+            {
+                var client = p.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ICheckinsRestApi));
+                return RestClient.For<ICheckinsRestApi>(client);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,7 +3,11 @@
     "compounds": [
         {
             "name": "All",
-            "configurations": ["Frontend", "Frontend.Api"]
+            "configurations": ["Frontend", "Frontend.Api", "Checkins.Api"]
+        },
+        {
+            "name": "Backend",
+            "configurations": ["Frontend.Api", "Checkins.Api"]
         }
     ],
     "configurations": [
