@@ -41,6 +41,15 @@ services:
     depends_on:
       - rabbitmq
 
+  lab.ratemybeer.frontend:
+    container_name: "lab.ratemybeer.frontend"
+    image: ${DOCKER_REGISTRY-}labratemybeerfrontend
+    build:
+      context: .
+      dockerfile: Lab.RateMyBeer.Frontend/Dockerfile
+    depends_on:
+      - lab.ratemybeer.frontend.api
+
   lab.ratemybeer.checkins:
     container_name: "lab.ratemybeer.checkins"
     image: ${DOCKER_REGISTRY-}labratemybeercheckins
@@ -51,14 +60,7 @@ services:
     depends_on:
       - rabbitmq
 
-  lab.ratemybeer.frontend:
-    container_name: "lab.ratemybeer.frontend"
-    image: ${DOCKER_REGISTRY-}labratemybeerfrontend
-    build:
-      context: .
-      dockerfile: Lab.RateMyBeer.Frontend/Dockerfile
-    depends_on:
-      - lab.ratemybeer.frontend.api
+  # Seperate Service for NServicBus endpoint
 
   
 
