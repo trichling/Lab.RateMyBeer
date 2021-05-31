@@ -4,4 +4,9 @@
 
 docker compose up --build
 
-http://localhost:4000
+UI: http://localhost:4000
+Application API: https://localhost:6001/swagger
+Checkins API: https://localhost:6003/swagger
+
+RabbitMq: http://localhost:15672/#/ (guest/guest)
+SqlServer: localhost,1533 (sa/1stChangeIt!)
