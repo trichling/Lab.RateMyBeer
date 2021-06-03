@@ -1,20 +1,28 @@
 version: '3.4'
 
 services:
-  lab.ratemybeer.frontend.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
-      - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
-      - Dependencies__APIs__CheckinsApiBaseUrl=https://lab.ratemybeer.checkins/
+  rabbitmq:
     ports:
-      - "6000:80"
-      - "6001:443"
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest   
     volumes:
-      - ./.certificate:/root/.aspnet/https:ro
+      - ./Lab.RateMyBeer.RabbitMq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      #- "./Lab.RateMyBeer.RabbitMq/data/:/var/lib/rabbitmq/"
+      #- "./Lab.RateMyBeer.RabbitMq/log/:/var/log/rabbitmq"
+      #- "./Lab.RateMyBeer.RabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
 
+  sqlserver:
+    ports:
+      - 1533:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1stChangeIt!
+    volumes:
+      - ./Lab.RateMyBeer.SQLServer/Volumes:/var/opt/mssql/data
+      
   lab.ratemybeer.checkins:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -24,11 +32,25 @@ services:
       - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
       - ConnectionStrings__CheckinsDbConnectionString=Server=sqlserver;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
     ports:
-      - "6002:80"
-      - "6003:443"
+      - 6002:80
+      - 6003:443
+    volumes:
+      - ./.certificate:/root/.aspnet/https:ro
+
+  lab.ratemybeer.frontend.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
+      - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
+      - Dependencies__APIs__CheckinsApiBaseUrl=https://lab.ratemybeer.checkins/
+    ports:
+      - 6000:80
+      - 6001:443
     volumes:
       - ./.certificate:/root/.aspnet/https:ro
 
   lab.ratemybeer.frontend:
     ports:
-      - "4000:80"
+      - 4000:80
