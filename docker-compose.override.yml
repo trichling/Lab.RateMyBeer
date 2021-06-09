@@ -23,7 +23,7 @@ services:
     volumes:
       - ./Lab.RateMyBeer.SQLServer/Volumes:/var/opt/mssql/data
       
-  lab.ratemybeer.checkins:
+  lab-ratemybeer-checkins:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -37,20 +37,20 @@ services:
     volumes:
       - ./.certificate:/root/.aspnet/https:ro
 
-  lab.ratemybeer.frontend.api:
+  lab-ratemybeer-frontend-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
       - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
-      - Dependencies__APIs__CheckinsApiBaseUrl=https://lab.ratemybeer.checkins/
+      - Dependencies__APIs__CheckinsApiBaseUrl=https://lab-ratemybeer-checkins/
     ports:
       - 6000:80
       - 6001:443
     volumes:
       - ./.certificate:/root/.aspnet/https:ro
 
-  lab.ratemybeer.frontend:
+  lab-ratemybeer-frontend:
     ports:
       - 4000:80
