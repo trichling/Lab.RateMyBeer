@@ -11,9 +11,9 @@ services:
     container_name: sqlserver
     image: mcr.microsoft.com/mssql/server:2019-latest
 
-  lab.ratemybeer.checkins:
-    container_name: lab.ratemybeer.checkins
-    image: ${DOCKER_REGISTRY-}labratemybeercheckins
+  lab-ratemybeer-checkins:
+    container_name: lab-ratemybeer-checkins
+    image: labratemybeercheckins
     build:
       context: .
       dockerfile: Lab.RateMyBeer.Checkins/Dockerfile
@@ -21,22 +21,22 @@ services:
     depends_on:
       - rabbitmq
 
-  lab.ratemybeer.frontend.api:
-    container_name: lab.ratemybeer.frontend.api
-    image: ${DOCKER_REGISTRY-}labratemybeerfrontendapi
+  lab-ratemybeer-frontend-api:
+    container_name: lab-ratemybeer-frontend-api
+    image: labratemybeerfrontendapi
     build:
       context: .
       dockerfile: Lab.RateMyBeer.Frontend.Api/Dockerfile
     restart: on-failure:10
     depends_on:
       - rabbitmq
-      - lab.ratemybeer.checkins
+      - lab-ratemybeer-checkins
 
-  lab.ratemybeer.frontend:
-    container_name: lab.ratemybeer.frontend
-    image: ${DOCKER_REGISTRY-}labratemybeerfrontend
+  lab-ratemybeer-frontend:
+    container_name: lab-ratemybeer-frontend
+    image: labratemybeerfrontend
     build:
       context: .
       dockerfile: Lab.RateMyBeer.Frontend/Dockerfile
     depends_on:
-      - lab.ratemybeer.frontend.api
+      - lab-ratemybeer-frontend-api
