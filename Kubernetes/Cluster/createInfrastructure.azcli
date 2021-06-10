@@ -1,0 +1,36 @@
+az login
+az account set --subscription "Visual Studio Enterprise"
+
+$LOCATION = "westeurope"
+$RESSOURCE_GROUP = "Lab_RateMyBeer"
+$CONTAINERREGISTRY_NAME = "RateMyBeerContainer"
+$CLUSTER_NAME="RateMyBeerCluster"
+
+az group create `
+    --name $RESSOURCE_GROUP `
+    --location $LOCATION
+
+az acr create `
+    --name $CONTAINERREGISTRY_NAME `
+    --resource-group $RESSOURCE_GROUP `
+    --location $LOCATION `
+    -sku Basic
+
+az acr show -g $RESSOURCE_GROUP -n $CONTAINERREGISTRY_NAME -o table
+az acr login --name ratemybeercontainer
+
+az aks create `
+    --resource-group $RESSOURCE_GROUP `
+    --name $CLUSTER_NAME `
+    --node-count 3 `
+    --node-vm-size Standard_B2s `
+    --enable-managed-identity `
+    --network-plugin kubenet `
+    --attach-acr $CONTAINERREGISTRY_NAME
+
+az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME -o table
+az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME --query "identity" -o tsv
+az aks update -g $RESSOURCE_GROUP -n $CLUSTER_NAME --attach-acr $CONTAINERREGISTRY_NAME
+
+az aks get-credentials -g $RESSOURCE_GROUP -n $CLUSTER_NAME
+kubectl create namespace ratemybeer

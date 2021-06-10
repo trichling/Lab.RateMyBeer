@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-ratemybeer-frontend-api
+spec:
+  selector:
+    matchLabels:
+      app: lab-ratemybeer-frontend-api
+  template:
+    metadata:
+      labels:
+        app: lab-ratemybeer-frontend-api
+    spec:
+      containers:
+      - name: lab-ratemybeer-frontend-api
+        image: ratemybeercontainer.azurecr.io/frontendapi:dev
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: Dependencies__NServiceBus__TransportConnectionString
+          value: host=rabbitmq;username=guest;password=guest
+        - name: Dependencies__APIs__CheckinsApiBaseUrl
+          value: http://lab-ratemybeer-checkins-api/
+        ports:
+        - containerPort: 80
