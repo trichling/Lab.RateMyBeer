@@ -52,5 +52,7 @@ services:
       - ./.certificate:/root/.aspnet/https:ro
 
   lab-ratemybeer-frontend:
+    environment: 
+      - BLAZOR_ENVIRONMENT=Development
     ports:
       - 4000:80

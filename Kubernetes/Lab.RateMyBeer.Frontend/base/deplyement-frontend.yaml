@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-ratemybeer-frontend
+spec:
+  selector:
+    matchLabels:
+      app: lab-ratemybeer-frontend
+  template:
+    metadata:
+      labels:
+        app: lab-ratemybeer-frontend
+    spec:
+      containers:
+      - name: lab-ratemybeer-frontend
+        image: ratemybeercontainer.azurecr.io/frontend:dev
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+        - name: BLAZOR_ENVIRONMENT
+          value: Docker
+        ports:
+        - containerPort: 80
