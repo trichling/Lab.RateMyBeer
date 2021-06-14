@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
+using Lab.RateMyBeer.Frontend.Api.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,7 +37,9 @@ namespace Lab.RateMyBeer.Frontend.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lab.RateMyBeer.Api", Version = "v1" });
+                c.DocumentFilter<BasePathDocumentFilter>();
             });
+
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
 
