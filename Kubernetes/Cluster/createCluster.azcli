@@ -1,0 +1,81 @@
+az login
+az account set --subscription "Visual Studio Enterprise"
+
+$LOCATION = "westeurope"
+$RESSOURCE_GROUP = "Lab_RateMyBeer"
+$CONTAINERREGISTRY_NAME = "RateMyBeerContainer"
+$CLUSTER_NAME="RateMyBeerCluster"
+
+az group create `
+    --name $RESSOURCE_GROUP `
+    --location $LOCATION
+
+az acr create `
+    --name $CONTAINERREGISTRY_NAME `
+    --resource-group $RESSOURCE_GROUP `
+    --location $LOCATION `
+    --sku Basic
+
+az acr show -g $RESSOURCE_GROUP -n $CONTAINERREGISTRY_NAME -o table
+az acr login --name ratemybeercontainer
+
+az aks create `
+    --resource-group $RESSOURCE_GROUP `
+    --name $CLUSTER_NAME `
+    --node-count 3 `
+    --node-vm-size Standard_B2s `
+    --enable-managed-identity `
+    --network-plugin kubenet `
+    --attach-acr $CONTAINERREGISTRY_NAME
+
+az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME -o table
+az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME --query "identity" -o tsv
+az aks update -g $RESSOURCE_GROUP -n $CLUSTER_NAME --attach-acr $CONTAINERREGISTRY_NAME
+
+az aks get-credentials -g $RESSOURCE_GROUP -n $CLUSTER_NAME
+kubectl create namespace ratemybeer
+
+# Make sure you have helm > v3
+choco install kubernetes-helm
+heml version
+
+# Install tiller (server side helm) No longer needed: https://www.heise.de/developer/meldung/Kubernetes-Paketmanager-Helm-3-verzichtet-auf-Tiller-4586105.html
+#kubectl create serviceaccount tiller --namespace=kube-system
+#kubectl create clusterrolebinding tiller-admin --serviceaccount=kube-system:tiller --clusterrole=cluster-admin
+#helm init --service-account=tiller # geht in Helm 3 nicht mehr
+# validate install
+#kubectl describe deploy tiller-deploy --namespace=kube-system
+
+# Configure Ingress (https://docs.microsoft.com/en-us/azure/aks/ingress-internal-ip#create-an-ingress-controller) 
+## Kuberntes Ingress controlser
+## https://github.com/kubernetes/ingress-nginx
+
+kubectl create namespace ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm show chart ingress-nginx/ingress-nginx # appVersion 0.47.0, version 3.33.0
+helm install nginx-ingress ingress-nginx/ingress-nginx `
+    --namespace ingress-nginx `
+    --set controller.replicaCount=3 `
+    --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux `
+    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux `
+    --set controller.admissionWebhooks.patch.nodeSelector."beta\.kubernetes\.io/os"=linux
+
+## Update existin version
+# helm upgrade --reuse-values nginx-ingress ingress-nginx/ingress-nginx
+
+## Verify insallation
+kubectl get services -n ingress-nginx -o wide -w nginx-ingress-ingress-nginx-controller
+kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --watch
+# detect installed version
+$POD_NAME=$(kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -n ingress-nginx -it $POD_NAME -- /nginx-ingress-controller --version
+
+# logs
+kubectl logs -n ingress-nginx $POD_NAME
+# nginx config
+kubectl exec -n ingress-nginx -it $POD_NAME -- cat /etc/nginx/nginx.conf
+
+
+# Im Azure-Portal in der MC_ Ressource Gruppe nach der öffentlichen IP des Ingress-Controller suchen
+# unter Konfiguration einen DNS-Namen vergeben <meinname>.westeurope.cloudapp.azure.com

@@ -74,7 +74,10 @@ namespace Lab.RateMyBeer.Frontend.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lab.RateMyBeer.Api v1"));
+                // use relative URI, not /swagger/v1/swagger.json otherwise urls wont be resolved correctly!!
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("v1/swagger.json", "Lab.RateMyBeer.Api v1");
+                });
             }
 
             app.UseCors();

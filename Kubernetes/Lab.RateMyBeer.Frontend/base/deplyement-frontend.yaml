@@ -14,12 +14,13 @@ spec:
       containers:
       - name: lab-ratemybeer-frontend
         image: ratemybeercontainer.azurecr.io/frontend:dev
+        imagePullPolicy: Always
         resources:
           limits:
             memory: "512Mi"
             cpu: "500m"
         env:
         - name: BLAZOR_ENVIRONMENT
-          value: Docker
+          value: Kubernetes
         ports:
         - containerPort: 80
