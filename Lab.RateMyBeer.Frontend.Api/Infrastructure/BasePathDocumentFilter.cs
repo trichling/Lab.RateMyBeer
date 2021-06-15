@@ -9,7 +9,11 @@ namespace Lab.RateMyBeer.Frontend.Api.Infrastructure
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
             swaggerDoc.Servers.Add(new OpenApiServer() {
-                Url = "http://ratemybeer.westeurope.cloudapp.azure.com/api/"
+                Url = "/api"
+            });
+
+            swaggerDoc.Servers.Add(new OpenApiServer() {
+                Url = "/",
             });
         }
     }

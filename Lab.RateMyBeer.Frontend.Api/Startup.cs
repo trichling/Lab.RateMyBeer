@@ -41,8 +41,6 @@ namespace Lab.RateMyBeer.Frontend.Api
             });
 
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
-
-
             
             var checkinsApiBaseUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
             services.AddHttpClient(nameof(ICheckinsRestApi))
