@@ -43,7 +43,6 @@ resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
   resource_group_name = azurerm_resource_group.RateMyBeerRessourceGroup.name
   location = azurerm_resource_group.RateMyBeerRessourceGroup.location
   dns_prefix = "ratemybeer${var.ressourceNameSuffix}"
-
   default_node_pool {
     name = "default"
     node_count = 3
@@ -55,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
   }
 }
 
-# --attach-acr
+# --attach-acr | NOT WORKING!!
 resource "azurerm_role_assignment" "acrpull_role" {
   scope                            = azurerm_container_registry.RateMyBeerContainerRegistry.id
   role_definition_name             = "AcrPull"
