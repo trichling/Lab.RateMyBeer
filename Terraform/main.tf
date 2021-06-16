@@ -10,6 +10,11 @@ terraform {
           source = "hashicorp/helm"
           version = ">= 2.2"
       }
+
+      kubectl = {
+        source  = "gavinbunney/kubectl"
+        version = ">= 1.7.0"
+      }
     }
 
     required_version = ">= 0.14.9"
@@ -54,11 +59,14 @@ resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
   }
 }
 
-# --attach-acr | NOT WORKING!!
+# --attach-acr
 resource "azurerm_role_assignment" "acrpull_role" {
   scope                            = azurerm_container_registry.RateMyBeerContainerRegistry.id
   role_definition_name             = "AcrPull"
-  principal_id                     = azurerm_kubernetes_cluster.RateMyBeerCluster.identity[0].principal_id
+  # This refers to the identity of the kluster itself
+  #   principal_id                     = azurerm_kubernetes_cluster.RateMyBeerCluster.identity[0].principal_id
+  # This refers to the identity of the agentpool 
+  principal_id                     = azurerm_kubernetes_cluster.RateMyBeerCluster.kubelet_identity[0].object_id
   skip_service_principal_aad_check = true
 }
 
