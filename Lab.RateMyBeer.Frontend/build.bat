@@ -1,4 +1,4 @@
-az acr login --name ratemybeercontainer
+REM az acr login --name ratemybeercontainer
 docker build -f Dockerfile -t ratemybeercontainer.azurecr.io/frontend:dev .\..
 docker push ratemybeercontainer.azurecr.io/frontend:dev
 
