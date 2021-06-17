@@ -1,3 +1,10 @@
+# Prerequisites:
+# (Azure CLI)[https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-powershell]
+# (kubectl)[https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/]
+# (Kuberntes Tools for VS Code)[https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools]
+# 
+# Azure Subscription
+
 az login
 az account set --subscription "Visual Studio Enterprise"
 
@@ -37,14 +44,7 @@ kubectl create namespace ratemybeer
 
 # Make sure you have helm > v3
 choco install kubernetes-helm
-heml version
-
-# Install tiller (server side helm) No longer needed: https://www.heise.de/developer/meldung/Kubernetes-Paketmanager-Helm-3-verzichtet-auf-Tiller-4586105.html
-#kubectl create serviceaccount tiller --namespace=kube-system
-#kubectl create clusterrolebinding tiller-admin --serviceaccount=kube-system:tiller --clusterrole=cluster-admin
-#helm init --service-account=tiller # geht in Helm 3 nicht mehr
-# validate install
-#kubectl describe deploy tiller-deploy --namespace=kube-system
+helm version
 
 # Configure Ingress (https://docs.microsoft.com/en-us/azure/aks/ingress-internal-ip#create-an-ingress-controller) 
 ## Kuberntes Ingress controlser
@@ -79,3 +79,11 @@ kubectl exec -n ingress-nginx -it $POD_NAME -- cat /etc/nginx/nginx.conf
 
 # Im Azure-Portal in der MC_ Ressource Gruppe nach der öffentlichen IP des Ingress-Controller suchen
 # unter Konfiguration einen DNS-Namen vergeben <meinname>.westeurope.cloudapp.azure.com
+
+# Cert-Manager (not yet tested)
+kubectl create namespace cert-manager
+kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
+helm repo add cert-manager https://charts.jetstack.io
+helm install my-cert-manager cert-manager/cert-manager --version 1.4.0
+
+kubectl get pods --namespace cert-manager

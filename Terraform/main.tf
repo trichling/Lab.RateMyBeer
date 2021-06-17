@@ -93,7 +93,7 @@ resource "helm_release" "nginx_ingress" {
     name  = "controller.nodeSelector.kubernetes\\.io/os" 
     value = "linux"
   }
-    set {
+  set {
     name  = "defaultBackend.nodeSelector.kubernetes\\.io/os"
     value = "linux"
   }
@@ -101,4 +101,18 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.admissionWebhooks.patch.nodeSelector.kubernetes\\.io/os"
     value = "linux"
   }
+}
+
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  namespace        = "cert-manager"
+  create_namespace = true
+  repository  = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
 }
