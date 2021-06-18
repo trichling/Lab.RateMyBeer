@@ -10,6 +10,7 @@ Lab.RateMyBeer.SQLServer/Volumes
 .learningtransport
 
 .terraform*
+.tfstate*
 
 # User-specific files
 *.rsuser
