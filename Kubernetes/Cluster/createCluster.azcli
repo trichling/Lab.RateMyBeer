@@ -1,8 +1,3 @@
-# Prerequisites:
-# (Azure CLI)[https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-powershell]
-# (kubectl)[https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/]
-# (Kuberntes Tools for VS Code)[https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools]
-# 
 # Azure Subscription
 
 az login
@@ -10,8 +5,8 @@ az account set --subscription "Visual Studio Enterprise"
 
 $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
-$CONTAINERREGISTRY_NAME = "RateMyBeerContainer"
-$CLUSTER_NAME="RateMyBeerCluster"
+$CONTAINERREGISTRY_NAME = "RateMyBeerContainerTRI"
+$CLUSTER_NAME="RateMyBeerClusterTRI"
 
 az group create `
     --name $RESSOURCE_GROUP `
@@ -24,7 +19,7 @@ az acr create `
     --sku Basic
 
 az acr show -g $RESSOURCE_GROUP -n $CONTAINERREGISTRY_NAME -o table
-az acr login --name ratemybeercontainer
+az acr login --name $CONTAINERREGISTRY_NAME
 
 az aks create `
     --resource-group $RESSOURCE_GROUP `
@@ -33,7 +28,8 @@ az aks create `
     --node-vm-size Standard_B2s `
     --enable-managed-identity `
     --network-plugin kubenet `
-    --attach-acr $CONTAINERREGISTRY_NAME
+    --attach-acr $CONTAINERREGISTRY_NAME `
+    --generate-ssh-keys
 
 az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME -o table
 az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME --query "identity" -o tsv
