@@ -28,8 +28,8 @@ az aks create `
     --node-vm-size Standard_B2s `
     --enable-managed-identity `
     --network-plugin kubenet `
-    --attach-acr $CONTAINERREGISTRY_NAME `
-    --generate-ssh-keys
+    --attach-acr $CONTAINERREGISTRY_NAME #`
+    # --generate-ssh-keys # Only needed the first time
 
 az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME -o table
 az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME --query "identity" -o tsv
