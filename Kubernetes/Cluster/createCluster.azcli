@@ -38,10 +38,6 @@ az aks update -g $RESSOURCE_GROUP -n $CLUSTER_NAME --attach-acr $CONTAINERREGIST
 az aks get-credentials -g $RESSOURCE_GROUP -n $CLUSTER_NAME
 kubectl create namespace ratemybeer
 
-# Make sure you have helm > v3
-choco install kubernetes-helm
-helm version
-
 # Configure Ingress (https://docs.microsoft.com/en-us/azure/aks/ingress-internal-ip#create-an-ingress-controller) 
 ## Kuberntes Ingress controlser
 ## https://github.com/kubernetes/ingress-nginx
