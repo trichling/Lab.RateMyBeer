@@ -5,8 +5,8 @@ az account set --subscription "Visual Studio Enterprise"
 
 $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
-$CONTAINERREGISTRY_NAME = "RateMyBeerContainerTRI"
-$CLUSTER_NAME="RateMyBeerClusterTRI"
+$CONTAINERREGISTRY_NAME = "RateMyBeerContainers"
+$CLUSTER_NAME="RateMyBeerCluster"
 
 az group create `
     --name $RESSOURCE_GROUP `
@@ -49,9 +49,9 @@ helm show chart ingress-nginx/ingress-nginx # appVersion 0.47.0, version 3.33.0
 helm install nginx-ingress ingress-nginx/ingress-nginx `
     --namespace ingress-nginx `
     --set controller.replicaCount=3 `
-    --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux `
-    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux `
-    --set controller.admissionWebhooks.patch.nodeSelector."beta\.kubernetes\.io/os"=linux
+    --set controller.nodeSelector."kubernetes\.io/os"=linux `
+    --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux `
+    --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux
 
 ## Update existin version
 # helm upgrade --reuse-values nginx-ingress ingress-nginx/ingress-nginx
@@ -74,8 +74,9 @@ kubectl exec -n ingress-nginx -it $POD_NAME -- cat /etc/nginx/nginx.conf
 
 # Cert-Manager (not yet tested)
 kubectl create namespace cert-manager
-kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
+#kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
 helm repo add cert-manager https://charts.jetstack.io
-helm install my-cert-manager cert-manager/cert-manager --version 1.4.0
+helm install cert-manager cert-manager/cert-manager --version 1.4.0 `
+    --set installCRDs=true 
 
 kubectl get pods --namespace cert-manager

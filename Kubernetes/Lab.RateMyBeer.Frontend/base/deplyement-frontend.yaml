@@ -21,7 +21,7 @@ spec:
             cpu: "500m"
         env:
         - name: BLAZOR_ENVIRONMENT
-          # value: Kubernetes # Use when not having cert manager ready
-          value: KubernetesHttps # Must be used after cert-manager is installed and frontend is served via https
+          value: Kubernetes # Use when not having cert manager ready
+          # value: KubernetesHttps # Must be used after cert-manager is installed and frontend is served via https
         ports:
         - containerPort: 80
