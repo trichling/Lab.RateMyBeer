@@ -25,6 +25,25 @@ docker compose up --build
 - [Chocolaty](https://chocolatey.org/install)
   > Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
+- [Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/get-started)
+  * It is optional but useful to handle different shells in one terminal
+
+- [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+  * Check Requirements
+    * systeminfo | findstr /B /C:"Betriebssystemname" /C:"Betriebssystemversion"
+    * Version 1903 or higher is required     
+  * Enable system features
+    * dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+    * dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+  * Update WSL
+    * https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+    * wsl --set-default-version 2
+  * Download Distro
+    * https://aka.ms/wslstore
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+  * Make sure that it starts correctly  
+
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-powershell)
   > Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
   
@@ -48,6 +67,8 @@ docker compose up --build
     &rarr; v3.6.0
 
 - [Kubernetes Tools for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
+
+- [Azure CLI Tools for VS Code]
 
 - [Lab.RateMyBeer Demoanwendung](https://github.com/trichling/Lab.RateMyBeer)
   > git clone https://github.com/trichling/Lab.RateMyBeer.git
