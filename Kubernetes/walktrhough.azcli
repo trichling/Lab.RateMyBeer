@@ -4,8 +4,6 @@ $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
 $CONTAINERREGISTRY_NAME = "RateMyBeerContainers" + $UNIQUEPREFIX
 $CLUSTER_NAME="RateMyBeerCluster" + $UNIQUEPREFIX
-$RESSOURCE_GROUP_INFRASTRUCTURE = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME + "_" + $LOCATION
-
 $SUBSCRIPTION_NAME = "Visual Studio Enterprise" # Change the name of the subscription according to your needs
 
 # Login to the appropriate Azure Subscription
@@ -55,7 +53,6 @@ helm install nginx-ingress ingress-nginx/ingress-nginx `
 
 # Im Azure-Portal in der MC_ Ressource Gruppe nach der öffentlichen IP des Ingress-Controller suchen
 # unter Konfiguration einen DNS-Namen vergeben <meinname>.westeurope.cloudapp.azure.com
-$INGRESS_IP_ID=$(az network public-ip list -g  $RESSOURCE_GROUP_INFRASTRUCTURE  --query "[?tags.service=='ingress-nginx/nginx-ingress-ingress-nginx-controller'].id | [0]")    
 
 # Cert-Manager (not yet tested)
 kubectl create namespace cert-manager
@@ -64,29 +61,11 @@ helm repo add cert-manager https://charts.jetstack.io
 helm install cert-manager cert-manager/cert-manager --version 1.4.0 `
     --set installCRDs=true 
 
-# Troubleshooting
 
-## Container Registry
+# Create and Push docker images - make sure to be in the kubernetes directory
 
-### Show registry
-az acr show -g $RESSOURCE_GROUP -n $CONTAINERREGISTRY_NAME -o table
+az acr login --name $CONTAINERREGISTRY_NAME
 
-## Kubernetes
-
-### Show cluster
-az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME -o table
-az aks show -g $RESSOURCE_GROUP -n $CLUSTER_NAME --query "identity" -o tsv
-
-### In case --attach-acr did not work
-az aks update -g $RESSOURCE_GROUP -n $CLUSTER_NAME --attach-acr $CONTAINERREGISTRY_NAME
-
-## Ingress
-
-### detect installed version
-$POD_NAME=$(kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o jsonpath='{.items[0].metadata.name}')
-kubectl exec -n ingress-nginx -it $POD_NAME -- /nginx-ingress-controller --version
-
-## Cert manager
-
-### Get pods
-kubectl get pods --namespace cert-manager
+..\..\Lab.RateMyBeer.Checkins\build.bat
+..\..\Lab.RateMyBeer.Frontend\build.bat
+..\..\Lab.RateMyBeer.Frontend.Api\build.bat
