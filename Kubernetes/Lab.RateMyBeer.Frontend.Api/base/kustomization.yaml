@@ -1,0 +1,4 @@
+ resources:
+    - deployment-frontendapi.yaml
+    - service-frontendapi.yaml
+    - ingress-frontendapi.yaml

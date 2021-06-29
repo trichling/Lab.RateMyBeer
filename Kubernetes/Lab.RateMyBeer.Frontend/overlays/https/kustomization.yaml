@@ -1,0 +1,6 @@
+resources:
+  - ../../base
+
+patchesStrategicMerge:
+  - ingress-frontend-https.yaml
+  - deployment-frontend-changeEnvironment.yaml

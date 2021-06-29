@@ -108,3 +108,16 @@ kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\ingress-frontenda
 kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\deployment-frontend.yaml
 kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\service-frontend.yaml   
 kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\ingress-frontend.yaml
+
+# Kustomize - umschalten auf https
+## Lab.RateMyBeer.Frontend
+### Vorschau
+#> kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https
+### Anwenden
+#> kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https
+
+## Lab.RateMyBeer.Frontend.Api
+### Vorschau
+#> kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https
+### Anwenden
+#> kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https

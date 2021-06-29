@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-ratemybeer-frontend
+spec:
+  template:
+    spec:
+      containers:
+      - name: lab-ratemybeer-frontend
+        env:
+        - name: BLAZOR_ENVIRONMENT
+          value: KubernetesHttps
+        
