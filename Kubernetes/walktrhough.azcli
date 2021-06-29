@@ -1,10 +1,12 @@
 # Definie some variables 
-$UNIQUEPREFIX = "ABC" # Change this prefix in order to make your ACR / AKS name unique
+$UNIQUEPREFIX = ""
 $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
 $CONTAINERREGISTRY_NAME = "RateMyBeerContainers" + $UNIQUEPREFIX
 $CLUSTER_NAME="RateMyBeerCluster" + $UNIQUEPREFIX
+$RESSOURCE_GROUP_INFRASTRUCTURE = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME + "_" + $LOCATION
 $SUBSCRIPTION_NAME = "Visual Studio Enterprise" # Change the name of the subscription according to your needs
+$DNS_LABEL = "ratemybeer" + $UNIQUEPREFIX
 
 # Login to the appropriate Azure Subscription
 az login
@@ -53,19 +55,56 @@ helm install nginx-ingress ingress-nginx/ingress-nginx `
 
 # Im Azure-Portal in der MC_ Ressource Gruppe nach der öffentlichen IP des Ingress-Controller suchen
 # unter Konfiguration einen DNS-Namen vergeben <meinname>.westeurope.cloudapp.azure.com
+$INGRESS_IP_NAME=$(az network public-ip list -g  $RESSOURCE_GROUP_INFRASTRUCTURE  --query "[?tags.service=='ingress-nginx/nginx-ingress-ingress-nginx-controller'].name | [0]")  
+az network public-ip update -g $RESSOURCE_GROUP_INFRASTRUCTURE -n $INGRESS_IP_NAME --dns-name $DNS_LABEL
 
-# Cert-Manager (not yet tested)
+# Cert-Manager 
 kubectl create namespace cert-manager
-#kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
 helm repo add cert-manager https://charts.jetstack.io
+helm repo update
+helm show chart cert-manager/cert-manager 
 helm install cert-manager cert-manager/cert-manager --version 1.4.0 `
+    --namespace cert-manager `
     --set installCRDs=true 
 
 
-# Create and Push docker images - make sure to be in the kubernetes directory
+# Create and Push docker images - make sure to be in the soltuion directory
 
 az acr login --name $CONTAINERREGISTRY_NAME
 
-..\..\Lab.RateMyBeer.Checkins\build.bat
-..\..\Lab.RateMyBeer.Frontend\build.bat
-..\..\Lab.RateMyBeer.Frontend.Api\build.bat
+.\Lab.RateMyBeer.Checkins\build.bat
+.\Lab.RateMyBeer.Frontend\build.bat
+.\Lab.RateMyBeer.Frontend.Api\build.bat
+
+kubectl create namespace ratemybeer
+kubectl config set-context --current --namespace=ratemybeer
+
+# Basics
+kubectl apply -f .\Kubernetes\Cluster\storageclass-managed-standard.yaml
+kubectl apply -f .\Kubernetes\Infrastructure\CertManager\base\letsencrypt-staging-http-issuer.yaml
+kubectl apply -f .\Kubernetes\Infrastructure\CertManager\base\letsencrypt-prod-http-issuer.yaml
+kubectl apply -f .\Kubernetes\Infrastructure\Ingress\base\configmap-ingress-nginx-headers.yaml
+
+# SQL Server
+kubectl apply -f .\Kubernetes\Infrastructure\SqlServer\base\pvc-mssql-data.yaml  
+kubectl apply -f .\Kubernetes\Infrastructure\SqlServer\base\secret-mssql-sapassword.yaml
+kubectl apply -f .\Kubernetes\Infrastructure\SqlServer\base\deployment-mssql.yaml       
+kubectl apply -f .\Kubernetes\Infrastructure\SqlServer\base\service-mssql.yaml
+
+# RabbitMQ
+kubectl apply -f .\Kubernetes\Infrastructure\RabbitMq\base\deployment-rabbitmq.yaml
+kubectl apply -f .\Kubernetes\Infrastructure\RabbitMq\base\service-rabbitmq.yaml   
+
+# Lab.RateMyBeer.Checkins
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\deployement-checkinsapi.yaml
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\service-checkinsapi.yaml   
+
+# Lab.RateMyBeer.Frontend.Api
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\deployment-frontendapi.yaml
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\service-frontendapi.yaml   
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\ingress-frontendapi.yaml   
+
+# Lab.RateMyBeer.Frontend
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\deployment-frontend.yaml
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\service-frontend.yaml   
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\ingress-frontend.yaml

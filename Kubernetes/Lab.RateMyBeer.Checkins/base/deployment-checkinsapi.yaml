@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lab-ratemybeer-frontend-api
+  name: lab-ratemybeer-checkins-api
 spec:
   selector:
     matchLabels:
-      app: lab-ratemybeer-frontend-api
+      app: lab-ratemybeer-checkins-api
   template:
     metadata:
       labels:
-        app: lab-ratemybeer-frontend-api
+        app: lab-ratemybeer-checkins-api
     spec:
       containers:
-      - name: lab-ratemybeer-frontend-api
-        image: ratemybeercontainer.azurecr.io/frontendapi:dev
+      - name: lab-ratemybeer-checkins-api
+        image: ratemybeercontainers.azurecr.io/checkinsapi:dev
         imagePullPolicy: Always
         resources:
           limits:
@@ -24,7 +24,7 @@ spec:
           value: Development
         - name: Dependencies__NServiceBus__TransportConnectionString
           value: host=rabbitmq;username=guest;password=guest
-        - name: Dependencies__APIs__CheckinsApiBaseUrl
-          value: http://lab-ratemybeer-checkins-api/
+        - name: ConnectionStrings__CheckinsDbConnectionString
+          value: Server=mssql;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
         ports:
         - containerPort: 80
