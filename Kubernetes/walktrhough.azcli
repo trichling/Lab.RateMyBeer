@@ -1,5 +1,5 @@
 # Definie some variables 
-$UNIQUEPREFIX = ""
+$UNIQUEPREFIX = Get-Random -Maximum 9999 
 $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
 $CONTAINERREGISTRY_NAME = "RateMyBeerContainers" + $UNIQUEPREFIX
