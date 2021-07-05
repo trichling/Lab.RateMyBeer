@@ -10,5 +10,5 @@ spec:
   # needed for tls
   tls:
   - hosts:
-    - ratemybeer.westeurope.cloudapp.azure.com
+    - ratemybeer7428.westeurope.cloudapp.azure.com
     secretName: lab-ratemybeer-frontend-ssl

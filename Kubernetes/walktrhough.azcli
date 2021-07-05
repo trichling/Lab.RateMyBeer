@@ -1,11 +1,11 @@
 # Definie some variables 
-$UNIQUEPREFIX = Get-Random -Maximum 9999 
+$UNIQUEPREFIX = 7428
+$SUBSCRIPTION_NAME = "Visual Studio Enterprise" # Change the name of the subscription according to your needs
 $LOCATION = "westeurope"
 $RESSOURCE_GROUP = "Lab_RateMyBeer"
 $CONTAINERREGISTRY_NAME = "RateMyBeerContainers" + $UNIQUEPREFIX
 $CLUSTER_NAME="RateMyBeerCluster" + $UNIQUEPREFIX
 $RESSOURCE_GROUP_INFRASTRUCTURE = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME + "_" + $LOCATION
-$SUBSCRIPTION_NAME = "Visual Studio Enterprise" # Change the name of the subscription according to your needs
 $DNS_LABEL = "ratemybeer" + $UNIQUEPREFIX
 
 # Login to the appropriate Azure Subscription
@@ -32,7 +32,7 @@ az aks create `
     --node-vm-size Standard_B2s `
     --enable-managed-identity `
     --network-plugin kubenet `
-    --attach-acr $CONTAINERREGISTRY_NAME #`
+    --attach-acr $CONTAINERREGISTRY_NAME 
     # --generate-ssh-keys # Only needed the first time
 
 # Login to the cluster and add credentials to kubeconfig
@@ -100,24 +100,9 @@ kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\deployment-checkinsap
 kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\service-checkinsapi.yaml   
 
 # Lab.RateMyBeer.Frontend.Api
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\deployment-frontendapi.yaml
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\service-frontendapi.yaml   
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend.Api\base\ingress-frontendapi.yaml   
+kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https
+kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https
 
 # Lab.RateMyBeer.Frontend
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\deployment-frontend.yaml
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\service-frontend.yaml   
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Frontend\base\ingress-frontend.yaml
-
-# Kustomize - umschalten auf https
-## Lab.RateMyBeer.Frontend
-### Vorschau
-#> kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https
-### Anwenden
-#> kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https
-
-## Lab.RateMyBeer.Frontend.Api
-### Vorschau
-#> kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https
-### Anwenden
-#> kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend.Api\overlays\https
+kubectl kustomize .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https
+kubectl apply -k .\Kubernetes\Lab.RateMyBeer.Frontend\overlays\https

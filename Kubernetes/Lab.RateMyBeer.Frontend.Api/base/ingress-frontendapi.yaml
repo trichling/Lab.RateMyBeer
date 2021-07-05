@@ -12,7 +12,7 @@ metadata:
 
 spec:
   rules:
-  - host: ratemybeer.westeurope.cloudapp.azure.com
+  - host: ratemybeer7428.westeurope.cloudapp.azure.com
     http:
       paths:
       - pathType: Prefix

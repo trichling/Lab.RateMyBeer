@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: lab-ratemybeer-frontend-api
-        image: ratemybeercontainers.azurecr.io/frontendapi:dev
+        image: ratemybeercontainers7428.azurecr.io/frontendapi:dev
         imagePullPolicy: Always
         resources:
           limits:

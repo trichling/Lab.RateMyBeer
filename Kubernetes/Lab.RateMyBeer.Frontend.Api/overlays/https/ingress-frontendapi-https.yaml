@@ -9,7 +9,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - ratemybeer.westeurope.cloudapp.azure.com
+    - ratemybeer7428.westeurope.cloudapp.azure.com
     secretName: lab-ratemybeer-frontend-api-ssl
 
  
