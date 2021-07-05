@@ -6,20 +6,11 @@ metadata:
     name: lab-ratemybeer-frontend-api
     
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 
-    #cert-manager.io/issuer: "letsencrypt-prod-http-issuer" # needed for tls
-
 spec:
-  # needed for tls
-  #tls:
-  #- hosts:
-  #  - ratemybeer.westeurope.cloudapp.azure.com
-  #  secretName: lab-ratemybeer-frontend-api-ssl
-
   rules:
   - host: ratemybeer.westeurope.cloudapp.azure.com
     http:

@@ -96,7 +96,7 @@ kubectl apply -f .\Kubernetes\Infrastructure\RabbitMq\base\deployment-rabbitmq.y
 kubectl apply -f .\Kubernetes\Infrastructure\RabbitMq\base\service-rabbitmq.yaml   
 
 # Lab.RateMyBeer.Checkins
-kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\deployement-checkinsapi.yaml
+kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\deployment-checkinsapi.yaml
 kubectl apply -f .\Kubernetes\Lab.RateMyBeer.Checkins\base\service-checkinsapi.yaml   
 
 # Lab.RateMyBeer.Frontend.Api
