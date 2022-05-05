@@ -19,7 +19,7 @@ services:
       - 1533:1433
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=1stChangeIt!
+      - MSSQL_SA_PASSWORD=1stChangeIt!
     volumes:
       - ./Lab.RateMyBeer.SQLServer/Volumes:/var/opt/mssql/data
       

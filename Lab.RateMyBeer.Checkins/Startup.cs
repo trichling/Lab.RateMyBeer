@@ -50,6 +50,7 @@ namespace Lab.RateMyBeer.Checkins
             {
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
+                    var checkinDbConnectionString = Configuration.GetConnectionString("CheckinsDbConnectionString");
                     var checkinsContext = scope.ServiceProvider.GetRequiredService<CheckinsContext>();
                     checkinsContext.Database.Migrate();
                 }

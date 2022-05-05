@@ -1,0 +1,103 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: lab.ratemybeer
+services:
+- name: sqlserver
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  bindings:
+    - port: 1433
+
+  env:
+    - name: ACCEPT_EULA
+      value: Y
+    - name: SA_PASSWORD
+      value: 1stChangeIt!
+  volumes:
+    - source: ./Lab.RateMyBeer.SQLServer/Volumes
+      target: /var/opt/mssql/data
+
+- name: rabbitmq
+  image: rabbitmq:3-management
+  bindings:
+    - name: webui
+      protocol: http
+      containerPort: 15672
+      port: 15672
+    - name: amqp
+      containerPort: 5672
+      port: 5672
+  env:
+    - name: RABBITMQ_DEFAULT_USER
+      value: guest
+    - name: RABBITMQ_DEFAULT_PASS
+      value: guest
+  volumes:
+    - source: ./Lab.RateMyBeer.RabbitMq/enabled_plugins
+      target: /etc/rabbitmq/enabled_plugins
+
+- name: lab-ratemybeer-frontend
+  project: Lab.RateMyBeer.Frontend/Lab.RateMyBeer.Frontend.csproj
+  env: 
+    - name: BLAZOR_ENVIRONMENT
+      value: Development
+  bindings:
+      - port: 4000
+        containerPort: 80
+
+- name: lab-ratemybeer-checkins
+  project: Lab.RateMyBeer.Checkins/Lab.RateMyBeer.Checkins.csproj
+
+  env:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Development
+    - name: ASPNETCORE_URLS
+      value: https://+:443;http://+:80
+    - name: Dependencies__NServiceBus__TransportConnectionString
+      value: host=localhost;username=guest;password=guest
+    - name: ConnectionStrings__CheckinsDbConnectionString
+      value: Server=localhost;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
+   
+  bindings:
+    - name: http
+      containerPort: 80
+      protocol: http
+      port: 6002
+    - name: https
+      protocol: https
+      containerPort: 443
+      port: 6003
+
+  volumes:
+    - source: ./.certificate
+      target: /root/.aspnet/https
+
+- name: lab-ratemybeer-frontend-api
+  project: Lab.RateMyBeer.Frontend.Api/Lab.RateMyBeer.Frontend.Api.csproj
+
+  env:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Development
+    - name: ASPNETCORE_URLS
+      value: https://+:443;http://+:80
+    - name: Dependencies__NServiceBus__TransportConnectionString
+      value: host=localhost;username=guest;password=guest
+    - name: Dependencies__APIs__CheckinsApiBaseUrl
+      value: https://lab-ratemybeer-checkins/
+   
+  bindings:
+    - name: http
+      protocol: http
+      containerPort: 80
+      port: 6000
+    - name: https
+      protocol: https
+      containerPort: 443
+      port: 6001
+
+  volumes:
+    - source: ./.certificate
+      target: /root/.aspnet/https
