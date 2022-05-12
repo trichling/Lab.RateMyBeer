@@ -31,7 +31,7 @@ namespace Lab.RateMyBeer.Frontend.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            ILogger<Startup> x;
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -42,7 +42,7 @@ namespace Lab.RateMyBeer.Frontend.Api
 
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
             
-            var checkinsApiBaseUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
+            var checkinsApiBaseUrl = Configuration.GetServiceUri("lab-ratemybeer-checkins", "http");
             services.AddHttpClient(nameof(ICheckinsRestApi))
                 .ConfigurePrimaryHttpMessageHandler(p => 
                 {
@@ -58,7 +58,7 @@ namespace Lab.RateMyBeer.Frontend.Api
                 })
             .ConfigureHttpClient((services, client) => 
                 {
-                    client.BaseAddress = new Uri(checkinsApiBaseUrl);
+                    client.BaseAddress = checkinsApiBaseUrl;
                 });
 
             services.AddTransient<ICheckinsRestApi>(p => 
