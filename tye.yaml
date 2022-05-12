@@ -86,7 +86,7 @@ services:
     - name: Dependencies__NServiceBus__TransportConnectionString
       value: host=localhost;username=guest;password=guest
     - name: Dependencies__APIs__CheckinsApiBaseUrl
-      value: https://lab-ratemybeer-checkins/
+      value: https://localhost:6003/
    
   bindings:
     - name: http
