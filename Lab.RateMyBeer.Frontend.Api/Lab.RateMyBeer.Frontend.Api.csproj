@@ -6,16 +6,17 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9"/>
-    <PackageReference Include="NServiceBus" Version="7.4.6"/>
-    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0"/>
-    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0"/>
-    <PackageReference Include="NServiceBus.RabbitMQ" Version="6.1.0"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.10.0-alpha.21420.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="NServiceBus" Version="7.4.6" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="6.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj"/>
-    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj"/>
+    <ProjectReference Include="..\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj" />
   </ItemGroup>
 </Project>

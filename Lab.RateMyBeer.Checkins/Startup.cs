@@ -36,7 +36,7 @@ namespace Lab.RateMyBeer.Checkins
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lab.RateMyBeer.Checkins", Version = "v1" });
             });
 
-            var checkinDbConnectionString = Configuration.GetConnectionString("CheckinsDbConnectionString");
+            var checkinDbConnectionString = string.Format(Configuration.GetConnectionString("sqlserver"), "CheckinsDb");
             services.AddDbContext<CheckinsContext>(options =>
             {
                 options.UseSqlServer(checkinDbConnectionString);
@@ -50,7 +50,6 @@ namespace Lab.RateMyBeer.Checkins
             {
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
-                    var checkinDbConnectionString = Configuration.GetConnectionString("CheckinsDbConnectionString");
                     var checkinsContext = scope.ServiceProvider.GetRequiredService<CheckinsContext>();
                     checkinsContext.Database.Migrate();
                 }

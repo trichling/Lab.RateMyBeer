@@ -29,7 +29,7 @@ namespace Lab.RateMyBeer.Checkins
 
                     var transport = configuration.UseTransport<RabbitMQTransport>();
                     var transportConnectionString =
-                        context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
+                        context.Configuration.GetConnectionString("rabbitmq", "amqp");
                     transport.ConnectionString(transportConnectionString);
                     transport.UseConventionalRoutingTopology();
 

@@ -5,11 +5,13 @@
 #    https://aka.ms/AA7q20u
 #
 name: lab.ratemybeer
+registry: tyetestcontainers.azurecr.io
 services:
 - name: sqlserver
   image: mcr.microsoft.com/mssql/server:2019-latest
   bindings:
     - port: 1433
+      connectionString: Server=${host};Database={0};User=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=true
 
   env:
     - name: ACCEPT_EULA
@@ -30,36 +32,40 @@ services:
     - name: amqp
       containerPort: 5672
       port: 5672
+      connectionString: host=${host};username=${env:RABBITMQ_DEFAULT_USER};password=${env:RABBITMQ_DEFAULT_PASS}
+
   env:
     - name: RABBITMQ_DEFAULT_USER
       value: guest
     - name: RABBITMQ_DEFAULT_PASS
       value: guest
+
   volumes:
     - source: ./Lab.RateMyBeer.RabbitMq/enabled_plugins
       target: /etc/rabbitmq/enabled_plugins
 
 - name: lab-ratemybeer-frontend
-  project: Lab.RateMyBeer.Frontend/Lab.RateMyBeer.Frontend.csproj
+  dockerFile: Lab.RateMyBeer.Frontend/Dockerfile
+  dockerFileContext: .
+
   env: 
     - name: BLAZOR_ENVIRONMENT
-      value: Development
+      value: Kubernetes
+
   bindings:
       - port: 4000
+        protocol: http
         containerPort: 80
 
 - name: lab-ratemybeer-checkins
-  project: Lab.RateMyBeer.Checkins/Lab.RateMyBeer.Checkins.csproj
+  dockerFile: Lab.RateMyBeer.Checkins/Dockerfile
+  dockerFileContext: .
 
   env:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
     - name: ASPNETCORE_URLS
       value: https://+:443;http://+:80
-    - name: Dependencies__NServiceBus__TransportConnectionString
-      value: host=localhost;username=guest;password=guest
-    - name: ConnectionStrings__CheckinsDbConnectionString
-      value: Server=localhost;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
    
   bindings:
     - name: http
@@ -71,22 +77,15 @@ services:
       containerPort: 443
       port: 6003
 
-  volumes:
-    - source: ./.certificate
-      target: /root/.aspnet/https
-
 - name: lab-ratemybeer-frontend-api
-  project: Lab.RateMyBeer.Frontend.Api/Lab.RateMyBeer.Frontend.Api.csproj
+  dockerFile: Lab.RateMyBeer.Frontend.Api/Dockerfile
+  dockerFileContext: .
 
   env:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
     - name: ASPNETCORE_URLS
       value: https://+:443;http://+:80
-    - name: Dependencies__NServiceBus__TransportConnectionString
-      value: host=localhost;username=guest;password=guest
-    - name: Dependencies__APIs__CheckinsApiBaseUrl
-      value: https://localhost:6003/
    
   bindings:
     - name: http
@@ -98,6 +97,23 @@ services:
       containerPort: 443
       port: 6001
 
-  volumes:
-    - source: ./.certificate
-      target: /root/.aspnet/https
+ingress:
+  - name: lab-ratemybeer-frontend
+    rules:
+      - path: /
+        service: lab-ratemybeer-frontend
+
+      - host: tyetest.westeurope.cloudapp.azure.com
+        path: /
+        service: lab-ratemybeer-frontend
+
+      
+  
+  - name: lab-ratemybeer-frontend-api
+    rules:
+      - path: /api
+        service: lab-ratemybeer-frontend-api
+
+      - host: tyetest.westeurope.cloudapp.azure.com
+        path: /api
+        service: lab-ratemybeer-frontend-api
