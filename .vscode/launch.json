@@ -12,13 +12,73 @@
     ],
     "configurations": [
         {
+            "name": "Checkins",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildCheckins",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Checkins/bin/Debug/net6.0/Lab.RateMyBeer.Checkins.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "Checkins.Api",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "buildCheckinsApi",
-            "program": "${workspaceFolder}/Lab.RateMyBeer.Checkins/bin/Debug/net5.0/Lab.RateMyBeer.Checkins.dll",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Checkins.Api/bin/Debug/net6.0/Lab.RateMyBeer.Checkins.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins",
+            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Ratings",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildRatings",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Ratings/bin/Debug/net6.0/Lab.RateMyBeer.Ratings.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Ratings",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Ratings.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildRatingsApi",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Ratings.Api/bin/Debug/net6.0/Lab.RateMyBeer.Ratings.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Ratings.Api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

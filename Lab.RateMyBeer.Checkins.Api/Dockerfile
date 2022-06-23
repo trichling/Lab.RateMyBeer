@@ -7,18 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Lab.RateMyBeer.Checkins/Lab.RateMyBeer.Checkins.csproj", "Lab.RateMyBeer.Checkins/"]
+COPY ["Lab.RateMyBeer.Checkins.Api/Lab.RateMyBeer.Checkins.Api.csproj", "Lab.RateMyBeer.Checkins.Api/"]
 COPY ["Lab.RateMyBeer.Checkins.Contracts/Lab.RateMyBeer.Checkins.Contracts.csproj", "Lab.RateMyBeer.Checkins.Contracts/"]
 COPY ["Lab.RateMyBeer.Checkins.Data/Lab.RateMyBeer.Checkins.Data.csproj", "Lab.RateMyBeer.Checkins.Data/"]
-RUN dotnet restore "Lab.RateMyBeer.Checkins/Lab.RateMyBeer.Checkins.csproj"
+RUN dotnet restore "Lab.RateMyBeer.Checkins.Api/Lab.RateMyBeer.Checkins.Api.csproj"
 COPY . .
-WORKDIR "/src/Lab.RateMyBeer.Checkins"
-RUN dotnet build "Lab.RateMyBeer.Checkins.csproj" -c Release -o /app/build
+WORKDIR "/src/Lab.RateMyBeer.Checkins.Api"
+RUN dotnet build "Lab.RateMyBeer.Checkins.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Lab.RateMyBeer.Checkins.csproj" -c Release -o /app/publish
+RUN dotnet publish "Lab.RateMyBeer.Checkins.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Lab.RateMyBeer.Checkins.dll"]
+ENTRYPOINT ["dotnet", "Lab.RateMyBeer.Checkins.Api.dll"]

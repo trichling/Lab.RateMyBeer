@@ -7,7 +7,7 @@ using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Events;
 using Lab.RateMyBeer.Checkins.Data.Checkins;
 using NServiceBus;
 
-namespace Lab.RateMyBeer.Checkins.Application.Checkins
+namespace Lab.RateMyBeer.Checkins.Checkins
 {
     public class CreateCheckinHandler : IHandleMessages<CreateCheckinCommand>
     {

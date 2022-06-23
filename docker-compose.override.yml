@@ -1,18 +1,18 @@
 version: '3.4'
 
 services:
-  rabbitmq:
-    ports:
-      - 15672:15672
-      - 5672:5672
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest   
-    volumes:
-      - ./Lab.RateMyBeer.RabbitMq/enabled_plugins:/etc/rabbitmq/enabled_plugins
-      #- "./Lab.RateMyBeer.RabbitMq/data/:/var/lib/rabbitmq/"
-      #- "./Lab.RateMyBeer.RabbitMq/log/:/var/log/rabbitmq"
-      #- "./Lab.RateMyBeer.RabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+  # rabbitmq:
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=guest
+  #     - RABBITMQ_DEFAULT_PASS=guest   
+  #   volumes:
+  #     - ./Lab.RateMyBeer.RabbitMq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+  #     #- "./Lab.RateMyBeer.RabbitMq/data/:/var/lib/rabbitmq/"
+  #     #- "./Lab.RateMyBeer.RabbitMq/log/:/var/log/rabbitmq"
+  #     #- "./Lab.RateMyBeer.RabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
 
   sqlserver:
     ports:
@@ -29,7 +29,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
-      - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
+      - Dependencies__NServiceBus__TransportConnectionString=host=20.4.88.129;username=nservicebus;password=34196ccd-5063-4df9-aec6-7142b2bee3aa
       - ConnectionStrings__CheckinsDbConnectionString=Server=sqlserver;Database=CheckinsDb;User=sa;Password=1stChangeIt!;MultipleActiveResultSets=true
     ports:
       - 6002:80
@@ -43,7 +43,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=soSecret1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/ratemybeer.pfx
-      - Dependencies__NServiceBus__TransportConnectionString=host=rabbitmq;username=guest;password=guest
+      - Dependencies__NServiceBus__TransportConnectionString=host=20.4.88.129;username=nservicebus;password=34196ccd-5063-4df9-aec6-7142b2bee3aa
       - Dependencies__APIs__CheckinsApiBaseUrl=https://lab-ratemybeer-checkins/
     ports:
       - 6000:80
