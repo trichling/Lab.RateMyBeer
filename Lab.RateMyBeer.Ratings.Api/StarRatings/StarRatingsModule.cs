@@ -11,6 +11,10 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
 
     public static IEndpointRouteBuilder MapStarRatingsEndpoints(this IEndpointRouteBuilder endpoints)
     {
+        endpoints.MapGet("/ratings", (IEnumerable<Guid> checkinIds) => GetStarRatings.Handle);
+        endpoints.MapGet("/rating", (Guid checkinId) => GetStarRating.Handle);
+
+
         return endpoints;
     }
 

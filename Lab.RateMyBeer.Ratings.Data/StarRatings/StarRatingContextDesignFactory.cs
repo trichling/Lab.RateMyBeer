@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Lab.RateMyBeer.Checkins.Data.Checkins
+namespace Lab.RateMyBeer.Ratings.Data.StarRatings
 {
-    public class CheckinsContextDesignFactory : IDesignTimeDbContextFactory<CheckinsContext>
+    public class StarRatingContextDesignFactory : IDesignTimeDbContextFactory<StarRatingContext>
     {
-        public CheckinsContext CreateDbContext(string[] args)
+        public StarRatingContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<CheckinsContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<StarRatingContext>();
             optionsBuilder.UseSqlServer(
                 "Server=(local);Database=CheckinsDb;User Id=sa;Password=1stChangeIt!;MultipleActiveResultSets=true");
 
-            return new CheckinsContext(optionsBuilder.Options);
+            return new StarRatingContext(optionsBuilder.Options);
         }
     }
 }
