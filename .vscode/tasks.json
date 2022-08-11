@@ -62,6 +62,31 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "buildComments",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Lab.RateMyBeer.Comments/Lab.RateMyBeer.Comments.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "buildCommentsApi",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Lab.RateMyBeer.Comments.Api/Lab.RateMyBeer.Comments.Api.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "watchFrontendApi",
             "command": "dotnet",
             "type": "process",

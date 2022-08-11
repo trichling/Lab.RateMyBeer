@@ -1,3 +1,5 @@
+using Lab.RateMyBeer.Ratings.Data.StarRatings;
+using Microsoft.EntityFrameworkCore;
 using NServiceBus;
 
 var builder = Host.CreateDefaultBuilder(args);
@@ -25,7 +27,9 @@ builder
     })
     .ConfigureServices((host, services) =>
     {
-      
+        var ratingsDbConnectionString = host.Configuration.GetConnectionString("RatingsDbConnectionString");
+        services.AddDbContext<StarRatingContext>(options =>
+        options.UseSqlServer(ratingsDbConnectionString));
     });            
 
 var host = builder.Build();

@@ -1,3 +1,6 @@
+using Lab.RateMyBeer.Ratings.Data.StarRatings;
+using Microsoft.EntityFrameworkCore;
+
 namespace Lab.RateMyBeer.Ratings.Api.StarRatings
 {
     public static class StarRatingsModule
@@ -6,6 +9,9 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
     public static IServiceCollection RegisterStarRatingsModule(this IServiceCollection services, IConfiguration configuration)
     {
         var ratingsDbConnectionString = configuration.GetConnectionString("RatingsDbConnectionString");
+        services.AddDbContext<StarRatingContext>(options =>
+            options.UseSqlServer(ratingsDbConnectionString));
+
         return services;
     }
 

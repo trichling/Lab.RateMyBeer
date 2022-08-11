@@ -1,4 +1,6 @@
 using Lab.RateMyBeer.Ratings.Api.StarRatings;
+using Lab.RateMyBeer.Ratings.Data.StarRatings;
+using Microsoft.EntityFrameworkCore;
 using NServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +34,12 @@ builder.Host.UseNServiceBus(context =>
 builder.Services.RegisterStarRatingsModule(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var ratingsContext = scope.ServiceProvider.GetRequiredService<StarRatingContext>();
+    ratingsContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
