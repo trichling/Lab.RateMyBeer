@@ -32,7 +32,7 @@ namespace Lab.RateMyBeer.Ratings.StarRatings
                 description = "Super";
             }
 
-            var rating = new StarRatingData(Guid.NewGuid(), message.CheckinId, message.Rating, description);
+            var rating = new StarRatingData(message.RatingId, message.CheckinId, message.Rating, description);
           
             _context.StarRatings.Add(rating);
             await _context.SaveChangesAsync();

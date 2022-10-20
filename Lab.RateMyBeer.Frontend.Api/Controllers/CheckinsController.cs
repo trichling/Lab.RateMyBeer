@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Commands;
+using Lab.RateMyBeer.Comments.Contracts.Comments.Messages.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Ratings.Contracts.StarRatings.Messages.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -46,15 +48,30 @@ namespace Lab.RateMyBeer.Frontend.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCheckin(CreateCheckinCommandViewModel createCheckinCommand)
         {
-
+            var checkinId = Guid.NewGuid();
+                
             await _messageSession.Send(new CreateCheckinCommand()
             {
-                CheckinId = Guid.NewGuid(),
+                CheckinId = checkinId,
                 UserId = GetUserId(),
                 CreatedAt = DateTime.Now,
                 BeerName = createCheckinCommand.BeerName
 
             });
+            
+            await _messageSession.Send(new CreateStarRatingCommand(
+                RatingId: Guid.NewGuid(),
+                CheckinId: checkinId,
+                UserId: GetUserId(),
+                Rating: createCheckinCommand.StarRating
+            ));
+
+            await _messageSession.Send(new CreateCommentCommand(
+                CommentId: Guid.NewGuid(),
+                CheckinId: checkinId,
+                UserId: GetUserId(),
+                Comment: createCheckinCommand.Comment
+            ));
 
             return Ok();
         }

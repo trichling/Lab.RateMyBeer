@@ -1,21 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>7db138fa-1230-4fd9-86ae-b21edf446ad9</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9"/>
-    <PackageReference Include="NServiceBus" Version="7.4.6"/>
-    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0"/>
-    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0"/>
-    <PackageReference Include="NServiceBus.RabbitMQ" Version="6.1.0"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="NServiceBus" Version="7.4.6" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="6.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj"/>
-    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj"/>
+    <ProjectReference Include="..\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Comments.Contracts\Lab.RateMyBeer.Comments.Contracts.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Ratings.Contracts\Lab.RateMyBeer.Ratings.Contracts.csproj" />
   </ItemGroup>
 </Project>

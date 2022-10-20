@@ -1,7 +1,6 @@
 using Lab.RateMyBeer.Checkins.Api.Checkins;
 using Lab.RateMyBeer.Checkins.Data.Checkins;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using NServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);

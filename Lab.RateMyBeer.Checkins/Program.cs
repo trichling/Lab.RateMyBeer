@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Data.Checkins;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +10,7 @@ var builder = Host.CreateDefaultBuilder(args);
 builder
     .UseNServiceBus(context =>
     {
-        var configuration = new EndpointConfiguration("Lab.RateMyBeer.Ratings");
+        var configuration = new EndpointConfiguration("Lab.RateMyBeer.Checkins");
 
         var transport = configuration.UseTransport<RabbitMQTransport>();
         var transportConnectionString =

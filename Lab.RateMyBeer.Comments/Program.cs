@@ -1,10 +1,41 @@
-using Lab.RateMyBeer.Comments;
+using Lab.RateMyBeer.Comments.Data.Comments;
+using Microsoft.EntityFrameworkCore;
+using NServiceBus;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+var builder = Host.CreateDefaultBuilder(args);
+builder
+    .UseNServiceBus(context =>
     {
-        services.AddHostedService<Worker>();
+        var configuration = new EndpointConfiguration("Lab.RateMyBeer.Comments");
+
+        var transport = configuration.UseTransport<RabbitMQTransport>();
+        var transportConnectionString =
+            context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
+        transport.ConnectionString(transportConnectionString);
+        transport.UseConventionalRoutingTopology();
+
+        configuration.UsePersistence<LearningPersistence>();
+        configuration.UseSerialization<NewtonsoftSerializer>();
+        configuration.Conventions()
+            .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
+            .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
+            .DefiningEventsAs(t => t.Namespace.EndsWith("Events"));
+
+        configuration.EnableInstallers();
+
+        return configuration;
     })
-    .Build();
+    .ConfigureServices((host, services) =>
+    {
+       var checkinDbConnectionString = host.Configuration.GetConnectionString("CommentsDbConnectionString");
+        services.AddDbContext<CommentsContext>(options =>
+        {
+            options.UseSqlServer(checkinDbConnectionString);
+        });
+
+    });            
+
+var host = builder.Build();
 
 await host.RunAsync();
+

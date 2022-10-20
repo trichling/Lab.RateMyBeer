@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="RestEase" Version="1.5.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
+
 
 </Project>
