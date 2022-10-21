@@ -3,11 +3,11 @@
     "compounds": [
         {
             "name": "All",
-            "configurations": ["Frontend", "Frontend.Api", "Checkins.Api"]
+            "configurations": ["Frontend", "Frontend.Api", "Checkins", "Checkins.Api", "Comments", "Comments.Api", "Ratings", "Ratings.Api"]
         },
         {
             "name": "Backend",
-            "configurations": ["Frontend.Api", "Checkins.Api"]
+            "configurations": ["Frontend.Api", "Checkins", "Checkins.Api", "Comments", "Comments.Api", "Ratings", "Ratings.Api"]
         }
     ],
     "configurations": [
@@ -144,7 +144,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "buildFrontendApi",
-            "program": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api/bin/Debug/net5.0/Lab.RateMyBeer.Frontend.Api.dll",
+            "program": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api/bin/Debug/net6.0/Lab.RateMyBeer.Frontend.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Lab.RateMyBeer.Frontend.Api",
             "stopAtEntry": false,
