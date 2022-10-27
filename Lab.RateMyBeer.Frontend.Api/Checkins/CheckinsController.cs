@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
 
-namespace Lab.RateMyBeer.Frontend.Api.Controllers
+namespace Lab.RateMyBeer.Frontend.Api.Checkins
 {
     [ApiController]
     [Route("checkins")]

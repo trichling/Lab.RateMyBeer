@@ -49,7 +49,6 @@ namespace Lab.RateMyBeer.Frontend.Api
                         .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
                         .DefiningEventsAs(t => t.Namespace.EndsWith("Events"));
 
-                    configuration.SendOnly();
                     configuration.EnableInstallers();
 
                     return configuration;

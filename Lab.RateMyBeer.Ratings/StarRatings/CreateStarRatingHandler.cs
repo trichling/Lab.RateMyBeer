@@ -37,7 +37,7 @@ namespace Lab.RateMyBeer.Ratings.StarRatings
             _context.StarRatings.Add(rating);
             await _context.SaveChangesAsync();
 
-            await context.Publish(new StarRatingCreatedSuccessfully(message.CheckinId));
+            await context.Publish(new CreateStarRatingSucceededEvent(message.CheckinId));
         }
     }
 }

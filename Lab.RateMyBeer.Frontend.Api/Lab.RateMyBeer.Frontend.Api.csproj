@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj" />
     <ProjectReference Include="..\Lab.RateMyBeer.Comments.Contracts\Lab.RateMyBeer.Comments.Contracts.csproj" />
-    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj" />
     <ProjectReference Include="..\Lab.RateMyBeer.Ratings.Contracts\Lab.RateMyBeer.Ratings.Contracts.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj" />
   </ItemGroup>
 </Project>
