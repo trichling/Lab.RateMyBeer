@@ -49,11 +49,12 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         public async Task<IActionResult> CreateCheckin(CreateCheckinCommandViewModel createCheckinCommand)
         {
             var checkinId = Guid.NewGuid();
+            var userId = GetUserIdFromBearerToken();
                 
             await _messageSession.Send(new CreateCheckinCommand()
             {
                 CheckinId = checkinId,
-                UserId = GetUserId(),
+                UserId = userId,
                 CreatedAt = DateTime.Now,
                 BeerName = createCheckinCommand.BeerName
 
@@ -62,21 +63,21 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             await _messageSession.Send(new CreateStarRatingCommand(
                 RatingId: Guid.NewGuid(),
                 CheckinId: checkinId,
-                UserId: GetUserId(),
+                UserId: userId,
                 Rating: createCheckinCommand.StarRating
             ));
 
             await _messageSession.Send(new CreateCommentCommand(
                 CommentId: Guid.NewGuid(),
                 CheckinId: checkinId,
-                UserId: GetUserId(),
+                UserId: userId,
                 Comment: createCheckinCommand.Comment
             ));
 
-            return Ok();
+            return Ok(new { checkinId });
         }
 
-        private Guid GetUserId()
+        private Guid GetUserIdFromBearerToken()
         {
             return new Guid("FBBB72AF-7D6A-4507-ADAF-18EB61964633");
         }

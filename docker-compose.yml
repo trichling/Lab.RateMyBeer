@@ -2,10 +2,10 @@ version: '3.4'
 
 services:
 
-  # rabbitmq:
-  #   container_name: rabbitmq
-  #   image: rabbitmq:3-management-alpine
-  #   hostname: rabbitmq
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
 
   sqlserver:
     container_name: sqlserver
@@ -18,8 +18,8 @@ services:
       context: .
       dockerfile: Lab.RateMyBeer.Checkins/Dockerfile
     restart: on-failure:10
-    #depends_on:
-    #  - rabbitmq
+    depends_on:
+     - rabbitmq
 
   lab-ratemybeer-frontend-api:
     container_name: lab-ratemybeer-frontend-api
@@ -29,7 +29,7 @@ services:
       dockerfile: Lab.RateMyBeer.Frontend.Api/Dockerfile
     restart: on-failure:10
     depends_on:
-      #- rabbitmq
+      - rabbitmq
       - lab-ratemybeer-checkins
 
   lab-ratemybeer-frontend:
