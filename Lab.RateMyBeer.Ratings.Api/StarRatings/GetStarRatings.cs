@@ -7,7 +7,7 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
 {
     public static class GetStarRatings
     {
-        public static async Task<IResult> Handle([FromServices]StarRatingContext context, [FromQuery]IEnumerable<Guid> checkinIds)
+        public static async Task<IResult> Handle([FromQuery] CheckinIds checkinIds, [FromServices]StarRatingContext context)
         {
             var ratings = await context.StarRatings.Where(r => checkinIds.Contains(r.CheckinId)).ToListAsync();
 

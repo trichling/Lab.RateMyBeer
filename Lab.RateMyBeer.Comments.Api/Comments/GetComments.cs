@@ -7,9 +7,9 @@ namespace Lab.RateMyBeer.Comments.Api.Comments;
 
 public static class GetComments
 {
-    public static async Task<IResult> Handle([FromQuery] CheckinIds commentsQuery, [FromServices] CommentsContext context)
+    public static async Task<IResult> Handle([FromQuery] CheckinIds checkinIds, [FromServices] CommentsContext context)
     {
-        var comments = await context.Comments.Where(cs => commentsQuery.Contains(cs.CheckinId))
+        var comments = await context.Comments.Where(cs => checkinIds.Contains(cs.CheckinId))
                         .ToListAsync();
 
         var commentsDtos = comments.Select(cs => new CommentsDto(
