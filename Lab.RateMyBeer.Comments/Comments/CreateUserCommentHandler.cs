@@ -5,16 +5,16 @@ using NServiceBus;
 
 namespace Lab.RateMyBeer.Comments.Comments;
 
-public class CreateCommentHandler : IHandleMessages<CreateCommentCommand>
+public class CreateUserCommentHandler : IHandleMessages<CreateUserCommentCommand>
 {
     private readonly CommentsContext _context;
 
-    public CreateCommentHandler(CommentsContext context)
+    public CreateUserCommentHandler(CommentsContext context)
     {
         _context = context;
     }
     
-    public async Task Handle(CreateCommentCommand message, IMessageHandlerContext context)
+    public async Task Handle(CreateUserCommentCommand message, IMessageHandlerContext context)
     {
         var comments = _context.Comments.SingleOrDefault(cs => cs.CheckinId == message.CheckinId);
         
@@ -29,11 +29,13 @@ public class CreateCommentHandler : IHandleMessages<CreateCommentCommand>
             _context.Comments.Add(comments);
         }
 
-        comments.Comments.Add(new CommentData(
-            commentId: message.CommentId,
-            userId: message.UserId,
-            comment: message.Comment
-        ));
+        comments.UserComment = message.UserComment;
+        
+        // comments.Comments.Add(new CommentData(
+        //     commentId: message.CommentId,
+        //     userId: message.UserId,
+        //     comment: message.Comment
+        // ));
 
         await _context.SaveChangesAsync();
         

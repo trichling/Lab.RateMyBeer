@@ -38,7 +38,7 @@ namespace Lab.RateMyBeer.Frontend.Api
 
                     var routing = transport.Routing();
                     routing.RouteToEndpoint(typeof(CreateCheckinCommand).Assembly, "Lab.RateMyBeer.Checkins");
-                    routing.RouteToEndpoint(typeof(CreateCommentCommand).Assembly, "Lab.RateMyBeer.Comments");
+                    routing.RouteToEndpoint(typeof(CreateUserCommentCommand).Assembly, "Lab.RateMyBeer.Comments");
                     routing.RouteToEndpoint(typeof(CreateStarRatingCommand).Assembly, "Lab.RateMyBeer.Ratings");
 
 

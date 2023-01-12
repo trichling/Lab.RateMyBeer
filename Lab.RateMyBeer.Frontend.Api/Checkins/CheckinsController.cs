@@ -67,16 +67,31 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                 Rating: createCheckinCommand.StarRating
             ));
 
-            await _messageSession.Send(new CreateCommentCommand(
+            await _messageSession.Send(new CreateUserCommentCommand(
                 CommentId: Guid.NewGuid(),
                 CheckinId: checkinId,
                 UserId: userId,
-                Comment: createCheckinCommand.Comment
+                UserComment: createCheckinCommand.UserComment
             ));
 
             return Ok(new { checkinId });
         }
 
+        [HttpPost("comments")]
+        public async Task<IActionResult> CommentCheckin(CommentCheckinCommandViewModel commentCheckinCommand)
+        {
+            var userId = GetUserIdFromBearerToken();
+
+            await _messageSession.Send(new CommentCheckinCommand(
+                CheckinId: commentCheckinCommand.CheckinId,
+                CommentId: Guid.NewGuid(),
+                UserId: userId,
+                Comment: commentCheckinCommand.Comment
+            ));
+            
+            return Ok();
+        }
+        
         private Guid GetUserIdFromBearerToken()
         {
             return new Guid("FBBB72AF-7D6A-4507-ADAF-18EB61964633");

@@ -1,5 +1,4 @@
 ﻿@page "/createCheckin"
-@using Contracts.Checkins.ViewModels
 @using Microsoft.Extensions.Configuration
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands
 
@@ -10,22 +9,29 @@
 <h1>Neuer Checkins</h1>
 
 Bier Name:
-<input @bind="BeerName">
+<input @bind="BeerName"> <br/>
 
-<br/>
+Bewertung (1-5):
+<input bind="StarRating"/> <br/>
+
+Kommentar: 
+<input bind="UserComment"/> <br/>
 
 <button @onclick="SaveCheckin">Speichern</button>
 
 @code {
 
     private string BeerName { get; set; }
+    private int StarRating { get; set; }
+    private string UserComment { get; set; }
 
     private void SaveCheckin()
     {
         var checkinListUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
-        Http.PostAsJsonAsync(checkinListUrl, new CreateCheckinCommandViewModel()
-        {
-            BeerName = this.BeerName
-        });
+        Http.PostAsJsonAsync(checkinListUrl, new CreateCheckinCommandViewModel(
+            BeerName: this.BeerName,
+            StarRating: this.StarRating,
+            UserComment: this.UserComment
+        ));
     }
 }

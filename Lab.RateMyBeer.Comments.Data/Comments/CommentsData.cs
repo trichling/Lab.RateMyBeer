@@ -15,6 +15,11 @@ public class CommentsData
 
     public Guid CommentsId { get; set; }
     public Guid CheckinId { get; set; }
+
+    public string UserComment { get; set; }
+    
+    public string BreweryComment { get; set; }
+
     public List<CommentData> Comments { get; set; }
 
 }

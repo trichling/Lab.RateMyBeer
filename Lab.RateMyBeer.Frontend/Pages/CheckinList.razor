@@ -25,6 +25,7 @@ else
                 <th>Usder Id</th>
                 <th>Created at</th>
                 <th>Beer name</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -35,12 +36,17 @@ else
                     <td>@checkin.UserId</td>
                     <td>@checkin.CreatedAt</td>
                     <td>@checkin.BeerName</td>
+                    <td>
+                        @* <NavLink href="CommentCheckin/@checkin.CheckinId.ToString()" ></NavLink> *@
+                        <button @onclick="() => CommentCheckin(checkin.CheckinId.ToString())">Kommentieren</button>
+                    </td>
+                    
                 </tr>
             }
         </tbody>
     </table>
 
-    <button @onclick="GotoNewCheckin">Neuer Checkin</button>
+    <button @onclick="CreateCheckin">Neuer Checkin</button>
 
     <p>Environment: @HostEnvironment.Environment</p>
 
@@ -55,9 +61,14 @@ else
         checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>(checkinListUrl);
     }
 
-    private void GotoNewCheckin()
+    private void CreateCheckin()
     {
         NavigationManager.NavigateTo("CreateCheckin");
+    }
+    
+    private void CommentCheckin(string checkinId)
+    {
+        NavigationManager.NavigateTo($"CommentCheckin/{checkinId}");
     }
 
 }
