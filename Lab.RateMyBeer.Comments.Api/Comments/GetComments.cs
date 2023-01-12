@@ -15,6 +15,8 @@ public static class GetComments
         var commentsDtos = comments.Select(cs => new CommentsDto(
             Id: cs.CommentsId,
             CheckinId:cs.CheckinId,
+            UserComment:cs.UserComment,
+            BreweryComment:cs.BreweryComment,
             Comments: cs.Comments.Select(c => new CommentDto(
                 Id: c.CommentId,
                 CheckinId:cs.CheckinId,

@@ -8,7 +8,8 @@ namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
         public Guid UserId { get; set; }
         public DateTime CreatedAt { get; set; }
         public string BeerName { get; set; }
-
         public string RatingCategory { get; set; }
+        
+        public string UserComment { get; set; }
     }
 }

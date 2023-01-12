@@ -30,7 +30,7 @@ public class CommentCheckinCommandHandler : IHandleMessages<CommentCheckinComman
         }
 
         comments.Comments.Add(new CommentData(
-            commentId: message.CommentId,
+            commentId: Guid.Empty,
             userId: message.UserId,
             comment: message.Comment
         ));

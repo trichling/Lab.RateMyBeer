@@ -6,9 +6,9 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
 {
     public static class GetStarRating
     {
-        public static async Task<IResult> Handle(StarRatingContext context, Guid checkinIds)
+        public static async Task<IResult> Handle(StarRatingContext context, Guid checkinId)
         {
-            var rating = context.StarRatings.Single(r => r.CheckinId == checkinIds);
+            var rating = context.StarRatings.Single(r => r.CheckinId == checkinId);
 
             var ratingDto = new StarRatingDto(rating.Id, rating.CheckinId, rating.Rating, rating.Description);
 
