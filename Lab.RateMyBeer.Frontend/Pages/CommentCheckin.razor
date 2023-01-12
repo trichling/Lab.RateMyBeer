@@ -1,4 +1,4 @@
-﻿@page "/CommentCheckin/{CheckinId}"
+﻿@page "/CommentCheckin/{CheckinId:guid}"
 @using System.Net
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands
 @using Microsoft.Extensions.Configuration
@@ -10,7 +10,7 @@
 <h3>CommentCheckin</h3>
 
 Kommentar: 
-<input bind="Comment"/> <br/>
+<input @bind="Comment"/> <br/>
 
 <button @onclick="SaveComment">Speichern</button>
 
@@ -23,7 +23,7 @@ Kommentar:
     private void SaveComment()
     {
         var checkinListUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
-        Http.PostAsJsonAsync(checkinListUrl, new CommentCheckinCommandViewModel(
+        Http.PostAsJsonAsync($"{checkinListUrl}/comments", new CommentCheckinCommandViewModel(
             CheckinId: this.CheckinId,
             Comment: this.Comment
         ));

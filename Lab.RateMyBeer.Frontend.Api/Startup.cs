@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
+using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
 using Lab.RateMyBeer.Frontend.Api.Infrastructure;
+using Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RestEase;
 
@@ -43,29 +39,13 @@ namespace Lab.RateMyBeer.Frontend.Api
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
             
             var checkinsApiBaseUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
-            services.AddHttpClient(nameof(ICheckinsRestApi))
-                .ConfigurePrimaryHttpMessageHandler(p => 
-                {
-                    var handler = new HttpClientHandler();
-                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-                    handler.ServerCertificateCustomValidationCallback = 
-                        (httpRequestMessage, cert, cetChain, policyErrors) =>
-                        {
-                            return true;
-                        };
-
-                    return handler;
-                })
-            .ConfigureHttpClient((services, client) => 
-                {
-                    client.BaseAddress = new Uri(checkinsApiBaseUrl);
-                });
-
-            services.AddTransient<ICheckinsRestApi>(p => 
-            {
-                var client = p.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ICheckinsRestApi));
-                return RestClient.For<ICheckinsRestApi>(client);
-            });
+            services.AddHttpClientWithBaseUrl<ICheckinsRestApi>(checkinsApiBaseUrl);
+          
+            var ratingsApiBaseUrl = Configuration["Dependencies:APIs:RatingsApiBaseUrl"];
+            services.AddHttpClientWithBaseUrl<IRatingsRestApi>(ratingsApiBaseUrl);
+            
+            var commentsApiBaseUrl = Configuration["Dependencies:APIs:CommentsApiBaseUrl"];
+            services.AddHttpClientWithBaseUrl<ICommentsRestApi>(commentsApiBaseUrl);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

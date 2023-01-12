@@ -11,14 +11,14 @@ public class CommentsData
         this.CommentsId = commentsId;
         this.CheckinId = checkinId;
         this.Comments = comments;
+        this.UserComment = string.Empty;
+        this.BreweryComment = string.Empty;
     }
 
     public Guid CommentsId { get; set; }
     public Guid CheckinId { get; set; }
-
-    public string UserComment { get; set; }
-    
-    public string BreweryComment { get; set; }
+    public string? UserComment { get; set; }
+    public string? BreweryComment { get; set; }
 
     public List<CommentData> Comments { get; set; }
 

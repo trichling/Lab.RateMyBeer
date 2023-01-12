@@ -4,6 +4,7 @@ using Lab.RateMyBeer.Comments.Data.Comments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab.RateMyBeer.Comments.Data.Comments.Migrations
 {
     [DbContext(typeof(CommentsContext))]
-    partial class CommentsContextModelSnapshot : ModelSnapshot
+    [Migration("20230112085859_AddUserAndBreweryComment")]
+    partial class AddUserAndBreweryComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,12 +54,14 @@ namespace Lab.RateMyBeer.Comments.Data.Comments.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BreweryComment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CheckinId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserComment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CommentsId");

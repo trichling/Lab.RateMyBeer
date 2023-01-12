@@ -7,6 +7,7 @@ using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Commands;
 using Lab.RateMyBeer.Comments.Contracts.Comments.Messages.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings.Messages.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,26 +22,32 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
 
         private readonly IMessageSession _messageSession;
         private readonly ICheckinsRestApi _checkinsRestApi;
+        private readonly IRatingsRestApi _ratingsRestApi;
 
-        public CheckinsController(IMessageSession messageSession, ICheckinsRestApi checkinsRestApi)
+        public CheckinsController(IMessageSession messageSession, ICheckinsRestApi checkinsRestApi, IRatingsRestApi ratingsRestApi)
         {
             _messageSession = messageSession;
             _checkinsRestApi = checkinsRestApi;
+            _ratingsRestApi = ratingsRestApi;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var checkinsFromApi = await _checkinsRestApi.GetAll();
-
+            var checkins = await _checkinsRestApi.GetAll();
+            var checkinDtos = checkins.ToList();
+            
+            var ratings = await _ratingsRestApi.GetByCheckinIds(checkinDtos.Select(c => c.CheckinId));
+            
             return Ok(new CheckinListViewModel
             {
-                Items = checkinsFromApi.Select(dto => new CheckinListItemViewModel()
+                Items = checkinDtos.Select(dto => new CheckinListItemViewModel()
                 {
                     BeerName = dto.BeerName,
                     UserId = dto.UserId,
                     CheckinId = dto.CheckinId,
-                    CreatedAt = dto.CreatedAt
+                    CreatedAt = dto.CreatedAt,
+                    RatingCategory = ratings.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty
                 }).ToList()
             });
         }
