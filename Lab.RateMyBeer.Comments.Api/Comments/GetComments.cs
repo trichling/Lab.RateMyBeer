@@ -23,8 +23,8 @@ public static class GetComments
                 UserId: c.UserId,
                 Comment: c.Comment
             )).ToList()
-        ));
+        )).ToList();
 
-        return Results.Ok(commentsDtos);
+        return Results.Ok(new CommentsByCheckinIdsDto(commentsDtos));
     }
 }

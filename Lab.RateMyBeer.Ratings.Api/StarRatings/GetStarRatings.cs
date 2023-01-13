@@ -11,9 +11,9 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
         {
             var ratings = await context.StarRatings.Where(r => checkinIds.Contains(r.CheckinId)).ToListAsync();
 
-            var ratingDtos = ratings.Select(c => new StarRatingDto(c.Id, c.CheckinId, c.Rating, c.Description));
+            var ratingDtos = ratings.Select(c => new StarRatingDto(c.Id, c.CheckinId, c.Rating, c.Description)).ToList();
 
-            return Results.Ok(ratingDtos);
+            return Results.Ok(new StarRatingsByCheckinIdsDto(ratingDtos));
         }
     
     }

@@ -6,5 +6,5 @@ namespace Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 public interface IRatingsRestApi
 {
     [Get("ratings")]
-    public Task<IEnumerable<StarRatingDto>> GetByCheckinIds(IEnumerable<Guid> checkinIds);
+    public Task<StarRatingsByCheckinIdsDto> GetByCheckinIds(IEnumerable<Guid> checkinIds);
 }

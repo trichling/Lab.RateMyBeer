@@ -17,8 +17,8 @@ public static class GetCheckins
             CheckinId = c.CheckinId,
             CreatedAt = c.CreatedAt,
             UserId = c.UserId
-        });
+        }).ToList();
 
-        return Results.Ok(checkinDtos);
+        return Results.Ok(new AllCheckinsDto(checkinDtos));
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
@@ -38,16 +39,15 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         public async Task<IActionResult> GetAll()
         {
             var checkins = await _checkinsRestApi.GetAll();
-            var checkinDtos = checkins.ToList();
+            var checkinDtos = checkins.Items.ToList();
             var checkinIds = checkinDtos.Select(c => c.CheckinId).ToList();
-            
+
             var ratingsTask = _ratingsRestApi.GetByCheckinIds(checkinIds);
             var commentsTask = _commentsRestApi.GetByCheckinIds(checkinIds);
-
-            Task.WaitAll(ratingsTask, commentsTask);
-
-            var ratings = ratingsTask.Result;
-            var comments = commentsTask.Result;
+            // not needed this way
+            // Task.WaitAll(ratingsTask, commentsTask);
+            var comments = await commentsTask;
+            var ratings = await ratingsTask;
             
             return Ok(new CheckinListViewModel
             {
@@ -57,8 +57,8 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                     UserId = dto.UserId,
                     CheckinId = dto.CheckinId,
                     CreatedAt = dto.CreatedAt,
-                    RatingCategory = ratings.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty,
-                    UserComment = comments.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ?? string.Empty
+                    RatingCategory = ratings.Items.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty,
+                    UserComment = comments.Items.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ?? string.Empty
                 }).ToList()
             });
         }
