@@ -12,7 +12,9 @@ namespace Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient
     {
 
         [Get("checkins")]
-        public Task<AllCheckinsDto> GetAll();
+        public Task<CheckinsDto> GetAll();
 
+        [Get("checkinsByIds")]
+        public Task<CheckinsDto> GetByIds([Query]IEnumerable<Guid> checkinIds);
     }
 }

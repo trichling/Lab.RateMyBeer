@@ -63,6 +63,41 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             });
         }
 
+        [HttpGet("{checkinId}")]
+        public async Task<IActionResult> GetCheckinById([FromRoute] Guid checkinId)
+        {
+            var checkins = await _checkinsRestApi.GetByIds(new[] { checkinId });
+            var checkinDto = checkins.Items.Single();
+
+            var ratingsTask = _ratingsRestApi.GetByCheckinIds(new [] { checkinDto.CheckinId });
+            var commentsTask = _commentsRestApi.GetByCheckinIds(new [] { checkinDto.CheckinId });
+
+            var comments = await commentsTask;
+            var ratings = await ratingsTask;
+
+            var rating = ratings.Items.Single();
+            var comment = comments.Items.Single();
+            
+            return Ok(new CheckinDetailsViewModel()
+            {
+                BeerName = checkinDto.BeerName,
+                UserId = checkinDto.UserId,
+                CheckinId = checkinDto.CheckinId,
+                CreatedAt = checkinDto.CreatedAt,
+                
+                RatingCategory = rating.Description,
+                StarRating = rating.Rating,
+                
+                UserComment = comment.UserComment,
+                BreweryComment = comment.BreweryComment,
+                Comments = comment.Comments.Select(c => new CheckinDetailsCommentViewModel()
+                {
+                    UserId = c.UserId,
+                    Comment = c.Comment
+                }).ToList()
+            });
+        }
+        
         [HttpPost]
         public async Task<IActionResult> CreateCheckin(CreateCheckinCommandViewModel createCheckinCommand)
         {

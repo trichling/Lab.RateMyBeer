@@ -19,6 +19,7 @@ public static class CheckinsModule
     public static IEndpointRouteBuilder MapCheckinsEndpoints(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/checkins", GetCheckins.Handle);
+        endpoints.MapGet("/checkinsByIds", GetCheckinsByIds.Handle);
         
         return endpoints;
     }

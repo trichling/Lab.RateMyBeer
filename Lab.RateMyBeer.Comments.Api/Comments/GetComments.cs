@@ -10,6 +10,7 @@ public static class GetComments
     public static async Task<IResult> Handle([FromQuery] CheckinIds checkinIds, [FromServices] CommentsContext context)
     {
         var comments = await context.Comments.Where(cs => checkinIds.Contains(cs.CheckinId))
+                        .Include(c => c.Comments)
                         .ToListAsync();
 
         var commentsDtos = comments.Select(cs => new CommentsDto(
