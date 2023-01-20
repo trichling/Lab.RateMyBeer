@@ -1,0 +1,34 @@
+﻿@page "/CheckinDetails/{CheckinId:guid}"
+@using Microsoft.Extensions.Configuration
+@using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+
+
+<h3>CheckinDetails</h3>
+
+@if (checkin == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+    <h1>@checkin.CheckinDetailsCheckin.BeerName</h1>
+    
+}
+
+@code {
+    [Parameter]
+    public Guid CheckinId { get; set; }
+    
+    private CheckinDetailsViewModel checkin;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var checkinDetialsUrl = $"{Configuration["Dependencies:APIs:CheckinsApiBaseUrl"]}/{CheckinId.ToString()}";
+        checkin = await Http.GetFromJsonAsync<CheckinDetailsViewModel>(checkinDetialsUrl);
+    }
+}

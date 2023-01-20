@@ -34,13 +34,15 @@ else
             {
                 <tr>
                     <td>@checkin.CheckinId</td>
-                    <td>@checkin.CreatedAt</td>
-                    <td>@checkin.BeerName</td>
-                    <td>@checkin.RatingCategory</td>
-                    <td>@checkin.UserComment</td>
+                    <td>@checkin.Checkin.CreatedAt</td>
+                    <td>@checkin.Checkin.BeerName</td>
+                    <td>@checkin.Rating.RatingCategory</td>
+                    <td>@checkin.Comment.UserComment</td>
                     <td>
                         @* <NavLink href="CommentCheckin/@checkin.CheckinId.ToString()" ></NavLink> *@
                         <button @onclick="() => CommentCheckin(checkin.CheckinId)">Kommentieren</button>
+                        <button @onclick="() => ShowCheckinDetials(checkin.CheckinId)">Details</button>
+                        
                     </td>
                     
                 </tr>
@@ -71,6 +73,11 @@ else
     private void CommentCheckin(Guid checkinId)
     {
         NavigationManager.NavigateTo($"CommentCheckin/{checkinId}");
+    }
+
+    private void ShowCheckinDetials(Guid checkinId)
+    {
+        NavigationManager.NavigateTo($"CheckinDetails/{checkinId}");
     }
 
 }

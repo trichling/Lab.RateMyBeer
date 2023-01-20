@@ -44,8 +44,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
 
             var ratingsTask = _ratingsRestApi.GetByCheckinIds(checkinIds);
             var commentsTask = _commentsRestApi.GetByCheckinIds(checkinIds);
-            // not needed this way
-            // Task.WaitAll(ratingsTask, commentsTask);
+
             var comments = await commentsTask;
             var ratings = await ratingsTask;
             
@@ -53,12 +52,24 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             {
                 Items = checkinDtos.Select(dto => new CheckinListItemViewModel()
                 {
-                    BeerName = dto.BeerName,
-                    UserId = dto.UserId,
                     CheckinId = dto.CheckinId,
-                    CreatedAt = dto.CreatedAt,
-                    RatingCategory = ratings.Items.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty,
-                    UserComment = comments.Items.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ?? string.Empty
+                    
+                    Checkin = new CheckinListItemCheckinViewModel()
+                    {
+                        BeerName = dto.BeerName,
+                        UserId = dto.UserId,
+                        CreatedAt = dto.CreatedAt,    
+                    },
+                    
+                    Rating = new CheckinListItemRatingViewModel()
+                    {
+                        RatingCategory = ratings.Items.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty,
+                    },
+                    
+                    Comment = new CheckinListItemCommentViewModel()
+                    {
+                        UserComment = comments.Items.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ?? string.Empty
+                    }
                 }).ToList()
             });
         }
@@ -80,21 +91,36 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             
             return Ok(new CheckinDetailsViewModel()
             {
-                BeerName = checkinDto.BeerName,
-                UserId = checkinDto.UserId,
                 CheckinId = checkinDto.CheckinId,
-                CreatedAt = checkinDto.CreatedAt,
                 
-                RatingCategory = rating.Description,
-                StarRating = rating.Rating,
-                
-                UserComment = comment.UserComment,
-                BreweryComment = comment.BreweryComment,
-                Comments = comment.Comments.Select(c => new CheckinDetailsCommentViewModel()
+                CheckinDetailsCheckin = new CheckinDetailsCheckinViewModel()
                 {
-                    UserId = c.UserId,
-                    Comment = c.Comment
-                }).ToList()
+                    BeerName = checkinDto.BeerName,
+                    UserId = checkinDto.UserId,
+                    CheckinId = checkinDto.CheckinId,
+                    CreatedAt = checkinDto.CreatedAt
+                },
+                
+                CheckinDetailsRating = new CheckinDetailsRatingViewModel()
+                {
+                    RatingCategory = rating.Description,
+                    StarRating = rating.Rating,
+                },
+                
+                CheckinDetailsComments = new CheckinDetailsCommentsViewModel()
+                {
+                    UserComment = comment.UserComment,
+                    BreweryComment = comment.BreweryComment,
+                    Comments = new CheckinDetailsCommentListViewModel()
+                    {
+                        Items = comment.Comments.Select(c => new CheckinDetailsCommentViewModel()
+                        {
+                            UserId = c.UserId,
+                            Comment = c.Comment
+                        }).ToList()
+                    } 
+                        
+                }
             });
         }
         
