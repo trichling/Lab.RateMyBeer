@@ -27,7 +27,7 @@ public static class AddHttpClientExtension
             {
                 client.BaseAddress = new Uri(baseUri);
             });
-        
+
         services.AddTransient(typeof(T), p => 
         {
             var client = p.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(T).Name);

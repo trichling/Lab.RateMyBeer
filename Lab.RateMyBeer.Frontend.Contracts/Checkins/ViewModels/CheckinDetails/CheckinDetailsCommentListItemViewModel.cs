@@ -2,7 +2,7 @@ using System;
 
 namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
 
-public class CheckinDetailsCommentViewModel
+public class CheckinDetailsCommentListItemViewModel
 {
 
     public Guid UserId { get; set; }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
+namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList
 {
     public class CheckinListItemViewModel
     {
@@ -11,24 +11,5 @@ namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
         public CheckinListItemRatingViewModel Rating { get; set; }
 
         public CheckinListItemCommentViewModel Comment { get; set; }
-    }
-
-    public class CheckinListItemCommentViewModel
-    {
-        public string UserComment { get; set; }
-    }
-
-    public class CheckinListItemRatingViewModel
-    {
-        public string RatingCategory { get; set; }
-    }
-
-    public class CheckinListItemCheckinViewModel
-    {
-        
-        public Guid UserId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string BeerName { get; set; }
-        
     }
 }

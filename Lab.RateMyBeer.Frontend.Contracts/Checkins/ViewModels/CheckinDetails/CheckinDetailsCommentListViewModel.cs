@@ -4,5 +4,5 @@ namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
 
 public class CheckinDetailsCommentListViewModel
 {
-    public List<CheckinDetailsCommentViewModel> Items { get; set; }
+    public List<CheckinDetailsCommentListItemViewModel> Items { get; set; }
 }

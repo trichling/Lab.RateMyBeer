@@ -9,6 +9,7 @@ using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
 using Lab.RateMyBeer.Comments.Contracts.Comments.Messages.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings.Messages.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -77,28 +78,24 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         [HttpGet("{checkinId}")]
         public async Task<IActionResult> GetCheckinById([FromRoute] Guid checkinId)
         {
-            var checkins = await _checkinsRestApi.GetByIds(new[] { checkinId });
-            var checkinDto = checkins.Items.Single();
-
-            var ratingsTask = _ratingsRestApi.GetByCheckinIds(new [] { checkinDto.CheckinId });
-            var commentsTask = _commentsRestApi.GetByCheckinIds(new [] { checkinDto.CheckinId });
-
-            var comments = await commentsTask;
-            var ratings = await ratingsTask;
-
-            var rating = ratings.Items.Single();
-            var comment = comments.Items.Single();
+            var checkinsTask = _checkinsRestApi.GetByIds(new[] { checkinId });
+            var ratingsTask = _ratingsRestApi.GetByCheckinIds(new [] { checkinId });
+            var commentsTask = _commentsRestApi.GetByCheckinIds(new [] { checkinId });
+            
+            var checkin = (await checkinsTask).Items.Single();
+            var comment = (await commentsTask).Items.Single();
+            var rating = (await ratingsTask).Items.Single();
             
             return Ok(new CheckinDetailsViewModel()
             {
-                CheckinId = checkinDto.CheckinId,
+                CheckinId = checkin.CheckinId,
                 
                 CheckinDetailsCheckin = new CheckinDetailsCheckinViewModel()
                 {
-                    BeerName = checkinDto.BeerName,
-                    UserId = checkinDto.UserId,
-                    CheckinId = checkinDto.CheckinId,
-                    CreatedAt = checkinDto.CreatedAt
+                    BeerName = checkin.BeerName,
+                    UserId = checkin.UserId,
+                    CheckinId = checkin.CheckinId,
+                    CreatedAt = checkin.CreatedAt
                 },
                 
                 CheckinDetailsRating = new CheckinDetailsRatingViewModel()
@@ -113,7 +110,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                     BreweryComment = comment.BreweryComment,
                     Comments = new CheckinDetailsCommentListViewModel()
                     {
-                        Items = comment.Comments.Select(c => new CheckinDetailsCommentViewModel()
+                        Items = comment.Comments.Select(c => new CheckinDetailsCommentListItemViewModel()
                         {
                             UserId = c.UserId,
                             Comment = c.Comment
