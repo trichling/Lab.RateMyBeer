@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using apetito.Composition.ViewModels;
@@ -42,8 +43,15 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await Compose();
-            
+            var result = new CheckinListViewModel();
+
+            result = await  _compositionContext.Compose<CheckinListViewModel>(result);
+
+            return Ok(result);
+        }
+
+        private async Task<CheckinListViewModel> ComposeCheckinListDirect()
+        {
             var checkins = await _checkinsRestApi.GetAll();
             var checkinDtos = checkins.Items.ToList();
             var checkinIds = checkinDtos.Select(c => c.CheckinId).ToList();
@@ -53,57 +61,62 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
 
             var comments = await commentsTask;
             var ratings = await ratingsTask;
-            
-            return Ok(new CheckinListViewModel
+
+            return new CheckinListViewModel()
             {
                 Items = checkinDtos.Select(dto => new CheckinListItemViewModel()
                 {
                     CheckinId = dto.CheckinId,
-                    
+
                     Checkin = new CheckinListItemCheckinViewModel()
                     {
                         BeerName = dto.BeerName,
                         UserId = dto.UserId,
-                        CreatedAt = dto.CreatedAt,    
+                        CreatedAt = dto.CreatedAt,
                     },
-                    
+
                     Rating = new CheckinListItemRatingViewModel()
                     {
-                        RatingCategory = ratings.Items.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ?? string.Empty,
+                        RatingCategory = ratings.Items.SingleOrDefault(r => r.CheckinId == dto.CheckinId)?.Description ??
+                                         string.Empty,
                     },
-                    
+
                     Comment = new CheckinListItemCommentViewModel()
                     {
-                        UserComment = comments.Items.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ?? string.Empty
+                        UserComment = comments.Items.SingleOrDefault(c => c.CheckinId == dto.CheckinId)?.UserComment ??
+                                      string.Empty
                     }
                 }).ToList()
-            });
-        }
-
-        private async Task<CheckinListViewModel> Compose()
-        {
-            var result = new CheckinListViewModel();
-
-            result = await  _compositionContext.Compose<CheckinListViewModel>(result);
-
-            return result;
+            };
         }
         
         [HttpGet("{checkinId}")]
         public async Task<IActionResult> GetCheckinById([FromRoute] Guid checkinId)
         {
-            var checkinsTask = _checkinsRestApi.GetByIds(new[] { checkinId });
-            var ratingsTask = _ratingsRestApi.GetByCheckinIds(new [] { checkinId });
-            var commentsTask = _commentsRestApi.GetByCheckinIds(new [] { checkinId });
+            var result = new CheckinDetailsViewModel()
+            {
+                CheckinId = checkinId
+            };
+
+            result = await _compositionContext.Compose<CheckinDetailsViewModel>(result);
             
+            return Ok(result);
+        }
+
+        private async Task<CheckinDetailsViewModel> ComposeCheckinDetailsDirect(Guid checkinId)
+        {
+            var checkinsTask = _checkinsRestApi.GetByIds(new[] { checkinId });
+            var ratingsTask = _ratingsRestApi.GetByCheckinIds(new[] { checkinId });
+            var commentsTask = _commentsRestApi.GetByCheckinIds(new[] { checkinId });
+
             var checkin = (await checkinsTask).Items.Single();
             var comment = (await commentsTask).Items.Single();
             var rating = (await ratingsTask).Items.Single();
-            
-            return Ok(new CheckinDetailsViewModel()
+
+            return new CheckinDetailsViewModel()
             {
                 CheckinId = checkin.CheckinId,
-                
+
                 CheckinDetailsCheckin = new CheckinDetailsCheckinViewModel()
                 {
                     BeerName = checkin.BeerName,
@@ -111,13 +124,13 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                     CheckinId = checkin.CheckinId,
                     CreatedAt = checkin.CreatedAt
                 },
-                
+
                 CheckinDetailsRating = new CheckinDetailsRatingViewModel()
                 {
                     RatingCategory = rating.Description,
                     StarRating = rating.Rating,
                 },
-                
+
                 CheckinDetailsComments = new CheckinDetailsCommentsViewModel()
                 {
                     UserComment = comment.UserComment,
@@ -129,12 +142,11 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                             UserId = c.UserId,
                             Comment = c.Comment
                         }).ToList()
-                    } 
-                        
+                    }
                 }
-            });
+            };
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CreateCheckin(CreateCheckinCommandViewModel createCheckinCommand)
         {
