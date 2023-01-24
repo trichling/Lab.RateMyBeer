@@ -28,7 +28,6 @@ namespace apetito.Composition
 
         public static void AddViewModelAppenders(this IServiceCollection serviceCollection, IEnumerable<Assembly> assembliesToScan)
         {
-            //serviceCollection.AddTransient<ICommandExecutionContext, CommandExecutionContext>();
             serviceCollection.AddTransient<IViewModelCompositionContext, ViewModelCompositionContext>();
 
             var viewModelAppenderTypes = DiscoverIViewModelAppenderTypesFromAsseblies(assembliesToScan);
@@ -37,23 +36,6 @@ namespace apetito.Composition
             {
                 serviceCollection.AddTransient(typeof(IViewModelAppender), viewModelAppenderType);
             }
-
-            /*
-             * Ablauf:
-             * - Scanne alle geladenen Assemblies nach IViewModelAppender / ICommandAttacher
-             * - Exitsitert ein ICompositionComponentRegistrar => benutz den
-             * - Wenn nicht: Konvetion: registriere alle "class : interface" im DI
-             
-
-            // TODO: reflection magix: suche alle ICompositionComponentRegistrar-instanzen
-            ICompositionComponentRegistrar[] locators = null;
-
-            foreach (var locator in locators)
-            {
-                locator.RegisterCompositionComponents(serviceCollection);
-            }
-            
-            */
         }
 
       

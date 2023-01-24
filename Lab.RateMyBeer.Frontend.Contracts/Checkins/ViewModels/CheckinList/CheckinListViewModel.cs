@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 
-namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
+namespace Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList
 {
     public class CheckinListViewModel
     {

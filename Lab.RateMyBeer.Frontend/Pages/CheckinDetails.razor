@@ -1,6 +1,7 @@
 ﻿@page "/CheckinDetails/{CheckinId:guid}"
 @using Microsoft.Extensions.Configuration
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
+@using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -16,7 +17,7 @@
 else
 {
     
-    <h1>@checkin.CheckinDetailsCheckin.BeerName</h1>
+    <h1>@checkin.Checkin.BeerName</h1>
     
 }
 

@@ -1,5 +1,6 @@
 ﻿using apetito.Composition.ViewModels;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails;
 
 namespace Lab.RateMyBeer.Ratings.Contracts.StarRatings.Appender.CheckinDetailViewModel;
 
@@ -19,7 +20,7 @@ public class CheckinDetailViewModelRatingAppender : ViewModelAppenderBase<Checki
         if (rating is null)
             return viewModel;
 
-        viewModel.CheckinDetailsRating = new CheckinDetailsRatingViewModel()
+        viewModel.Rating = new CheckinDetailsRatingViewModel()
         {
             StarRating = rating.Rating,
             RatingCategory = rating.Description

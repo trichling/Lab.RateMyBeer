@@ -11,6 +11,7 @@ using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
 using Lab.RateMyBeer.Comments.Contracts.Comments.Messages.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings.Messages.Commands;
@@ -45,6 +46,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         {
             var result = new CheckinListViewModel();
 
+            _compositionContext.SetValue("page", 1);
             result = await  _compositionContext.Compose<CheckinListViewModel>(result);
 
             return Ok(result);
@@ -117,7 +119,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             {
                 CheckinId = checkin.CheckinId,
 
-                CheckinDetailsCheckin = new CheckinDetailsCheckinViewModel()
+                Checkin = new CheckinDetailsCheckinViewModel()
                 {
                     BeerName = checkin.BeerName,
                     UserId = checkin.UserId,
@@ -125,13 +127,13 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                     CreatedAt = checkin.CreatedAt
                 },
 
-                CheckinDetailsRating = new CheckinDetailsRatingViewModel()
+                Rating = new CheckinDetailsRatingViewModel()
                 {
                     RatingCategory = rating.Description,
                     StarRating = rating.Rating,
                 },
 
-                CheckinDetailsComments = new CheckinDetailsCommentsViewModel()
+                Comments = new CheckinDetailsCommentsViewModel()
                 {
                     UserComment = comment.UserComment,
                     BreweryComment = comment.BreweryComment,

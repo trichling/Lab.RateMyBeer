@@ -1,6 +1,7 @@
 ﻿using apetito.Composition.ViewModels;
 using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails;
 
 namespace Lab.RateMyBeer.Comments.Contracts.Comments.Appender.CheckinDetailViewModel;
 
@@ -20,7 +21,7 @@ public class CheckinDetailViewModelCommentsAppender : ViewModelAppenderBase<Chec
         if (comment is null)
             return viewModel;
 
-        viewModel.CheckinDetailsComments = new CheckinDetailsCommentsViewModel()
+        viewModel.Comments = new CheckinDetailsCommentsViewModel()
         {
             UserComment = comment.UserComment,
             BreweryComment = comment.BreweryComment,

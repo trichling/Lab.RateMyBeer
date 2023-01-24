@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using apetito.Composition.ViewModels;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels;
+using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails;
 
 namespace Lab.RateMyBeer.Checkins.Contracts.Checkins.Appender.CheckinDetailViewModel;
 
@@ -22,7 +23,7 @@ public class CheckinDetailsViewModelCheckinAppender : ViewModelAppenderBase<Chec
         if (checkin is null)
             return viewModel;
 
-        viewModel.CheckinDetailsCheckin = new CheckinDetailsCheckinViewModel()
+        viewModel.Checkin = new CheckinDetailsCheckinViewModel()
         {
             CheckinId = checkin.CheckinId,
             BeerName = checkin.BeerName,

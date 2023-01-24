@@ -7,7 +7,7 @@ using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 
 namespace Lab.RateMyBeer.Checkins.Contracts.Checkins.Appender.CheckinListViewModel;
 
-public class CheckinListViewModelCheckinsAppender : ViewModelAppenderBase<Frontend.Contracts.Checkins.ViewModels.CheckinListViewModel>
+public class CheckinListViewModelCheckinsAppender : ViewModelAppenderBase<Frontend.Contracts.Checkins.ViewModels.CheckinList.CheckinListViewModel>
 {
     private readonly ICheckinsRestApi _checkinsRestApi;
 
@@ -16,8 +16,11 @@ public class CheckinListViewModelCheckinsAppender : ViewModelAppenderBase<Fronte
         _checkinsRestApi = checkinsRestApi;
     }
 
-    public override async Task<Frontend.Contracts.Checkins.ViewModels.CheckinListViewModel> AppendTo(Frontend.Contracts.Checkins.ViewModels.CheckinListViewModel viewModel, IViewModelCompositionContext context)
+    public override async Task<Frontend.Contracts.Checkins.ViewModels.CheckinList.CheckinListViewModel> AppendTo(Frontend.Contracts.Checkins.ViewModels.CheckinList.CheckinListViewModel viewModel, IViewModelCompositionContext context)
     {
+        // Additional parameters could be grabbed from the context
+        context.TryGetValue<int>("page", out var page);
+     
         var checkins = await _checkinsRestApi.GetAll();
         viewModel.Items = checkins.Items.Select(c => new CheckinListItemViewModel()
         {
