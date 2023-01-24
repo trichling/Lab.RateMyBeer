@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using apetito.Composition.ViewModels;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.Messages.Commands;
 using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
@@ -27,18 +28,22 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         private readonly ICheckinsRestApi _checkinsRestApi;
         private readonly ICommentsRestApi _commentsRestApi;
         private readonly IRatingsRestApi _ratingsRestApi;
+        private readonly IViewModelCompositionContext _compositionContext;
 
-        public CheckinsController(IMessageSession messageSession, ICheckinsRestApi checkinsRestApi, ICommentsRestApi commentsRestApi, IRatingsRestApi ratingsRestApi)
+        public CheckinsController(IMessageSession messageSession, ICheckinsRestApi checkinsRestApi, ICommentsRestApi commentsRestApi, IRatingsRestApi ratingsRestApi, IViewModelCompositionContext compositionContext)
         {
             _messageSession = messageSession;
             _checkinsRestApi = checkinsRestApi;
             _commentsRestApi = commentsRestApi;
             _ratingsRestApi = ratingsRestApi;
+            _compositionContext = compositionContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var result = await Compose();
+            
             var checkins = await _checkinsRestApi.GetAll();
             var checkinDtos = checkins.Items.ToList();
             var checkinIds = checkinDtos.Select(c => c.CheckinId).ToList();
@@ -75,6 +80,15 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             });
         }
 
+        private async Task<CheckinListViewModel> Compose()
+        {
+            var result = new CheckinListViewModel();
+
+            result = await  _compositionContext.Compose<CheckinListViewModel>(result);
+
+            return result;
+        }
+        
         [HttpGet("{checkinId}")]
         public async Task<IActionResult> GetCheckinById([FromRoute] Guid checkinId)
         {

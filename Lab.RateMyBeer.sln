@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Comments.Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Comments.Data", "Lab.RateMyBeer.Comments.Data\Lab.RateMyBeer.Comments.Data.csproj", "{EEBEBE6D-5DEC-4926-A4AB-895579D193C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework.Composition", "Lab.RateMyBeer.Framework.Composition\Lab.RateMyBeer.Framework.Composition.csproj", "{BCB25427-4516-4460-99A6-C3BE2D08F0A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,18 @@ Global
 		{EEBEBE6D-5DEC-4926-A4AB-895579D193C8}.Release|x64.Build.0 = Release|Any CPU
 		{EEBEBE6D-5DEC-4926-A4AB-895579D193C8}.Release|x86.ActiveCfg = Release|Any CPU
 		{EEBEBE6D-5DEC-4926-A4AB-895579D193C8}.Release|x86.Build.0 = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|x64.Build.0 = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCB25427-4516-4460-99A6-C3BE2D08F0A2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

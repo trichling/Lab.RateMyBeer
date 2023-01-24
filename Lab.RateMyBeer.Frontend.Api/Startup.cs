@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using apetito.Composition;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
 using Lab.RateMyBeer.Frontend.Api.Infrastructure;
@@ -27,7 +28,7 @@ namespace Lab.RateMyBeer.Frontend.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddViewModelAppenders();            
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
