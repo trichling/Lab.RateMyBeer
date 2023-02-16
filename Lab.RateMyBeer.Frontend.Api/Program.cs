@@ -30,11 +30,11 @@ namespace Lab.RateMyBeer.Frontend.Api
                 {
                     var configuration = new EndpointConfiguration("Lab.RateMyBeer.Frontend.Api");
 
-                    var transport = configuration.UseTransport<RabbitMQTransport>();
+                    var transport = configuration.UseTransport<AzureServiceBusTransport>();
                     var transportConnectionString =
                         context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
                     transport.ConnectionString(transportConnectionString);
-                    transport.UseConventionalRoutingTopology();
+                    transport.SubscriptionRuleNamingConvention(t => t.Name);
 
                     var routing = transport.Routing();
                     routing.RouteToEndpoint(typeof(CreateCheckinCommand).Assembly, "Lab.RateMyBeer.Checkins");
@@ -43,7 +43,7 @@ namespace Lab.RateMyBeer.Frontend.Api
 
 
                     configuration.UsePersistence<LearningPersistence>();
-                    configuration.UseSerialization<NewtonsoftSerializer>();
+                    configuration.UseSerialization<NewtonsoftJsonSerializer>();
                     configuration.Conventions()
                         .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
                         .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))

@@ -98,8 +98,22 @@ public class NewCheckinCreatedSagaData : ContainSagaData
 
     public bool ClientHasBeenNotfied {  get; set; }
 
-    public bool Completed => CreateCheckinSucceeded.HasValue && CreateStarRatingSucceeded.HasValue && CreateCommentSucceeded.HasValue;
-    public bool CompletedSuccessfully => Completed && CreateCheckinSucceeded.Value && CreateCommentSucceeded.Value && CreateStarRatingSucceeded.Value;
-    public bool CompletedWitFailure => Completed && !CompletedSuccessfully;
+    public bool Completed
+    {
+        get => CreateCheckinSucceeded.HasValue && CreateStarRatingSucceeded.HasValue && CreateCommentSucceeded.HasValue;
+        set {  }
+    }
 
+    public bool CompletedSuccessfully
+    {
+        get => Completed && CreateCheckinSucceeded.Value && CreateCommentSucceeded.Value &&
+               CreateStarRatingSucceeded.Value;
+        set { }
+    }
+
+    public bool CompletedWitFailure
+    {
+        get => Completed && !CompletedSuccessfully;
+        set {}
+    }
 }

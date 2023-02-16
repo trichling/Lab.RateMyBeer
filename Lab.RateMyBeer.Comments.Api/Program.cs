@@ -18,10 +18,10 @@ builder.Host.UseNServiceBus(context =>
     var transportConnectionString =
         context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
     transport.ConnectionString(transportConnectionString);
-    transport.UseConventionalRoutingTopology();
+    transport.UseConventionalRoutingTopology(QueueType.Classic);
 
     configuration.UsePersistence<LearningPersistence>();
-    configuration.UseSerialization<NewtonsoftSerializer>();
+    configuration.UseSerialization<NewtonsoftJsonSerializer>();
     configuration.Conventions()
         .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
         .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
