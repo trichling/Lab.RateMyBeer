@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Comments.Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Comments.Data", "Lab.RateMyBeer.Comments.Data\Lab.RateMyBeer.Comments.Data.csproj", "{EEBEBE6D-5DEC-4926-A4AB-895579D193C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework.Composition", "Lab.RateMyBeer.Framework.Composition\Lab.RateMyBeer.Framework.Composition.csproj", "{BCB25427-4516-4460-99A6-C3BE2D08F0A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework", "Lab.RateMyBeer.Framework\Lab.RateMyBeer.Framework.csproj", "{BCB25427-4516-4460-99A6-C3BE2D08F0A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.Loader;
-using apetito.Composition.Command;
-using apetito.Composition.ViewModels;
+using Lab.RateMyBeer.Framework.Composition.Command;
+using Lab.RateMyBeer.Framework.Composition.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace apetito.Composition
+namespace Lab.RateMyBeer.Framework.Composition
 {
     public static class CompositionServiceCollectionExtensions
     {

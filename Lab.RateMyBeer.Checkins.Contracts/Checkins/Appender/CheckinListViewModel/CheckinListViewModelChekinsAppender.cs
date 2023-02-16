@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using apetito.Composition.ViewModels;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
+using Lab.RateMyBeer.Framework.Composition.ViewModels;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 
 namespace Lab.RateMyBeer.Checkins.Contracts.Checkins.Appender.CheckinListViewModel;

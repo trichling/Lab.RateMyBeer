@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace apetito.Composition.Command
+﻿namespace Lab.RateMyBeer.Framework.Composition.Command
 {
 
     public interface ICommandAttacher

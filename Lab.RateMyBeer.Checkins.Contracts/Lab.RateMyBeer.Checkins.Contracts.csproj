@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lab.RateMyBeer.Framework.Composition\Lab.RateMyBeer.Framework.Composition.csproj" />
+    <ProjectReference Include="..\Lab.RateMyBeer.Framework\Lab.RateMyBeer.Framework.csproj" />
     <ProjectReference Include="..\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj" />
   </ItemGroup>
 

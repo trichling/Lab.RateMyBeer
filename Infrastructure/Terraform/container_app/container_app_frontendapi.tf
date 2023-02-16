@@ -15,6 +15,10 @@
         name = "Dependencies__NServiceBus__TransportConnectionString"
         secret_name = "nservicebus-connectionstring"
       }
+      env {
+        name = "Dependencies__APIs__CheckinsApiBaseUrl"
+        value = "http://localhost:5000"
+      }
     }
   }
 

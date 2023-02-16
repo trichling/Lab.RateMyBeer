@@ -1,4 +1,4 @@
-﻿using apetito.Composition.ViewModels;
+﻿using Lab.RateMyBeer.Framework.Composition.ViewModels;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 
 namespace Lab.RateMyBeer.Ratings.Contracts.StarRatings.Appender.CheckinListViewModel;

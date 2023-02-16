@@ -1,7 +1,5 @@
-﻿
-
-using apetito.Composition.ViewModels;
-using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
+﻿using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
+using Lab.RateMyBeer.Framework.Composition.ViewModels;
 using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinList;
 
 namespace Lab.RateMyBeer.Comments.Contracts.Comments.Appender.CheckinListViewModel;

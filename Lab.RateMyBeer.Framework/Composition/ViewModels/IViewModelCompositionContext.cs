@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
-namespace apetito.Composition.ViewModels
+namespace Lab.RateMyBeer.Framework.Composition.ViewModels
 {
     public interface IViewModelCompositionContext
     {

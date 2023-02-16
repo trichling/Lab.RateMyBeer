@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace apetito.Composition.Command
+namespace Lab.RateMyBeer.Framework.Composition.Command
 {
     public class CommandExecutionContext : ICommandExecutionContext
     {

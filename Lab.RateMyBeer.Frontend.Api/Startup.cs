@@ -1,8 +1,8 @@
 using System;
 using System.Net.Http;
-using apetito.Composition;
 using Lab.RateMyBeer.Checkins.Contracts.Checkins.ApiClient;
 using Lab.RateMyBeer.Comments.Contracts.Comments.ApiClient;
+using Lab.RateMyBeer.Framework.Composition;
 using Lab.RateMyBeer.Frontend.Api.Infrastructure;
 using Lab.RateMyBeer.Ratings.Contracts.StarRatings;
 using Microsoft.AspNetCore.Builder;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace apetito.Composition.Command
+﻿namespace Lab.RateMyBeer.Framework.Composition.Command
 {
     public class CommandOutbox : ICommandOutbox
     {

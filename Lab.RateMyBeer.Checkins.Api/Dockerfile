@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["Lab.RateMyBeer.Checkins.Api/Lab.RateMyBeer.Checkins.Api.csproj", "Lab.RateMyBeer.Checkins.Api/"]
 COPY ["Lab.RateMyBeer.Checkins.Contracts/Lab.RateMyBeer.Checkins.Contracts.csproj", "Lab.RateMyBeer.Checkins.Contracts/"]
 COPY ["Lab.RateMyBeer.Checkins.Data/Lab.RateMyBeer.Checkins.Data.csproj", "Lab.RateMyBeer.Checkins.Data/"]
+COPY ["Lab.RateMyBeer.Framework/Lab.RateMyBeer.Framework.csproj", "Lab.RateMyBeer.Framework/"]
 RUN dotnet restore "Lab.RateMyBeer.Checkins.Api/Lab.RateMyBeer.Checkins.Api.csproj"
 COPY . .
 WORKDIR "/src/Lab.RateMyBeer.Checkins.Api"

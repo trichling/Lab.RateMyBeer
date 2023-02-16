@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace apetito.Composition.ViewModels
+﻿namespace Lab.RateMyBeer.Framework.Composition.ViewModels
 {
     public abstract class ViewModelAppenderBase<TViewModel> : IViewModelAppender<TViewModel>
     {
