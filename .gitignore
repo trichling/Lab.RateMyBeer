@@ -11,6 +11,7 @@ Lab.RateMyBeer.SQLServer/Volumes
 
 .terraform*
 .tfstate*
+*.tfstate
 secrets.tfvars
 
 # User-specific files
