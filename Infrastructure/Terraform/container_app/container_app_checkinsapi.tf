@@ -46,6 +46,7 @@ resource "azurerm_container_app" "checkinsapi" {
     external_enabled = false
     target_port = 80
     traffic_weight {
+      latest_revision = true
       percentage = 100
     }
   }
