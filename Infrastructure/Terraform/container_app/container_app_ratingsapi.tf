@@ -1,17 +1,17 @@
 ﻿locals {
-  chekinsdb_connectionstring = "Server=tcp:dev-ratemybeer.database.windows.net,1433;Initial Catalog=checkinsdb;Persist Security Info=False;User ID=superadmin;Password=${var.sql_server_sa_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  ratingsdb_connectionstring = "Server=tcp:dev-ratemybeer.database.windows.net,1433;Initial Catalog=ratingsdb;Persist Security Info=False;User ID=superadmin;Password=${var.sql_server_sa_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 }
 
-resource "azurerm_container_app" "checkinsapi" {
-  name                         = "checkinsapi"
+resource "azurerm_container_app" "ratingsapi" {
+  name                         = "ratingsapi"
   container_app_environment_id = azurerm_container_app_environment.ratemybeer.id
   resource_group_name          = azurerm_resource_group.ratemybeer.name
   revision_mode                = "Single"
 
   template {
     container {
-      name   = "checkinsapi"
-      image  = "thinkexception.azurecr.io/checkinsapi:dev"
+      name   = "ratingsapi"
+      image  = "thinkexception.azurecr.io/ratingsapi:dev"
       cpu    = 0.25
       memory = "0.5Gi"
 
@@ -26,8 +26,8 @@ resource "azurerm_container_app" "checkinsapi" {
       }
 
       env {
-        name = "ConnectionStrings__CheckinsDbConnectionString"
-        secret_name = "checkinsdb-connectionstring"
+        name = "ConnectionStrings__RatingsDbConnectionString"
+        secret_name = "ratingsdb-connectionstring"
       }
     }
   }
@@ -38,8 +38,8 @@ resource "azurerm_container_app" "checkinsapi" {
   }
 
   secret {
-    name = "checkinsdb-connectionstring"
-    value = local.chekinsdb_connectionstring
+    name = "ratingsdb-connectionstring"
+    value = local.ratingsdb_connectionstring
   }
 
   secret {

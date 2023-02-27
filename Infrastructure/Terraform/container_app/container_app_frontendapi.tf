@@ -15,9 +15,20 @@ resource "azurerm_container_app" "frontendapi" {
         name        = "Dependencies__NServiceBus__TransportConnectionString"
         secret_name = "nservicebus-connectionstring"
       }
+      
       env {
         name  = "Dependencies__APIs__CheckinsApiBaseUrl"
-        value = "http://localhost:5000"
+        value = azurerm_container_app.checkinsapi.latest_revision_fqdn
+      }
+
+      env {
+        name  = "Dependencies__APIs__RatingsApiBaseUrl"
+        value = azurerm_container_app.ratingsapi.latest_revision_fqdn
+      }
+
+      env {
+        name  = "Dependencies__APIs__CommentsApiBaseUrl"
+        value = azurerm_container_app.commentsapi.latest_revision_fqdn
       }
     }
   }
