@@ -46,15 +46,6 @@
     value = var.container_registry_admin_password
   }
 
-  ingress {
-    external_enabled = false
-    target_port = 80
-    traffic_weight {
-      latest_revision = true
-      percentage = 100
-    }
-  }
-
   registry {
     password_secret_name = "container-registry-admin-password"
     username = "thinkexception"
