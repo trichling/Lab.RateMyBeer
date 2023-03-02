@@ -13,6 +13,10 @@ builder
 
         return configuration;
     })
+    .ConfigureHostConfiguration(config =>
+    {
+        config.AddUserSecrets<Program>();
+    })
     .ConfigureServices((host, services) =>
     {
         var ratingsDbConnectionString = host.Configuration.GetConnectionString("RatingsDbConnectionString");
