@@ -1,5 +1,5 @@
-resource "azurerm_container_app" "frontendapi" {
-  name                         = "frontendapi"
+resource "azurerm_container_app" "frontend" {
+  name                         = "frontend"
   container_app_environment_id = azurerm_container_app_environment.ratemybeer.id
   resource_group_name          = azurerm_resource_group.ratemybeer.name
   revision_mode                = "Single"
@@ -9,34 +9,19 @@ resource "azurerm_container_app" "frontendapi" {
     max_replicas = 10
     
     container {
-      name   = "frontendapi"
-      image  = "thinkexception.azurecr.io/frontendapi:dev"
+      name   = "frontend"
+      image  = "thinkexception.azurecr.io/frontend:dev"
       cpu    = 0.25
       memory = "0.5Gi"
 
       env {
-        name = "ASPNETCORE_ENVIRONMENT"
+        name = "BLAZOR_ENVIRONMENT"
         value = local.environment_mapping[var.environment]
       }
       
       env {
-        name        = "Dependencies__NServiceBus__TransportConnectionString"
-        secret_name = "nservicebus-connectionstring"
-      }
-      
-      env {
         name  = "Dependencies__APIs__CheckinsApiBaseUrl"
-        value = "https://${azurerm_container_app.checkinsapi.ingress[0].fqdn}"
-      }
-
-      env {
-        name  = "Dependencies__APIs__RatingsApiBaseUrl"
-        value = "https://${azurerm_container_app.ratingsapi.ingress[0].fqdn}"
-      }
-
-      env {
-        name  = "Dependencies__APIs__CommentsApiBaseUrl"
-        value = "https://${azurerm_container_app.commentsapi.ingress[0].fqdn}"
+        value = "https://${azurerm_container_app.frontendapi.ingress[0].fqdn}/checkins"
       }
     }
   }
@@ -46,10 +31,6 @@ resource "azurerm_container_app" "frontendapi" {
     value = var.container_registry_admin_password
   }
 
-  secret {
-    name  = "nservicebus-connectionstring"
-    value = azurerm_servicebus_namespace.ratemybeer.default_primary_connection_string
-  }
 
   ingress {
     external_enabled           = true

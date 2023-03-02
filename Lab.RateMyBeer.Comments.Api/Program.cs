@@ -1,5 +1,6 @@
 using Lab.RateMyBeer.Comments.Api.Comments;
 using Lab.RateMyBeer.Comments.Data.Comments;
+using Lab.RateMyBeer.Framework;
 using Microsoft.EntityFrameworkCore;
 using NServiceBus;
 
@@ -11,23 +12,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Host.UseNServiceBus(context =>
 {
-    var configuration = new EndpointConfiguration("Lab.RateMyBeer.Comments.Api");
+    var configuration = new EndpointConfiguration("Lab.RateMyBeer.Comments");
     configuration.SendOnly();
-
-    var transport = configuration.UseTransport<RabbitMQTransport>();
-    var transportConnectionString =
-        context.Configuration["Dependencies:NServiceBus:TransportConnectionString"];
-    transport.ConnectionString(transportConnectionString);
-    transport.UseConventionalRoutingTopology(QueueType.Classic);
-
-    configuration.UsePersistence<LearningPersistence>();
-    configuration.UseSerialization<NewtonsoftJsonSerializer>();
-    configuration.Conventions()
-        .DefiningMessagesAs(t => t.Namespace.Contains("Messages"))
-        .DefiningCommandsAs(t => t.Namespace.EndsWith("Commands"))
-        .DefiningEventsAs(t => t.Namespace.EndsWith("Events"));
-
-    configuration.EnableInstallers();
+    configuration.Configure(context, routing => { });
 
     return configuration;
 });

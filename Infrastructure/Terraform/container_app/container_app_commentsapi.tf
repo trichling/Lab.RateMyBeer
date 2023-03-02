@@ -9,6 +9,9 @@ resource "azurerm_container_app" "commentsapi" {
   revision_mode                = "Single"
 
   template {
+    min_replicas = 1
+    max_replicas = 10
+    
     container {
       name   = "commentsapi"
       image  = "thinkexception.azurecr.io/commentsapi:dev"

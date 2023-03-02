@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Lab.RateMyBeer.Frontend/Lab.RateMyBeer.Frontend.csproj", "Lab.RateMyBeer.Frontend/"]
 COPY ["Lab.RateMyBeer.Frontend.Contracts/Lab.RateMyBeer.Frontend.Contracts.csproj", "Lab.RateMyBeer.Frontend.Contracts/"]
