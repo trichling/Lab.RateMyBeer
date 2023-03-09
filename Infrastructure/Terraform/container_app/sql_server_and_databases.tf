@@ -8,8 +8,6 @@ resource "azurerm_mssql_server" "ratemybeer" {
   administrator_login_password = var.sql_server_sa_password
 }
 
-
-
 resource "azurerm_mssql_database" "checkinsdb" {
   name           = "checkinsdb"
   server_id      = azurerm_mssql_server.ratemybeer.id

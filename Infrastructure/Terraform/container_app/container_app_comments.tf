@@ -41,14 +41,15 @@
     value = local.commentsdb_connectionstring
   }
 
-  secret {
-    name = "container-registry-admin-password"
-    value = var.container_registry_admin_password
+  registry {
+    server               = "thinkexception.azurecr.io"
+    identity = azurerm_user_assigned_identity.identity.id
   }
 
-  registry {
-    password_secret_name = "container-registry-admin-password"
-    username = "thinkexception"
-    server = "thinkexception.azurecr.io"
+  identity {
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.identity.id
+    ]
   }
 }

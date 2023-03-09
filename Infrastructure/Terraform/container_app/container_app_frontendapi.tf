@@ -42,11 +42,6 @@ resource "azurerm_container_app" "frontendapi" {
   }
 
   secret {
-    name  = "container-registry-admin-password"
-    value = var.container_registry_admin_password
-  }
-
-  secret {
     name  = "nservicebus-connectionstring"
     value = azurerm_servicebus_namespace.ratemybeer.default_primary_connection_string
   }
@@ -61,8 +56,14 @@ resource "azurerm_container_app" "frontendapi" {
   }
 
   registry {
-    password_secret_name = "container-registry-admin-password"
-    username             = "thinkexception"
     server               = "thinkexception.azurecr.io"
+    identity = azurerm_user_assigned_identity.identity.id
+  }
+  
+  identity {
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.identity.id
+    ]
   }
 }

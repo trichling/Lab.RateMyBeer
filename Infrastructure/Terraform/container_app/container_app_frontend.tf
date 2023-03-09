@@ -26,12 +26,6 @@ resource "azurerm_container_app" "frontend" {
     }
   }
 
-  secret {
-    name  = "container-registry-admin-password"
-    value = var.container_registry_admin_password
-  }
-
-
   ingress {
     external_enabled           = true
     target_port                = 80
@@ -42,8 +36,14 @@ resource "azurerm_container_app" "frontend" {
   }
 
   registry {
-    password_secret_name = "container-registry-admin-password"
-    username             = "thinkexception"
     server               = "thinkexception.azurecr.io"
+    identity = azurerm_user_assigned_identity.identity.id
+  }
+
+  identity {
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.identity.id
+    ]
   }
 }

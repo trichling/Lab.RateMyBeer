@@ -45,11 +45,6 @@ resource "azurerm_container_app" "checkinsapi" {
     value = local.chekinsdb_connectionstring
   }
 
-  secret {
-    name = "container-registry-admin-password"
-    value = var.container_registry_admin_password
-  }
-
   ingress {
     external_enabled = false
     target_port = 80
@@ -58,10 +53,16 @@ resource "azurerm_container_app" "checkinsapi" {
       percentage = 100
     }
   }
-
+  
   registry {
-    password_secret_name = "container-registry-admin-password"
-    username = "thinkexception"
-    server = "thinkexception.azurecr.io"
+    server               = "thinkexception.azurecr.io"
+    identity = azurerm_user_assigned_identity.identity.id
+  }
+
+  identity {
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.identity.id
+    ]
   }
 }
