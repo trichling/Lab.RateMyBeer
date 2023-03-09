@@ -10,10 +10,8 @@ RUN dotnet build "Lab.RateMyBeer.Frontend.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Lab.RateMyBeer.Frontend.csproj" -c Release -o /app/publish
 
-FROM nginx:alpine AS final
-WORKDIR /usr/share/nginx/html
-COPY --from=publish /app/publish .
-COPY ["Lab.RateMyBeer.Frontend/nginx.conf.template", "/etc/nginx/nginx.conf.template"]
-COPY ["Lab.RateMyBeer.Frontend/entrypoint.sh", "/"]
-ENTRYPOINT ["/entrypoint.sh"]
+FROM nginx:stable-alpine AS final
+COPY --from=publish /app/publish /usr/share/nginx/html
+COPY Lab.RateMyBeer.Frontend/entrypoint.sh /docker-entrypoint.d/40-custom-settings.sh
+COPY Lab.RateMyBeer.Frontend/nginx.conf.template /etc/nginx/nginx.conf.template
 CMD ["nginx", "-g", "daemon off;"]
