@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework", "Framework\Lab.RateMyBeer.Framework\Lab.RateMyBeer.Framework.csproj", "{C1293890-9109-489F-8172-F1429FD57FC2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{FBCE79CB-C336-4BC2-87D2-1E1CDD11125A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Frontend.Contracts", "Frontend\Lab.RateMyBeer.Frontend.Contracts\Lab.RateMyBeer.Frontend.Contracts.csproj", "{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,10 @@ Global
 		{C1293890-9109-489F-8172-F1429FD57FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1293890-9109-489F-8172-F1429FD57FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1293890-9109-489F-8172-F1429FD57FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{411A2D1E-A860-49EC-8753-4B054B96737F} = {EAF84894-9637-4186-BE1F-048B7475667B}
@@ -56,5 +64,6 @@ Global
 		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412} = {411A2D1E-A860-49EC-8753-4B054B96737F}
 		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02} = {411A2D1E-A860-49EC-8753-4B054B96737F}
 		{C1293890-9109-489F-8172-F1429FD57FC2} = {C2F04575-00BE-46B8-BEB3-7354A88037EF}
+		{EF7249DF-F64E-43ED-9F5F-66EF4DC0025F} = {FBCE79CB-C336-4BC2-87D2-1E1CDD11125A}
 	EndGlobalSection
 EndGlobal
