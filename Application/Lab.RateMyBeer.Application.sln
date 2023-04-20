@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Checkins", "Checkins", "{EAF84894-9637-4186-BE1F-048B7475667B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{411A2D1E-A860-49EC-8753-4B054B96737F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Checkins", "Checkins\src\Lab.RateMyBeer.Checkins\Lab.RateMyBeer.Checkins.csproj", "{0B3FA02A-54C0-402D-814D-492BB9B3BD14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Checkins.Api", "Checkins\src\Lab.RateMyBeer.Checkins.Api\Lab.RateMyBeer.Checkins.Api.csproj", "{0DE6DF37-43E3-4E94-8522-5519620CB385}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Checkins.Contracts", "Checkins\src\Lab.RateMyBeer.Checkins.Contracts\Lab.RateMyBeer.Checkins.Contracts.csproj", "{53D8BDF1-6035-4F47-9AF6-DC4DA5259412}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Checkins.Data", "Checkins\src\Lab.RateMyBeer.Checkins.Data\Lab.RateMyBeer.Checkins.Data.csproj", "{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{C2F04575-00BE-46B8-BEB3-7354A88037EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework", "Framework\Lab.RateMyBeer.Framework\Lab.RateMyBeer.Framework.csproj", "{C1293890-9109-489F-8172-F1429FD57FC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B3FA02A-54C0-402D-814D-492BB9B3BD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B3FA02A-54C0-402D-814D-492BB9B3BD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B3FA02A-54C0-402D-814D-492BB9B3BD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B3FA02A-54C0-402D-814D-492BB9B3BD14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DE6DF37-43E3-4E94-8522-5519620CB385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DE6DF37-43E3-4E94-8522-5519620CB385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DE6DF37-43E3-4E94-8522-5519620CB385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DE6DF37-43E3-4E94-8522-5519620CB385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1293890-9109-489F-8172-F1429FD57FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1293890-9109-489F-8172-F1429FD57FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1293890-9109-489F-8172-F1429FD57FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1293890-9109-489F-8172-F1429FD57FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{411A2D1E-A860-49EC-8753-4B054B96737F} = {EAF84894-9637-4186-BE1F-048B7475667B}
+		{0B3FA02A-54C0-402D-814D-492BB9B3BD14} = {411A2D1E-A860-49EC-8753-4B054B96737F}
+		{0DE6DF37-43E3-4E94-8522-5519620CB385} = {411A2D1E-A860-49EC-8753-4B054B96737F}
+		{53D8BDF1-6035-4F47-9AF6-DC4DA5259412} = {411A2D1E-A860-49EC-8753-4B054B96737F}
+		{94A98EB7-C66C-4A80-A0C1-336BBA8AFE02} = {411A2D1E-A860-49EC-8753-4B054B96737F}
+		{C1293890-9109-489F-8172-F1429FD57FC2} = {C2F04575-00BE-46B8-BEB3-7354A88037EF}
+	EndGlobalSection
+EndGlobal

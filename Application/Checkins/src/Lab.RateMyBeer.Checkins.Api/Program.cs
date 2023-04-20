@@ -42,42 +42,5 @@ app.MapCheckinsEndpoints();
 
 app.Run();
 
-async Task<Person> GetPersonAsync(Stream stream)
-{
-    var parser = new MessageParser<Person>(() => new Person());
-    var person = await parser.ParseFromStreamAsync(stream);
-    return person;
-}
 
-public class Person : IMessage<Person>
-{
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    
-    public void MergeFrom(Person other)
-    {
-        FirstName = other.FirstName;
-        LastName = other.LastName;
-    }
-
-    public void MergeFrom(CodedInputStream input)
-    {
-        input.ReadMessage(this);
-    }
-
-    public void WriteTo(CodedOutputStream output)
-    {
-        output.WriteMessage(this);
-    }
-
-    public int CalculateSize()
-    {
-        FirstName.CalculateSize();
-        return this.CalculateSize();
-    }
-
-    public MessageDescriptor Descriptor => throw new NotImplementedException();
-    public Person Clone() => new Person { FirstName = FirstName, LastName = LastName };
-    public bool Equals(Person other) => FirstName == other.FirstName && LastName == other.LastName;
-}
 

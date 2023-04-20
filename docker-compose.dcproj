@@ -15,4 +15,7 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\Checkins\src\Lab.RateMyBeer.Checkins" />
+  </ItemGroup>
 </Project>
