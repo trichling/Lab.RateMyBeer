@@ -35,12 +35,9 @@ resource "azurerm_resource_group" "RateMyBeerRessourceGroup" {
   location = "westeurope"
 }
 
-resource "azurerm_container_registry" "RateMyBeerContainerRegistry" {
-  name = "ratemybeercontainer${var.ressourceNameSuffix}"
-  resource_group_name = azurerm_resource_group.RateMyBeerRessourceGroup.name
-  location = azurerm_resource_group.RateMyBeerRessourceGroup.location
-  sku = "Basic"
-  admin_enabled = false
+data "azurerm_container_registry" "container_registry" {
+  name = "thinkexception"
+  resource_group_name = "Infrastructure"
 }
 
 resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
@@ -61,7 +58,7 @@ resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
 
 # --attach-acr
 resource "azurerm_role_assignment" "acrpull_role" {
-  scope                            = azurerm_container_registry.RateMyBeerContainerRegistry.id
+  scope                            = data.azurerm_container_registry.container_registry.id
   role_definition_name             = "AcrPull"
   # This refers to the identity of the kluster itself
   #   principal_id                     = azurerm_kubernetes_cluster.RateMyBeerCluster.identity[0].principal_id
@@ -78,6 +75,7 @@ provider "helm" {
         cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.RateMyBeerCluster.kube_config.0.cluster_ca_certificate)
     }  
 }
+
 resource "helm_release" "nginx_ingress" {
   name       = "ingress-nginx"
   namespace        = "ingress-nginx"
