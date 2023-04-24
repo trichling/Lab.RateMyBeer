@@ -24,14 +24,4 @@ provider "azurerm" {
   features {}
 }
 
-variable "ressourceNameSuffix" {
-  description = "A suffix added to each ressource name. Can be set to empty string for production."
-  type = string
-  default = ""
-}
-
-resource "azurerm_resource_group" "RateMyBeerRessourceGroup" {
-  name     = "${var.environment}_ratemybeer"
-  location = "westeurope"
-}
 
