@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratemybeer-checkins
+
+spec:
+  selector:
+    matchLabels:
+      app: ratemybeer-checkins
+
+  replicas: 3
+
+  template:
+    metadata:
+      labels:
+        app: ratemybeer-checkins
+
+    spec:
+      containers:
+        - name: ratemybeer-checkins
+          image: thinkexception.azurecr.io/checkins:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "600m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+         
+          ports:
+            - containerPort: 8080

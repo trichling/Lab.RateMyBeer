@@ -1,32 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "lab.ratemybeer.checkins.api.fullname" . }}
-  labels:
-    {{- include "lab.ratemybeer.checkins.api.labels" . | nindent 4 }}
+  name: ratemybeer-checkins-api
+
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "lab.ratemybeer.checkins.api.selectorLabels" . | nindent 6 }}
-    
+      app: ratemybeer-checkins-api
+
+  replicas: {{ .Values.replicaCount }} 
+
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "lab.ratemybeer.checkins.api.selectorLabels" . | nindent 8 }}
+        app: ratemybeer-checkins-api
+
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: ratemybeer-checkins-api
+          image: "thinkexception.azurecr.io/checkinsapi:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "600m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.environment }}
          
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-    
+            - containerPort: 8080

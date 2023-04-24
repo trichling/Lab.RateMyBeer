@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratemybeer-comments
+
+spec:
+  selector:
+    matchLabels:
+      app: ratemybeer-comments
+
+  replicas: 3
+
+  template:
+    metadata:
+      labels:
+        app: ratemybeer-comments
+
+    spec:
+      containers:
+        - name: ratemybeer-comments
+          image: "thinkexception.azurecr.io/comments:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "600m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.environment }}
+
+          ports:
+            - containerPort: 8080
