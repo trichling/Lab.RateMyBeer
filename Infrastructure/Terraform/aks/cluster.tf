@@ -1,12 +1,12 @@
 resource "azurerm_subnet" "cluster_subnet" {
   address_prefixes     = [var.cluster_subnet_address_space]
-  name                 = "${var.environment}-${var.application}-{var.version_number}"
+  name                 = "${var.environment}-${var.application}-${var.version_number}"
   resource_group_name  = data.azurerm_resource_group.ratemybeer.name
   virtual_network_name = data.azurerm_virtual_network.ratemybber.name
 }
 
 resource "azurerm_kubernetes_cluster" "RateMyBeerCluster" {
-  name                = "${var.environment}-${var.application}-{var.version_number}"
+  name                = "${var.environment}-${var.application}-${var.version_number}"
   resource_group_name = data.azurerm_resource_group.ratemybeer.name
   location            = data.azurerm_resource_group.ratemybeer.location
   dns_prefix          = "ratemybeer-${var.version_number}"

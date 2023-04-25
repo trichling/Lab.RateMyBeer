@@ -7,6 +7,8 @@ Lab.RateMyBeer.RabbitMq/data
 Lab.RateMyBeer.RabbitMq/logs
 Lab.RateMyBeer.SQLServer/Volumes
 
+/Infrastructure/Terraform/base/terraform-visual-report/
+
 .learningtransport
 
 .terraform*
