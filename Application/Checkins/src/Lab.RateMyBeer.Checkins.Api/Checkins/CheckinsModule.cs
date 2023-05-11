@@ -9,6 +9,7 @@ public static class CheckinsModule
     public static IServiceCollection RegisterCheckinsModule(this IServiceCollection services, IConfiguration configuration)
     {
         var checkinDbConnectionString = configuration.GetConnectionString("CheckinsDbConnectionString");
+        checkinDbConnectionString = string.Format(checkinDbConnectionString, "checkinsDb");
         services.AddDbContext<CheckinsContext>(options =>
         {
             options.UseSqlServer(checkinDbConnectionString);

@@ -10,6 +10,7 @@ terraform init -backend-config="$Environment/backend.tfvars" `
 #
 terraform  plan -out="plan.out" `
                  -var-file="$Environment/env.tfvars" `
+                 -var-file="$Environment/secrets.tfvars" 
 
 terraform show -json plan.out > plan.json   # Read plan file and output it in JSON format
 terraform-visual --plan plan.json
