@@ -1,0 +1,10 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: ratemybeer-frontend-api
+spec:
+  selector:
+    app: ratemybeer-frontend-api
+  ports:
+    - port: 8080
+  type: NodePort

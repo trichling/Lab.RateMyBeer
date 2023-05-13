@@ -1,24 +1,24 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ratemybeer-comments-api
+  name: ratemybeer-frontend-api
 
 spec:
   selector:
     matchLabels:
-      app: ratemybeer-comments-api
+      app: ratemybeer-frontend-api
 
   replicas: 3
 
   template:
     metadata:
       labels:
-        app: ratemybeer-comments-api
+        app: ratemybeer-frontend-api
 
     spec:
       containers:
-        - name: ratemybeer-comments-api
-          image: thinkexception.azurecr.io/commentsapi:latest
+        - name: ratemybeer-frontend-api
+          image: thinkexception.azurecr.io/frontendapi:latest
           imagePullPolicy: Always
           resources:
             limits:
@@ -32,17 +32,20 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
 
-            - name: ConnectionStrings__CommentsDbConnectionString
-              valueFrom:
-                secretKeyRef:
-                  name: connectionstrings
-                  key: DatabaseConnectionString
+            - name: Dependencies__APIs__CheckinsApiBaseUrl
+              value: http://ratemybeer-checkins-api
 
+            - name: Dependencies__APIs__CommentsApiBaseUrl
+              value: http://ratemybeer-comments-api
+              
+            - name: Dependencies__APIs__RatingsApiBaseUrl 
+              value: http://ratemybeer-ratings-api
+            
             - name: Dependencies__NServiceBus__TransportConnectionString
               valueFrom:
                 secretKeyRef:
                   name: connectionstrings
                   key: NServiceBusTransportConnectionString
-         
+                  
           ports:
             - containerPort: 8080

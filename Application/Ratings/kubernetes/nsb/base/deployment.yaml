@@ -31,6 +31,18 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
-         
+
+            - name: ConnectionStrings__RatingsDbConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: connectionstrings
+                  key: DatabaseConnectionString
+
+            - name: Dependencies__NServiceBus__TransportConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: connectionstrings
+                  key: NServiceBusTransportConnectionString
+                  
           ports:
             - containerPort: 8080
