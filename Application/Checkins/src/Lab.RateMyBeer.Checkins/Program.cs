@@ -20,6 +20,8 @@ builder
     .ConfigureServices((host, services) =>
     {
        var checkinDbConnectionString = host.Configuration.GetConnectionString("CheckinsDbConnectionString");
+       checkinDbConnectionString = string.Format(checkinDbConnectionString, "checkinsDb");
+
         services.AddDbContext<CheckinsContext>(options =>
         {
             options.UseSqlServer(checkinDbConnectionString);

@@ -9,6 +9,8 @@ namespace Lab.RateMyBeer.Ratings.Api.StarRatings
     public static IServiceCollection RegisterStarRatingsModule(this IServiceCollection services, IConfiguration configuration)
     {
         var ratingsDbConnectionString = configuration.GetConnectionString("RatingsDbConnectionString");
+        ratingsDbConnectionString = string.Format(ratingsDbConnectionString, "RatingsDb");
+
         services.AddDbContext<StarRatingContext>(options =>
             options.UseSqlServer(ratingsDbConnectionString));
 

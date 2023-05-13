@@ -1,24 +1,28 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+#syntax=docker/dockerfile:1.4
 
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["Lab.RateMyBeer.Comments.Api/Lab.RateMyBeer.Comments.Api.csproj", "Lab.RateMyBeer.Comments.Api/"]
-COPY ["Lab.RateMyBeer.Comments.Contracts/Lab.RateMyBeer.Comments.Contracts.csproj", "Lab.RateMyBeer.Comments.Contracts/"]
-COPY ["Lab.RateMyBeer.Comments.Data/Lab.RateMyBeer.Comments.Data.csproj", "Lab.RateMyBeer.Comments.Data/"]
-RUN dotnet restore "Lab.RateMyBeer.Comments.Api/Lab.RateMyBeer.Comments.Api.csproj"
-COPY . .
-WORKDIR "/src/Lab.RateMyBeer.Comments.Api"
-RUN dotnet build "Lab.RateMyBeer.Comments.Api.csproj" -c Release -o /app/build
+WORKDIR /Application
+COPY ["Lab.RateMyBeer.Comments.Api/Lab.RateMyBeer.Comments.Api.csproj", "Comments/src/Lab.RateMyBeer.Comments.Api/"]
+COPY ["Lab.RateMyBeer.Comments.Contracts/Lab.RateMyBeer.Comments.Contracts.csproj", "Comments/src/Lab.RateMyBeer.Comments.Contracts/"]
+COPY ["Lab.RateMyBeer.Comments.Data/Lab.RateMyBeer.Comments.Data.csproj", "Comments/src/Lab.RateMyBeer.Comments.Data/"]
+COPY --from=framework ["Lab.RateMyBeer.Framework/Lab.RateMyBeer.Framework.csproj", "Framework/src/Lab.RateMyBeer.Framework/"]
+COPY --from=frontend ["Lab.RateMyBeer.Frontend.Contracts/Lab.RateMyBeer.Frontend.Contracts.csproj", "Frontend/src/Lab.RateMyBeer.Frontend.Contracts/"]
+RUN dotnet restore "Comments/src/Lab.RateMyBeer.Comments.Api/Lab.RateMyBeer.Comments.Api.csproj"
 
-FROM build AS publish
+COPY [".", "Comments/src"]
+COPY --from=framework ["Lab.RateMyBeer.Framework/", "Framework/src/Lab.RateMyBeer.Framework/"]
+COPY --from=frontend ["Lab.RateMyBeer.Frontend.Contracts/", "Frontend/src/Lab.RateMyBeer.Frontend.Contracts/"]
+
+WORKDIR /Application/Comments/src/Lab.RateMyBeer.Comments.Api
 RUN dotnet publish "Lab.RateMyBeer.Comments.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Lab.RateMyBeer.Comments.Api.dll"]

@@ -15,10 +15,12 @@ builder
     })
     .ConfigureServices((host, services) =>
     {
-       var checkinDbConnectionString = host.Configuration.GetConnectionString("CommentsDbConnectionString");
+       var commentsDbConnectionString = host.Configuration.GetConnectionString("CommentsDbConnectionString");
+       commentsDbConnectionString = string.Format(commentsDbConnectionString, "CommentsDb");
+
         services.AddDbContext<CommentsContext>(options =>
         {
-            options.UseSqlServer(checkinDbConnectionString);
+            options.UseSqlServer(commentsDbConnectionString);
         });
 
     });            

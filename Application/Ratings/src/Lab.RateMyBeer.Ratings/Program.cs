@@ -20,6 +20,8 @@ builder
     .ConfigureServices((host, services) =>
     {
         var ratingsDbConnectionString = host.Configuration.GetConnectionString("RatingsDbConnectionString");
+        ratingsDbConnectionString = string.Format(ratingsDbConnectionString, "RatingsDb");
+
         services.AddDbContext<StarRatingContext>(options =>
         options.UseSqlServer(ratingsDbConnectionString));
     });            

@@ -9,6 +9,8 @@ public static class CommentsModule
     public static IServiceCollection RegisterCommentsModule(this IServiceCollection services, IConfiguration configuration)
     {
         var commentsDbConnectionString = configuration.GetConnectionString("CommentsDbConnectionString");
+        commentsDbConnectionString = string.Format(commentsDbConnectionString, "CommentsDb");
+
         services.AddDbContext<CommentsContext>(options =>
         {
             options.UseSqlServer(commentsDbConnectionString);
