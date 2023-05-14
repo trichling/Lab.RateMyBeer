@@ -4,7 +4,6 @@ param (
 )
 
 $Application = "ratemybeer"
-$REPLICA_COUNT = 1
 $RESSOURCE_GROUP = "$Environment-$Application"
 $CLUSTER_NAME = "$Environment-$Application-$Version"
 $INFRASTRUCTURE_RESOURCE_GROUP = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME + "_westeurope"
