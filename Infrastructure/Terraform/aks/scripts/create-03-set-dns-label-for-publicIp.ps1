@@ -7,6 +7,7 @@ $Application = "ratemybeer"
 $RESSOURCE_GROUP = "$Environment-$Application"
 $CLUSTER_NAME = "$Environment-$Application-$Version"
 $INFRASTRUCTURE_RESOURCE_GROUP = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME + "_westeurope"
+$DNS_LABEL = "$Application-$Version"
 
 az aks get-credentials -g $RESSOURCE_GROUP -n $CLUSTER_NAME --overwrite-existing
 

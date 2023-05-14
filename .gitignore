@@ -8,6 +8,7 @@ Lab.RateMyBeer.RabbitMq/logs
 Lab.RateMyBeer.SQLServer/Volumes
 
 **/feature/deployment.yaml
+**/feature/ingress.yaml
 
 /Infrastructure/Terraform/base/terraform-visual-report/
 
