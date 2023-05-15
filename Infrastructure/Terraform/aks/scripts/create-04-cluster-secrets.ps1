@@ -3,6 +3,8 @@
     [Parameter(Mandatory)] [string] $Version
 )
 
+$prevPwd = $PWD; Set-Location -ErrorAction Stop -LiteralPath $PSScriptRoot
+
 $Application = "ratemybeer"
 $RESSOURCE_GROUP = "$Environment-$Application"
 $CLUSTER_NAME = "$Environment-$Application-$Version"
@@ -18,3 +20,5 @@ kubectl create secret generic connectionstrings `
    --from-literal=DatabaseConnectionString=$DatabaseConnectionString `
    --from-literal=NServiceBusTransportConnectionString=$NServiceBusTransportConnectionString `
    --dry-run=client -o yaml | kubectl apply -f -
+
+$prevPwd | Set-Location

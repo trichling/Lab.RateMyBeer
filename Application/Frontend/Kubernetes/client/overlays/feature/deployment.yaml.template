@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ratemybeer-frontend-api
+  name: ratemybeer-frontend
 
 spec:
   replicas: 1
@@ -10,8 +10,8 @@ spec:
 
     spec:
       containers:
-        - name: ratemybeer-frontend-api
-          image: thinkexception.azurecr.io/frontendapi:<Tag>
+        - name: ratemybeer-frontend
+          image: thinkexception.azurecr.io/frontend:<Tag>
           
           env:
             - name: ASPNETCORE_ENVIRONMENT

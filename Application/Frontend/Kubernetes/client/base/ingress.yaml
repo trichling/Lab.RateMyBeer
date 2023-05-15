@@ -1,0 +1,29 @@
+﻿apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ratemybeer-frontend
+  labels:
+    name: ratemybeer-frontend
+
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod-http-issuer"
+
+spec:
+  ingressClassName: nginx
+
+  tls:
+    - hosts:
+        - ratemybeer.westeurope.cloudapp.azure.com
+      secretName: ratemybeer-portal-ssl
+
+  rules:
+    - host: ratemybeer.westeurope.cloudapp.azure.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name:  ratemybeer-frontend
+                port:
+                  number: 80

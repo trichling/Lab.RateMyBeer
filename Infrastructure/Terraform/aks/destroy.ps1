@@ -4,6 +4,8 @@ param (
     [Parameter(Mandatory)] [string] $ClusterSubnetAddressSpace
 )
 
+$prevPwd = $PWD; Set-Location -ErrorAction Stop -LiteralPath $PSScriptRoot
+
 terraform init -backend-config="$Environment/backend.tfvars" `
                -backend-config="key=$Environment.ratemybeer.cluster.$Version.tfstate" `
                -reconfigure
@@ -17,3 +19,4 @@ terraform  destroy `
                  -var="version_number=$Version"
 
 
+$prevPwd | Set-Location

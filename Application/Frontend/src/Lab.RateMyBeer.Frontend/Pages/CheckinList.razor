@@ -62,7 +62,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var checkinListUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
+        var checkinListUrl = Api.BaseUrl(Configuration, HostEnvironment.Environment);
         checkinList = await Http.GetFromJsonAsync<CheckinListViewModel>(checkinListUrl);
     }
 

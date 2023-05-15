@@ -8,4 +8,4 @@ patches:
       group: networking.k8s.io
       version: v1
       kind: Ingress
-      name: ratemybeer-frontend-api
+      name: ratemybeer-frontend

@@ -1,10 +1,13 @@
 ﻿@page "/createCheckin"
 @using Microsoft.Extensions.Configuration
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.Commands
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
+@inject IWebAssemblyHostEnvironment HostEnvironment
+
 
 <h1>Neuer Checkins</h1>
 
@@ -27,7 +30,7 @@ Kommentar:
 
     private void SaveCheckin()
     {
-        var checkinListUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
+        var checkinListUrl = Api.BaseUrl(Configuration, HostEnvironment.Environment);
         Http.PostAsJsonAsync(checkinListUrl, new CreateCheckinCommandViewModel(
             BeerName: this.BeerName,
             StarRating: this.StarRating,

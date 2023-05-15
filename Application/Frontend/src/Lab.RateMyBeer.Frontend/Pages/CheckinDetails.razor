@@ -2,10 +2,12 @@
 @using Microsoft.Extensions.Configuration
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels
 @using Lab.RateMyBeer.Frontend.Contracts.Checkins.ViewModels.CheckinDetails
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
+@inject IWebAssemblyHostEnvironment HostEnvironment
 
 
 <h3>CheckinDetails</h3>
@@ -29,7 +31,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var checkinDetialsUrl = $"{Configuration["Dependencies:APIs:CheckinsApiBaseUrl"]}/{CheckinId.ToString()}";
+        var checkinDetialsUrl = $"{Api.BaseUrl(Configuration, HostEnvironment.Environment)}/{CheckinId.ToString()}";
         checkin = await Http.GetFromJsonAsync<CheckinDetailsViewModel>(checkinDetialsUrl);
     }
 }

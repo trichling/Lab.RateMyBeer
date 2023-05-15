@@ -1,0 +1,36 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratemybeer-frontend
+
+spec:
+  selector:
+    matchLabels:
+      app: ratemybeer-frontend
+
+  replicas: 3
+
+  template:
+    metadata:
+      labels:
+        app: ratemybeer-frontend
+
+    spec:
+      containers:
+        - name: ratemybeer-frontend
+          image: thinkexception.azurecr.io/frontend:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "600m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+
+          env:
+            - name: BLAZOR_ENVIRONMENT
+              value: KubernetesHttps
+                  
+          ports:
+            - containerPort: 80
