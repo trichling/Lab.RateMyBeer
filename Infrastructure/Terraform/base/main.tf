@@ -7,15 +7,11 @@ terraform {
       version = ">= 2.26"
     }
 
-    helm = {
-      source  = "hashicorp/helm"
-      version = ">= 2.2"
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = ">= 2.30.0"
     }
-
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
-    }
+    
   }
 
   required_version = ">= 0.14.9"
@@ -23,6 +19,9 @@ terraform {
 
 provider "azurerm" {
   features {}
+}
+
+provider "azuread" {
 }
 
 ## resource group
