@@ -239,7 +239,7 @@ stages:
                     inlineScript: |
                       terraform apply -destroy -auto-approve `
                         -var-file="$(ENVIRONMENT)/env.tfvars" `
-                        -var="clusterSubnetAddressSpace=$(CLUSTER_SUBNET_ADDRESS_SPACE)" `
+                        -var="cluster_subnet_address_space=$(CLUSTER_SUBNET_ADDRESS_SPACE)" `
                         -var="version_number=$(VERSION)"
 
                   env:
