@@ -1,0 +1,279 @@
+name: ratemybeer - dev version cluster ratemybeer-$(VERSION)
+
+resources:
+  repositories:
+    - repository: self
+      trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: dev-ratemybeer
+
+  - name: LOCATION
+    value: "westeurope"
+  - name: ENVIRONMENT
+    value: "dev"
+  - name: RESSOURCE_GROUP
+    value: "$(ENVIRONMENT)-ratemybeer"
+  - name: CLUSTER_NAME
+    value: "$(ENVIRONMENT)-ratemybeer-$(VERSION)"
+  - name: RESSOURCE_GROUP_INFRASTRUCTURE
+    value: "MC_$(RESSOURCE_GROUP)_$(CLUSTER_NAME)_$(LOCATION)"
+  - name: TERRAFORM_STATE_STORAGE_ACCOUNT_RESSOURCE_GROUP
+    value: "infrastructure"
+  - name: TERRAFORM_STATE_STORAGE_ACCOUNT_NAME
+    value: "thinkexception"
+  - name: TERRAFORM_STATE_BLOB_CONTAINER_NAME
+    value: "terraformstate"
+  - name: TERRAFORM_STATE_KEY
+    value: "$(ENVIRONMENT).ratemybeer.cluster.$(VERSION).tfstate"
+  - name: AZURE_SUBSCRIPTION_NAME
+    value: "dev-ratemybeer-service-connection"
+
+stages:
+  - stage: CreateFeatureCluster
+    lockBehavior: sequential
+    displayName: Create feature cluster
+    jobs:
+      - job: TerraformInitPlanApply
+        steps:
+          - task: AzureCLI@2
+            displayName: terraform init
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "inlineScript"
+              arguments: "$(ENVIRONMENT) $(VERSION)"
+              workingDirectory: ./Infrastructure/Terraform/aks
+
+              inlineScript: |
+                terraform init `
+                  -backend-config="resource_group_name=$(TERRAFORM_STATE_STORAGE_ACCOUNT_RESSOURCE_GROUP)" `
+                  -backend-config="storage_account_name=$(TERRAFORM_STATE_STORAGE_ACCOUNT_NAME)" `
+                  -backend-config="container_name=$(TERRAFORM_STATE_BLOB_CONTAINER_NAME)" `
+                  -backend-config="key=$(TERRAFORM_STATE_KEY)"
+
+            env:
+              ARM_ACCESS_KEY: $(infrastructure-storageaccount-thinkexception-AccessKey1)
+              ARM_SUBSCRIPTION_ID: $(subscription-id)
+              ARM_CLIENT_ID: $(service-principal-clientid)
+              ARM_CLIENT_SECRET: $(service-principal-clientsecret)
+              ARM_TENANT_ID: $(tenant-id)
+
+          - task: AzureCLI@2
+            displayName: terraform plan
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "inlineScript"
+              arguments: "$(ENVIRONMENT) $(VERSION)"
+              workingDirectory: ./Infrastructure/Terraform/aks
+              inlineScript: |
+                terraform plan -out deployment.tfplan `
+                  -var-file="$(ENVIRONMENT)/env.tfvars" `
+                  -var="clusterSubnetAddressSpace=$(CLUSTER_SUBNET_ADDRESS_SPACE)" `
+                  -var="version_number=$(VERSION)"
+
+            env:
+              ARM_ACCESS_KEY: $(infrastructure-storageaccount-thinkexception-AccessKey1)
+              ARM_SUBSCRIPTION_ID: $(subscription-id)
+              ARM_CLIENT_ID: $(service-principal-clientid)
+              ARM_CLIENT_SECRET: $(service-principal-clientsecret)
+              ARM_TENANT_ID: $(tenant-id)
+
+
+          - task: AzureCLI@2
+            displayName: terraform apply
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "inlineScript"
+              arguments: "$(ENVIRONMENT) $(VERSION)"
+              workingDirectory: ./Infrastructure/Terraform/aks
+              inlineScript: |
+                terraform apply -auto-approve deployment.tfplan
+
+            env:
+              ARM_ACCESS_KEY: $(infrastructure-storageaccount-thinkexception-AccessKey1)
+              ARM_SUBSCRIPTION_ID: $(subscription-id)
+              ARM_CLIENT_ID: $(service-principal-clientid)
+              ARM_CLIENT_SECRET: $(service-principal-clientsecret)
+              ARM_TENANT_ID: $(tenant-id)
+
+
+      - deployment: ConfigureFeatureCluster
+        environment: ratemybeer-featurecluster
+        dependsOn:
+          - TerraformInitPlanApply
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  name: HelmCharts
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-01-install-helm-charts.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+                - task: AzureCLI@2
+                  name: BasicInfrastructure
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-02-install-basic-infrastructure.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+                - task: AzureCLI@2
+                  name: DNSLabel
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-03-set-dns-label-for-publicIp.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+                - task: AzureCLI@2
+                  name: ClusterSecrets
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-04-cluster-secrets.ps1"
+                    workingDirectory: ./infrastructure/terraform/root/cluster/_scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+                - task: AzureCLI@2
+                  name: SqlServerFirewallRule
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-05-allow-cluster-in-sqlserver-firewall.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+  - stage: DeployRateMyBeer
+    displayName: Deploy latest images
+    jobs:
+      - job: DeployLatest
+        steps:
+          - task: AzureCLI@2
+            displayName: Add AKS cluster to kubeconfig
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                az aks get-credentials -g $(RESSOURCE_GROUP) -n $(CLUSTER_NAME)
+
+          - task: AzureCLI@2
+            displayName: Prepare feature branch for deployment of latest images
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "scriptPath"
+              scriptPath: "./prepare-feature-branch.ps1"
+              workingDirectory: "$(Build.SourcesDirectory)"
+              arguments: '$(VERSION) "latest"'
+
+          - task: AzureCLI@2
+            displayName: Deploy latest
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+              scriptType: "pscore"
+              scriptLocation: "scriptPath"
+              scriptPath: "./Application/deploy-all-feature.ps1"
+              workingDirectory: "$(Build.SourcesDirectory)/Application"
+
+  - stage: Destroy
+    lockBehavior: sequential
+    displayName: Destroy feature cluster
+    jobs:
+      - deployment: TerraformInitDestroy
+        environment: ratemybeer-featurecluster
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  displayName: terraform init
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+                    workingDirectory: ./Infrastructure/Terraform/aks
+                    inlineScript: |
+                      terraform init `
+                        -backend-config="resource_group_name=$(TERRAFORM_STATE_STORAGE_ACCOUNT_RESSOURCE_GROUP)" `
+                        -backend-config="storage_account_name=$(TERRAFORM_STATE_STORAGE_ACCOUNT_NAME)" `
+                        -backend-config="container_name=$(TERRAFORM_STATE_BLOB_CONTAINER_NAME)" `
+                        -backend-config="key=$(TERRAFORM_STATE_KEY)"
+                      
+                  env:
+                    ARM_ACCESS_KEY: $(infrastructure-storageaccount-thinkexception-AccessKey1)
+                    ARM_SUBSCRIPTION_ID: $(subscription-id)
+                    ARM_CLIENT_ID: $(service-principal-clientid)
+                    ARM_CLIENT_SECRET: $(service-principal-clientsecret)
+                    ARM_TENANT_ID: $(tenant-id)
+
+                - task: AzureCLI@2
+                  displayName: terraform destroy
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+                    workingDirectory: ./Infrastructure/Terraform/aks
+                    inlineScript: |
+                      terraform apply -destroy -auto-approve `
+                        -var-file="$(ENVIRONMENT)/env.tfvars" `
+                        -var="clusterSubnetAddressSpace=$(CLUSTER_SUBNET_ADDRESS_SPACE)" `
+                        -var="version_number=$(VERSION)"
+
+                  env:
+                    ARM_ACCESS_KEY: $(infrastructure-storageaccount-thinkexception-AccessKey1)
+                    ARM_SUBSCRIPTION_ID: $(subscription-id)
+                    ARM_CLIENT_ID: $(service-principal-clientid)
+                    ARM_CLIENT_SECRET: $(service-principal-clientsecret)
+                    ARM_TENANT_ID: $(tenant-id)
+
+      - deployment: DestroyAdditionalRessources
+        environment: ratemybeer-featurecluster
+        dependsOn:
+          - TerraformInitDestroy
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  name: SqlServerFirewallRule
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/destroy-01-remove-cluster-from-sqlserver-firewall.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"
+
+                - task: AzureCLI@2
+                  name: DeleteEmptyStateFile
+                  inputs:
+                    azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
+                    scriptType: "pscore"
+                    scriptLocation: "scriptPath"
+                    scriptPath: "./Infrastructure/Terraform/aks/scripts/destroy-02-delete-empty-state-file.ps1"
+                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    arguments: "$(ENVIRONMENT) $(VERSION)"

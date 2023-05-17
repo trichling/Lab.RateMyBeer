@@ -41,3 +41,15 @@ resource "azurerm_role_assignment" "KeyVaultSecretsOfficeToServicePrincipal" {
   scope        = azurerm_key_vault.ratemybeer.id
   role_definition_name = "Key Vault Secrets Officer"
 }
+
+resource "azurerm_role_assignment" "ContributorOnApplicationToServicePrincipal" {
+  principal_id = azuread_service_principal.service_principal.object_id
+  scope        = azurerm_resource_group.RateMyBeerRessourceGroup.id
+  role_definition_name = "Contributor"
+}
+
+resource "azurerm_role_assignment" "ContributorOnInfrastructureToServicePrincipal" {
+  principal_id = azuread_service_principal.service_principal.object_id
+  scope        = data.azurerm_resource_group.infrastructure.id  
+  role_definition_name = "Contributor"
+}

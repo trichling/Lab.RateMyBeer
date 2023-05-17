@@ -25,3 +25,9 @@ resource "azurerm_key_vault_secret" "subscription_id" {
   name         = "subscription-id"
   value        = data.azurerm_client_config.current.subscription_id
 }
+
+resource "azurerm_key_vault_secret" "infrastructure_storage_account_primary_access_key" {
+  key_vault_id = azurerm_key_vault.ratemybeer.id
+  name         = "infrastructure-storageaccount-thinkexception-AccessKey1"
+  value        = data.azurerm_storage_account.thinkexception.primary_access_key
+}
