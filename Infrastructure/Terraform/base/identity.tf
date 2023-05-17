@@ -45,11 +45,12 @@ resource "azurerm_role_assignment" "KeyVaultSecretsOfficeToServicePrincipal" {
 resource "azurerm_role_assignment" "ContributorOnApplicationToServicePrincipal" {
   principal_id = azuread_service_principal.service_principal.object_id
   scope        = azurerm_resource_group.RateMyBeerRessourceGroup.id
-  role_definition_name = "Contributor"
+  role_definition_name = "User Access Administrator" # too much
 }
 
 resource "azurerm_role_assignment" "ContributorOnInfrastructureToServicePrincipal" {
-  principal_id = azuread_service_principal.service_principal.object_id
-  scope        = data.azurerm_resource_group.infrastructure.id  
-  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.service_principal.object_id
+  scope                = data.azurerm_resource_group.infrastructure.id
+  role_definition_name = "User Access Administrator" # too much
 }
+
