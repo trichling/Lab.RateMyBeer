@@ -42,7 +42,7 @@ resource "azurerm_role_assignment" "acrpull_role" {
 
 data "azurerm_resource_group" "cluster_mc_ressource_group" {
   depends_on = [azurerm_kubernetes_cluster.rate_my_beer_cluster]
-  name = "MC_${data.azurerm_resource_group.ratemybeer.name}_${var.environment}-${var.application}_${data.azurerm_resource_group.ratemybeer.location}"
+  name = "MC_${data.azurerm_resource_group.ratemybeer.name}_${var.environment}-${var.application}-${var.version_number}_${data.azurerm_resource_group.ratemybeer.location}"
 }
 
 resource "azurerm_role_assignment" "network_contributor_to_service_principal" {
