@@ -1,1 +1,0 @@
-﻿# service principal must be network contributor on mc resource group

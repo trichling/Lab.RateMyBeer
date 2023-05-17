@@ -24,6 +24,12 @@ resource "azuread_service_principal_password" "service_principal_password" {
   }
 }
 
+resource "azurerm_key_vault_secret" "service_principal_objectid" {
+  key_vault_id = azurerm_key_vault.ratemybeer.id
+  name         = "service-principal-objectid"
+  value        = azuread_service_principal.service_principal.application_id
+}
+
 resource "azurerm_key_vault_secret" "service_principal_clientid" {
   key_vault_id = azurerm_key_vault.ratemybeer.id
   name         = "service-principal-clientid"
