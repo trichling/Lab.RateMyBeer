@@ -38,15 +38,3 @@ resource "azurerm_role_assignment" "acrpull_role" {
   skip_service_principal_aad_check = true
 }
 
-# service principal must be network contributor on mc resource group
-
-data "azurerm_resource_group" "cluster_mc_ressource_group" {
-  depends_on = [azurerm_kubernetes_cluster.rate_my_beer_cluster]
-  name = "MC_${data.azurerm_resource_group.ratemybeer.name}_${var.environment}-${var.application}-${var.version_number}_${data.azurerm_resource_group.ratemybeer.location}"
-}
-
-resource "azurerm_role_assignment" "network_contributor_to_service_principal" {
-  principal_id = data.azurerm_key_vault_secret.service_principal_objectId.value
-  scope        = data.azurerm_resource_group.cluster_mc_ressource_group.id
-  role_definition_name = "Network Contributor"
-}

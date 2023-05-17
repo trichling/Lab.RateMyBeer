@@ -65,17 +65,15 @@ resource "azurerm_role_assignment" "ContributorOnInfrastructureToServicePrincipa
 
 resource "azurerm_role_assignment" "UserAccessAdminOnApplicationToServicePrincipal" {
   principal_id         = azuread_service_principal.service_principal.object_id
-  scope                = azurerm_resource_group.RateMyBeerRessourceGroup.id
+  scope                = data.azurerm_subscription.current.id
   role_definition_name = "User Access Administrator" # too much
 }
 
-resource "azurerm_role_assignment" "UserAccessAdminOnInfrastructureToServicePrincipal" {
+resource "azurerm_role_assignment" "NetworkContributorToServicePrincipal" {
   principal_id         = azuread_service_principal.service_principal.object_id
-  scope                = data.azurerm_resource_group.infrastructure.id
-  role_definition_name = "User Access Administrator" # too much
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Network Contributor" # too much
 }
-
-
 
 resource "azurerm_role_assignment" "acrpull_role" {
   scope                            = data.azurerm_container_registry.container_registry.id
