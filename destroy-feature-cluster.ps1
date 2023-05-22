@@ -6,8 +6,8 @@
 
 $prevPwd = $PWD; Set-Location -ErrorAction Stop -LiteralPath $PSScriptRoot
 
-./Infrastructure/Terraform/aks/scripts/destroy-01-remove-cluster-from-sqlserver-firewall.ps1 $Environment $Version
+./infrastructure/terraform/aks/scripts/destroy-01-remove-cluster-from-sqlserver-firewall.ps1 $Environment $Version
 
-./Infrastructure/Terraform/aks/destroy.ps1 $Environment $Version $ClusterSubnetAddressSpace
+./infrastructure/terraform/aks/destroy.ps1 $Environment $Version $ClusterSubnetAddressSpace
 
 $prevPwd | Set-Location

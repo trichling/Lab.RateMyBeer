@@ -1,0 +1,6 @@
+$prevPwd = $PWD; Set-Location -ErrorAction Stop -LiteralPath $PSScriptRoot
+
+docker buildx build -f Dockerfile -t thinkexception.azurecr.io/comments:<Tag> --build-context framework=../../../framework/src --build-context frontend=../../../frontend/src .\..
+docker push thinkexception.azurecr.io/comments:<Tag>
+
+$prevPwd | Set-Location
