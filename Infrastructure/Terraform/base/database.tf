@@ -1,8 +1,8 @@
-﻿## sql server
+## sql server
 resource "azurerm_mssql_server" "ratemybeer" {
+  name                         = "${var.environment}-${var.application}"
   resource_group_name          = azurerm_resource_group.RateMyBeerRessourceGroup.name
   location                     = azurerm_resource_group.RateMyBeerRessourceGroup.location
-  name                         = "${var.environment}-${var.application}"
   version                      = "12.0"
   administrator_login          = var.sql_server_administrator_login
   administrator_login_password = var.sql_server_administrator_login_password
@@ -16,16 +16,19 @@ resource "azurerm_key_vault_secret" "connectionstringtemplate" {
 
 ## databases
 resource "azurerm_mssql_database" "CheckinsDb" {
-  name                = "CheckinsDb"
-  server_id           = azurerm_mssql_server.ratemybeer.id
+  name      = "CheckinsDb"
+  server_id = azurerm_mssql_server.ratemybeer.id
+  sku_name  = "Basic"
 }
 
 resource "azurerm_mssql_database" "RatingsDb" {
-  name                = "RatingsDb"
-  server_id           = azurerm_mssql_server.ratemybeer.id
+  name      = "RatingsDb"
+  server_id = azurerm_mssql_server.ratemybeer.id
+  sku_name  = "Basic"
 }
 
 resource "azurerm_mssql_database" "CommentsDb" {
-  name                = "CommentsDb"
-  server_id           = azurerm_mssql_server.ratemybeer.id
+  name      = "CommentsDb"
+  server_id = azurerm_mssql_server.ratemybeer.id
+  sku_name  = "Basic"
 }

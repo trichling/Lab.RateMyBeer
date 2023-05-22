@@ -18,13 +18,7 @@ spec:
     spec:
       containers:
         - name: ratemybeer-checkins-api
-#          securityContext:
-#            allowPrivilegeEscalation: false
-#            runAsNonRoot: true
-#            capabilities:
-#              drop:
-#                - ALL
-              
+
           image: thinkexception.azurecr.io/checkinsapi:latest
           imagePullPolicy: Always
           resources:

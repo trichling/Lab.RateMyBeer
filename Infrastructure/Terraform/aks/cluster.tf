@@ -1,10 +1,3 @@
-resource "azurerm_subnet" "cluster_subnet" {
-  address_prefixes     = [var.cluster_subnet_address_space]
-  name                 = "${var.environment}-${var.application}-${var.version_number}"
-  resource_group_name  = data.azurerm_resource_group.ratemybeer.name
-  virtual_network_name = data.azurerm_virtual_network.ratemybber.name
-}
-
 resource "azurerm_kubernetes_cluster" "rate_my_beer_cluster" {
   name                = "${var.environment}-${var.application}-${var.version_number}"
   resource_group_name = data.azurerm_resource_group.ratemybeer.name
@@ -13,9 +6,9 @@ resource "azurerm_kubernetes_cluster" "rate_my_beer_cluster" {
 
   default_node_pool {
     name           = "default"
+    vnet_subnet_id = azurerm_subnet.cluster_subnet.id
     node_count     = var.node_count
     vm_size        = "Standard_B2s"
-    vnet_subnet_id = azurerm_subnet.cluster_subnet.id
   }
 
   network_profile {
