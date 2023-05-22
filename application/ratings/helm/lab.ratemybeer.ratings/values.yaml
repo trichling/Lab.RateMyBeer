@@ -1,0 +1,6 @@
+environment: Production
+
+replicaCount: 3
+
+image:
+  tag: latest

@@ -1,0 +1,4 @@
+ resources:
+    - deployment-frontend.yaml
+    - service-frontend.yaml
+    - ingress-frontend.yaml
