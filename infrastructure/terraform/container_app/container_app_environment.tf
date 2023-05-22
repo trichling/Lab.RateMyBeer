@@ -11,8 +11,8 @@ resource "azurerm_container_app_environment" "ratemybeer" {
   location                   = azurerm_resource_group.ratemybeer.location
   resource_group_name        = azurerm_resource_group.ratemybeer.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.ratemybeer.id
-  
-  // infrastructure_subnet_id = ""
-  // internal_load_balancer_enabled = true 
+
+  infrastructure_subnet_id = azurerm_subnet.ratemybeer_container_app_environment.id
+  internal_load_balancer_enabled = true
 }
 
