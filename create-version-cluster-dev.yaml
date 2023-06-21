@@ -46,7 +46,7 @@ stages:
               scriptType: "pscore"
               scriptLocation: "inlineScript"
               arguments: "$(ENVIRONMENT) $(VERSION)"
-              workingDirectory: ./Infrastructure/Terraform/aks
+              workingDirectory: ./infrastructure/terraform/aks
 
               inlineScript: |
                 terraform init `
@@ -69,7 +69,7 @@ stages:
               scriptType: "pscore"
               scriptLocation: "inlineScript"
               arguments: "$(ENVIRONMENT) $(VERSION)"
-              workingDirectory: ./Infrastructure/Terraform/aks
+              workingDirectory: ./infrastructure/terraform/aks
               inlineScript: |
                 terraform plan -out deployment.tfplan `
                   -var-file="$(ENVIRONMENT)/env.tfvars" `
@@ -91,7 +91,7 @@ stages:
               scriptType: "pscore"
               scriptLocation: "inlineScript"
               arguments: "$(ENVIRONMENT) $(VERSION)"
-              workingDirectory: ./Infrastructure/Terraform/aks
+              workingDirectory: ./infrastructure/terraform/aks
               inlineScript: |
                 terraform apply -auto-approve deployment.tfplan
 
@@ -118,8 +118,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-01-install-helm-charts.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/create-01-install-helm-charts.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
                 - task: AzureCLI@2
@@ -128,8 +128,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-02-install-basic-infrastructure.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/create-02-install-basic-infrastructure.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
                 - task: AzureCLI@2
@@ -138,8 +138,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-03-set-dns-label-for-publicIp.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/create-03-set-dns-label-for-publicIp.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
                 - task: AzureCLI@2
@@ -148,8 +148,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-04-cluster-secrets.ps1"
-                    workingDirectory: ./infrastructure/terraform/root/cluster/_scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/create-04-cluster-secrets.ps1"
+                    workingDirectory: ./infrastructure/terraform/root/cluster/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
                 - task: AzureCLI@2
@@ -158,8 +158,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/create-05-allow-cluster-in-sqlserver-firewall.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/create-05-allow-cluster-in-sqlserver-firewall.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
   - stage: DeployRateMyBeer
@@ -192,7 +192,7 @@ stages:
               azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
               scriptType: "pscore"
               scriptLocation: "scriptPath"
-              scriptPath: "./Application/deploy-all-feature.ps1"
+              scriptPath: "./application/deploy-all-feature.ps1"
               workingDirectory: "$(Build.SourcesDirectory)/Application"
 
   - stage: Destroy
@@ -213,7 +213,7 @@ stages:
                     scriptType: "pscore"
                     scriptLocation: "inlineScript"
                     arguments: "$(ENVIRONMENT) $(VERSION)"
-                    workingDirectory: ./Infrastructure/Terraform/aks
+                    workingDirectory: ./infrastructure/terraform/aks
                     inlineScript: |
                       terraform init `
                         -backend-config="resource_group_name=$(TERRAFORM_STATE_STORAGE_ACCOUNT_RESSOURCE_GROUP)" `
@@ -235,7 +235,7 @@ stages:
                     scriptType: "pscore"
                     scriptLocation: "inlineScript"
                     arguments: "$(ENVIRONMENT) $(VERSION)"
-                    workingDirectory: ./Infrastructure/Terraform/aks
+                    workingDirectory: ./infrastructure/terraform/aks
                     inlineScript: |
                       terraform apply -destroy -auto-approve `
                         -var-file="$(ENVIRONMENT)/env.tfvars" `
@@ -264,8 +264,8 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/destroy-01-remove-cluster-from-sqlserver-firewall.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/destroy-01-remove-cluster-from-sqlserver-firewall.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
 
                 - task: AzureCLI@2
@@ -274,6 +274,6 @@ stages:
                     azureSubscription: $(AZURE_SUBSCRIPTION_NAME)
                     scriptType: "pscore"
                     scriptLocation: "scriptPath"
-                    scriptPath: "./Infrastructure/Terraform/aks/scripts/destroy-02-delete-empty-state-file.ps1"
-                    workingDirectory: ./Infrastructure/Terraform/aks/scripts
+                    scriptPath: "./infrastructure/terraform/aks/scripts/destroy-02-delete-empty-state-file.ps1"
+                    workingDirectory: ./infrastructure/terraform/aks/scripts
                     arguments: "$(ENVIRONMENT) $(VERSION)"
