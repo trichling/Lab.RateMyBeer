@@ -13,10 +13,10 @@ $INFRASTRUCTURE_RESOURCE_GROUP = "MC_" + $RESSOURCE_GROUP + "_" + $CLUSTER_NAME 
 
 az aks get-credentials -g $RESSOURCE_GROUP -n $CLUSTER_NAME --overwrite-existing
 
-kubectl apply -f ./../../../Kubernetes/Infrastructure/StorageClass/storageclass-managed-standard.yaml
-kubectl apply -f ./../../../Kubernetes/Infrastructure/CertManager/letsencrypt-prod-http-issuer.yaml
-kubectl apply -f ./../../../Kubernetes/Infrastructure/CertManager/letsencrypt-staging-http-issuer.yaml
-kubectl apply -f ./../../../Kubernetes/Infrastructure/Ingress/configmap-ingress-nginx-headers.yaml
-kubectl apply -f ./../../../Kubernetes/Infrastructure/Ingress/ingress-class.yaml
+kubectl apply -f ./../../../kubernetes/Infrastructure/StorageClass/storageclass-managed-standard.yaml
+kubectl apply -f ./../../../kubernetes/Infrastructure/CertManager/letsencrypt-prod-http-issuer.yaml
+kubectl apply -f ./../../../kubernetes/Infrastructure/CertManager/letsencrypt-staging-http-issuer.yaml
+kubectl apply -f ./../../../kubernetes/Infrastructure/Ingress/configmap-ingress-nginx-headers.yaml
+kubectl apply -f ./../../../kubernetes/Infrastructure/Ingress/ingress-class.yaml
 
 $prevPwd | Set-Location
