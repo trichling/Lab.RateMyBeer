@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: ratemybeer-comments
-          image: thinkexception.azurecr.io/commentsapi:<Tag>
+          image: thinkexception.azurecr.io/comments:<Tag>
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
