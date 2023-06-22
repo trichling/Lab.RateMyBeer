@@ -193,7 +193,7 @@ stages:
               scriptType: "pscore"
               scriptLocation: "scriptPath"
               scriptPath: "./application/deploy-all-feature.ps1"
-              workingDirectory: "$(Build.SourcesDirectory)/Application"
+              workingDirectory: "$(Build.SourcesDirectory)/application"
 
   - stage: Destroy
     lockBehavior: sequential

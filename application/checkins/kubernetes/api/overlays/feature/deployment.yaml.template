@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratemybeer-checkins-api
+
+spec:
+  replicas: 1
+
+  template:
+
+    spec:
+      containers:
+        - name: ratemybeer-checkins-api
+          image: thinkexception.azurecr.io/checkinsapi:<Tag>          
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+          
