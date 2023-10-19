@@ -30,11 +30,5 @@ resource "azurerm_resource_group" "RateMyBeerRessourceGroup" {
   location = "westeurope"
 }
 
-## network
-resource "azurerm_virtual_network" "spoke" {
-  name                = "${var.environment}-${var.application}"
-  resource_group_name = azurerm_resource_group.RateMyBeerRessourceGroup.name
-  location            = azurerm_resource_group.RateMyBeerRessourceGroup.location
-  address_space       = var.spoke_vnet_address_spaces
-}
+
 
