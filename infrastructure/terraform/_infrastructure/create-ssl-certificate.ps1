@@ -8,3 +8,9 @@ Export-PfxCertificate `
 -cert cert:\localMachine\my\$thumbprint `
 -FilePath appgwcert.pfx `
 -Password $pwd
+
+az keyvault certificate import `
+    --vault-name thinkexception `
+    --name appgwcert `
+    --file appgwcert.pfx `
+    --password $pwd
