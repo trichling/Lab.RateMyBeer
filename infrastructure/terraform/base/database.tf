@@ -1,6 +1,6 @@
 ## sql server
 resource "azurerm_mssql_server" "ratemybeer" {
-  name                         = "${var.environment}-${var.application}"
+  name                         = "sql-${var.application}-${var.environment}"
   resource_group_name          = azurerm_resource_group.RateMyBeerRessourceGroup.name
   location                     = azurerm_resource_group.RateMyBeerRessourceGroup.location
   version                      = "12.0"

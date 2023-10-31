@@ -1,6 +1,6 @@
 ﻿## Key vault
 resource "azurerm_key_vault" "ratemybeer" {
-  name                      = "${var.environment}-${var.application}"
+  name                      = "kv-${var.application}-${var.environment}"
   resource_group_name       = azurerm_resource_group.RateMyBeerRessourceGroup.name
   location                  = azurerm_resource_group.RateMyBeerRessourceGroup.location
   tenant_id                 = data.azurerm_client_config.current.tenant_id

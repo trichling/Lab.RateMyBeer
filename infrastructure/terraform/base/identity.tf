@@ -2,7 +2,7 @@ resource "azurerm_user_assigned_identity" "application_gateway_key_vault_reader"
   resource_group_name = azurerm_resource_group.RateMyBeerRessourceGroup.name
   location            = azurerm_resource_group.RateMyBeerRessourceGroup.location
 
-  name = format("%s_%s_%s", var.environment, var.application, "application_gateway")
+  name = format("id-%s-%s-%s", var.application, var.environment, "application_gateway")
 }
 
 # This identity needs "Key Vault Secrets User" role on the key vault. 
@@ -18,7 +18,7 @@ resource "azurerm_role_assignment" "application_gateway_key_vault_reader_role_as
 # use the same sp for azure devops pipeline
 
 resource "azuread_application" "application" {
-  display_name     = "${var.environment}-${var.application}"
+  display_name     = "app-${var.application}-${var.environment}"
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 }

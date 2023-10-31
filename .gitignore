@@ -11,7 +11,7 @@ Lab.RateMyBeer.SQLServer/Volumes
 **/feature/ingress.yaml
 **/build.ps1
 
-/Infrastructure/Terraform/base/terraform-visual-report/
+**/terraform-visual-report/
 
 .learningtransport
 

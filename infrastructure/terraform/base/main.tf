@@ -26,7 +26,7 @@ provider "azuread" {
 
 ## resource group
 resource "azurerm_resource_group" "RateMyBeerRessourceGroup" {
-  name     = "${var.environment}-${var.application}"
+  name     = "rg-${var.application}-${var.environment}"
   location = "westeurope"
 }
 

@@ -1,16 +1,16 @@
 locals {
-  frontend_port_name                     = "${data.azurerm_virtual_network.meinapetito_vnet.name}-feport"
-  frontend_port_name_https               = "${data.azurerm_virtual_network.meinapetito_vnet.name}-feport-https"
-  frontend_public_ip_configuration_name  = "${data.azurerm_virtual_network.meinapetito_vnet.name}-feip"
-  frontend_private_ip_configuration_name = "${data.azurerm_virtual_network.meinapetito_vnet.name}-feprivateip"
+  frontend_port_name                     = "${data.azurerm_virtual_network.spoke_vnet.name}-feport"
+  frontend_port_name_https               = "${data.azurerm_virtual_network.spoke_vnet.name}-feport-https"
+  frontend_public_ip_configuration_name  = "${data.azurerm_virtual_network.spoke_vnet.name}-feip"
+  frontend_private_ip_configuration_name = "${data.azurerm_virtual_network.spoke_vnet.name}-feprivateip"
 
-  private_ip_address = cidrhost(azurerm_subnet.applicationgatewaysubnet.address_prefixes[0], 5)
+  private_ip_address = cidrhost(azurerm_subnet.applicationgateway_subnet.address_prefixes[0], 5)
 }
 
 resource "azurerm_application_gateway" "spoke" {
   name                = "${var.environment}_${var.application}"
-  resource_group_name = data.azurerm_resource_group.meinapetito_resourcegroup.name
-  location            = data.azurerm_resource_group.meinapetito_resourcegroup.location
+  resource_group_name = data.azurerm_resource_group.spoke.name
+  location            = data.azurerm_resource_group.spoke.location
 
   sku {
     name     = "WAF_v2"

@@ -7,11 +7,11 @@ data "azurerm_virtual_network" "spoke_vnet" {
     resource_group_name = data.azurerm_resource_group.spoke.name
 }
 
-data "azurerm_resource_gropu" "hub" {
+data "azurerm_resource_group" "hub" {
     name = "rg-hub"
 }
 
-data "azurerm_firewall" "hub-firewall" {
+data "azurerm_firewall" "hub_firewall" {
   name                = "afw-hub"
   resource_group_name = data.azurerm_resource_group.hub.name
 }

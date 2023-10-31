@@ -1,6 +1,6 @@
 resource "azurerm_subnet" "applicationgateway_subnet" {
   name                 = "subnet-applicationgateway"
-  virtual_network_name = data.azurerm_virtual_network.spoke_vnet
+  virtual_network_name = data.azurerm_virtual_network.spoke_vnet.name
   resource_group_name  = data.azurerm_resource_group.spoke.name
   address_prefixes     = [var.applicationgateway_subnet_address_space]
 }
@@ -22,7 +22,7 @@ resource "azurerm_route_table" "routing_from_applicationgateway" {
 
 resource "azurerm_subnet_route_table_association" "subnetlink" {
   subnet_id      = azurerm_subnet.applicationgateway_subnet.id
-  route_table_id = azurerm_route_table.routing_from_applicationGateway.id
+  route_table_id = azurerm_route_table.routing_from_applicationgateway.id
 }
 
 resource "azurerm_route" "applicationgateway_To_hub" {
