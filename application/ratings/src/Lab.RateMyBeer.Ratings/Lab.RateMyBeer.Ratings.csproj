@@ -19,5 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Lab.RateMyBeer.Ratings.Contracts\Lab.RateMyBeer.Ratings.Contracts.csproj" />
     <ProjectReference Include="..\Lab.RateMyBeer.Ratings.Data\Lab.RateMyBeer.Ratings.Data.csproj" />
+    <ProjectReference Include="..\..\..\framework\src\Lab.RateMyBeer.Framework.ServiceDefaults\Lab.RateMyBeer.Framework.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

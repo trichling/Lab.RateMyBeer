@@ -5,6 +5,10 @@ using NServiceBus;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.AddServiceDefaults();
+    })
     .UseNServiceBus(context =>
     {
         var configuration = new EndpointConfiguration("Lab.RateMyBeer.Comments");
@@ -15,15 +19,15 @@ builder
     })
     .ConfigureServices((host, services) =>
     {
-       var commentsDbConnectionString = host.Configuration.GetConnectionString("CommentsDbConnectionString");
-       commentsDbConnectionString = string.Format(commentsDbConnectionString, "CommentsDb");
+        var commentsDbConnectionString = host.Configuration.GetConnectionString("CommentsDbConnectionString");
+        commentsDbConnectionString = string.Format(commentsDbConnectionString, "CommentsDb");
 
         services.AddDbContext<CommentsContext>(options =>
         {
             options.UseSqlServer(commentsDbConnectionString);
         });
 
-    });            
+    });
 
 var host = builder.Build();
 

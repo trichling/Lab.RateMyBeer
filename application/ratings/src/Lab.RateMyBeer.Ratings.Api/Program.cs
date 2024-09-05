@@ -18,6 +18,8 @@ builder.Host.UseNServiceBus(context =>
     return configuration;
 });
 
+builder.WebHost.AddServiceDefaults();
+
 builder.Services.RegisterStarRatingsModule(builder.Configuration);
 
 var app = builder.Build();

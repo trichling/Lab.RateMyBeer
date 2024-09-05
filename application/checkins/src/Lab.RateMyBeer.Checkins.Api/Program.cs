@@ -15,9 +15,11 @@ builder.Host.UseNServiceBus(context =>
     var configuration = new EndpointConfiguration("Lab.RateMyBeer.Checkins.Api");
     configuration.SendOnly();
     configuration.Configure(context, routing => { });
-    
+
     return configuration;
 });
+
+builder.WebHost.AddServiceDefaults();
 
 builder.Services.RegisterCheckinsModule(builder.Configuration);
 
