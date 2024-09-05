@@ -64,6 +64,8 @@ public static class Extensions
                         // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                         //.AddGrpcClientInstrumentation()
                         .AddHttpClientInstrumentation();
+
+                    tracing.AddConsoleExporter();
                 });
         });
 
@@ -79,6 +81,7 @@ public static class Extensions
             var useOtlpExporter = !string.IsNullOrWhiteSpace(context.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
             if (useOtlpExporter)
                 services.AddOpenTelemetry().UseOtlpExporter();
+
         });
 
         // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
