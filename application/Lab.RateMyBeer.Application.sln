@@ -57,13 +57,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Frontend.Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.Framework.ServiceDefaults", "framework\src\Lab.RateMyBeer.Framework.ServiceDefaults\Lab.RateMyBeer.Framework.ServiceDefaults.csproj", "{CC9A7306-B4E3-4775-AFA0-80918E3F7576}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apphost", "apphost", "{C0CBA9D5-B2FD-4083-93A3-19A7E1E9C68E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.RateMyBeer.AppHost", "apphost\src\Lab.RateMyBeer.AppHost\Lab.RateMyBeer.AppHost.csproj", "{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0B3FA02A-54C0-402D-814D-492BB9B3BD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -134,6 +135,13 @@ Global
 		{CC9A7306-B4E3-4775-AFA0-80918E3F7576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC9A7306-B4E3-4775-AFA0-80918E3F7576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC9A7306-B4E3-4775-AFA0-80918E3F7576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{411A2D1E-A860-49EC-8753-4B054B96737F} = {EAF84894-9637-4186-BE1F-048B7475667B}
@@ -158,5 +166,6 @@ Global
 		{C079A8BD-11D2-4CE1-A5E9-303C6EFFBF77} = {C8B50788-0794-45A0-A0DA-B75631234802}
 		{25F6577F-3799-4C95-980D-E87004C1079D} = {C8B50788-0794-45A0-A0DA-B75631234802}
 		{CC9A7306-B4E3-4775-AFA0-80918E3F7576} = {F21B99FF-1E7A-4E55-BAF6-C23771271598}
+		{FE181EB7-B85D-4420-A1EA-EEF6E3ABC3CC} = {C0CBA9D5-B2FD-4083-93A3-19A7E1E9C68E}
 	EndGlobalSection
 EndGlobal

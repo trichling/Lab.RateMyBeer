@@ -3,14 +3,37 @@
     "compounds": [
         {
             "name": "All",
-            "configurations": ["Frontend", "Frontend.Api", "Checkins", "Checkins.Api", "Comments", "Comments.Api", "Ratings", "Ratings.Api"]
+            "configurations": [
+                "Frontend",
+                "Frontend.Api",
+                "Checkins",
+                "Checkins.Api",
+                "Comments",
+                "Comments.Api",
+                "Ratings",
+                "Ratings.Api"
+            ]
         },
         {
             "name": "Backend",
-            "configurations": ["Frontend.Api", "Checkins", "Checkins.Api", "Comments", "Comments.Api", "Ratings", "Ratings.Api"]
+            "configurations": [
+                "Frontend.Api",
+                "Checkins",
+                "Checkins.Api",
+                "Comments",
+                "Comments.Api",
+                "Ratings",
+                "Ratings.Api"
+            ]
         }
     ],
     "configurations": [
+        {
+            "name": "Run AppHost",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\application\\apphost\\src\\Lab.RateMyBeer.AppHost\\Lab.RateMyBeer.AppHost.csproj"
+        },
         {
             "name": "Checkins",
             "type": "coreclr",
@@ -18,7 +41,7 @@
             "preLaunchTask": "buildCheckins",
             "program": "${workspaceFolder}/application/checkins/src/Lab.RateMyBeer.Checkins/bin/Debug/net6.0/Lab.RateMyBeer.Checkins.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins",
+            "cwd": "${workspaceFolder}/application/checkins/src/Lab.RateMyBeer.Checkins",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -38,7 +61,7 @@
             "preLaunchTask": "buildCheckinsApi",
             "program": "${workspaceFolder}/application/checkins/src/Lab.RateMyBeer.Checkins.Api/bin/Debug/net6.0/Lab.RateMyBeer.Checkins.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Checkins.Api",
+            "cwd": "${workspaceFolder}/application/checkins/src/Lab.RateMyBeer.Checkins.Api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -58,7 +81,7 @@
             "preLaunchTask": "buildRatings",
             "program": "${workspaceFolder}/application/ratings/src/Lab.RateMyBeer.Ratings/bin/Debug/net6.0/Lab.RateMyBeer.Ratings.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Ratings",
+            "cwd": "${workspaceFolder}/application/ratings/src/Lab.RateMyBeer.Ratings",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -78,7 +101,7 @@
             "preLaunchTask": "buildRatingsApi",
             "program": "${workspaceFolder}/application/ratings/src/Lab.RateMyBeer.Ratings.Api/bin/Debug/net6.0/Lab.RateMyBeer.Ratings.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Ratings.Api",
+            "cwd": "${workspaceFolder}/application/ratings/src/Lab.RateMyBeer.Ratings.Api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -91,7 +114,6 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
-
         {
             "name": "Comments",
             "type": "coreclr",
@@ -99,7 +121,7 @@
             "preLaunchTask": "buildComments",
             "program": "${workspaceFolder}/application/comments/src/Lab.RateMyBeer.Comments/bin/Debug/net6.0/Lab.RateMyBeer.Comments.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Comments",
+            "cwd": "${workspaceFolder}/application/comments/src/Lab.RateMyBeer.Comments",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -119,7 +141,7 @@
             "preLaunchTask": "buildRatingsApi",
             "program": "${workspaceFolder}/application/comments/src/Lab.RateMyBeer.Comments.Api/bin/Debug/net6.0/Lab.RateMyBeer.Comments.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lab.RateMyBeer.Comments.Api",
+            "cwd": "${workspaceFolder}/application/comments/src/Lab.RateMyBeer.Comments.Api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -132,7 +154,6 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
-
         {
             "name": "Frontend",
             "type": "blazorwasm",
