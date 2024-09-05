@@ -25,15 +25,16 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
     [Route("checkins")]
     public class CheckinsController : ControllerBase
     {
-
+        private readonly ILogger<CheckinsController> _logger;
         private readonly IMessageSession _messageSession;
         private readonly ICheckinsRestApi _checkinsRestApi;
         private readonly ICommentsRestApi _commentsRestApi;
         private readonly IRatingsRestApi _ratingsRestApi;
         private readonly IViewModelCompositionContext _compositionContext;
 
-        public CheckinsController(IMessageSession messageSession, ICheckinsRestApi checkinsRestApi, ICommentsRestApi commentsRestApi, IRatingsRestApi ratingsRestApi, IViewModelCompositionContext compositionContext)
+        public CheckinsController(ILogger<CheckinsController> logger, IMessageSession messageSession, ICheckinsRestApi checkinsRestApi, ICommentsRestApi commentsRestApi, IRatingsRestApi ratingsRestApi, IViewModelCompositionContext compositionContext)
         {
+            _logger = logger;
             _messageSession = messageSession;
             _checkinsRestApi = checkinsRestApi;
             _commentsRestApi = commentsRestApi;
@@ -44,11 +45,14 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            _logger.LogDebug("Getting all checkins");
+
             var result = new CheckinListViewModel();
 
-            _compositionContext.SetValue("page", 1);
-            result = await  _compositionContext.Compose<CheckinListViewModel>(result);
-
+            /*
+                        _compositionContext.SetValue("page", 1);
+                        result = await _compositionContext.Compose<CheckinListViewModel>(result);
+            */
             return Ok(result);
         }
 
@@ -91,7 +95,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                 }).ToList()
             };
         }
-        
+
         [HttpGet("{checkinId}")]
         public async Task<IActionResult> GetCheckinById([FromRoute] Guid checkinId)
         {
@@ -101,7 +105,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             };
 
             result = await _compositionContext.Compose<CheckinDetailsViewModel>(result);
-            
+
             return Ok(result);
         }
 
@@ -154,7 +158,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
         {
             var checkinId = Guid.NewGuid();
             var userId = GetUserIdFromBearerToken();
-                
+
             await _messageSession.Send(new CreateCheckinCommand()
             {
                 CheckinId = checkinId,
@@ -163,7 +167,7 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                 BeerName = createCheckinCommand.BeerName
 
             });
-            
+
             await _messageSession.Send(new CreateStarRatingCommand(
                 RatingId: Guid.NewGuid(),
                 CheckinId: checkinId,
@@ -192,10 +196,10 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
                 UserId: userId,
                 Comment: commentCheckinCommand.Comment
             ));
-            
+
             return Ok();
         }
-        
+
         private Guid GetUserIdFromBearerToken()
         {
             return new Guid("FBBB72AF-7D6A-4507-ADAF-18EB61964633");

@@ -28,7 +28,7 @@ namespace Lab.RateMyBeer.Frontend.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddViewModelAppenders();            
+            services.AddViewModelAppenders();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -38,13 +38,13 @@ namespace Lab.RateMyBeer.Frontend.Api
             });
 
             services.AddCors(builder => builder.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
-            
+
             var checkinsApiBaseUrl = Configuration["Dependencies:APIs:CheckinsApiBaseUrl"];
             services.AddHttpClientWithBaseUrl<ICheckinsRestApi>(checkinsApiBaseUrl);
-          
+
             var ratingsApiBaseUrl = Configuration["Dependencies:APIs:RatingsApiBaseUrl"];
             services.AddHttpClientWithBaseUrl<IRatingsRestApi>(ratingsApiBaseUrl);
-            
+
             var commentsApiBaseUrl = Configuration["Dependencies:APIs:CommentsApiBaseUrl"];
             services.AddHttpClientWithBaseUrl<ICommentsRestApi>(commentsApiBaseUrl);
         }
@@ -57,7 +57,8 @@ namespace Lab.RateMyBeer.Frontend.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 // use relative URI, not /swagger/v1/swagger.json otherwise urls wont be resolved correctly!!
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("v1/swagger.json", "Lab.RateMyBeer.Api v1");
                 });
             }
