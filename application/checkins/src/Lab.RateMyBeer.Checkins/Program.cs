@@ -9,10 +9,10 @@ using NServiceBus;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.AddServiceDefaults();
-    })
+    // .ConfigureWebHostDefaults(webBuilder =>
+    // {
+    //     webBuilder.AddServiceDefaults();
+    // })
     .UseNServiceBus(context =>
     {
         var configuration = new EndpointConfiguration("Lab.RateMyBeer.Checkins");
@@ -20,6 +20,12 @@ builder
         configuration.Configure(context, routing => { });
 
         return configuration;
+    })
+    .ConfigureHostConfiguration(config =>
+    {
+        config.AddJsonFile("appsettings.json");
+        config.AddJsonFile("appsettings.Development.json", optional: true);
+        config.AddUserSecrets<Program>();
     })
     .ConfigureServices((host, services) =>
     {

@@ -5,10 +5,10 @@ using NServiceBus;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.AddServiceDefaults();
-    })
+    // .ConfigureWebHostDefaults(webBuilder =>
+    // {
+    //     webBuilder.AddServiceDefaults();
+    // })
     .UseNServiceBus(context =>
     {
         var configuration = new EndpointConfiguration("Lab.RateMyBeer.Ratings");
@@ -28,7 +28,7 @@ builder
 
         services.AddDbContext<StarRatingContext>(options =>
         options.UseSqlServer(ratingsDbConnectionString));
-    });            
+    });
 
 var host = builder.Build();
 

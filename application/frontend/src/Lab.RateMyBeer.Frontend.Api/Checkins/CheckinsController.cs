@@ -48,11 +48,9 @@ namespace Lab.RateMyBeer.Frontend.Api.Checkins
             _logger.LogDebug("Getting all checkins");
 
             var result = new CheckinListViewModel();
+            _compositionContext.SetValue("page", 1);
+            result = await _compositionContext.Compose<CheckinListViewModel>(result);
 
-            /*
-                        _compositionContext.SetValue("page", 1);
-                        result = await _compositionContext.Compose<CheckinListViewModel>(result);
-            */
             return Ok(result);
         }
 

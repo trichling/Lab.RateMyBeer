@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Host.ConfigureHostConfiguration(config => config.AddUserSecrets<Program>());
 builder.Host.UseNServiceBus(context =>
 {
     var configuration = new EndpointConfiguration("Lab.RateMyBeer.Ratings.Api");

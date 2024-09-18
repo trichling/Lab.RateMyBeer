@@ -5,10 +5,10 @@ using NServiceBus;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.AddServiceDefaults();
-    })
+    // .ConfigureWebHostDefaults(webBuilder =>
+    // {
+    //     webBuilder.AddServiceDefaults();
+    // })
     .UseNServiceBus(context =>
     {
         var configuration = new EndpointConfiguration("Lab.RateMyBeer.Comments");
@@ -16,6 +16,10 @@ builder
         configuration.Configure(context, routing => { });
 
         return configuration;
+    })
+    .ConfigureHostConfiguration(config =>
+    {
+        config.AddUserSecrets<Program>();
     })
     .ConfigureServices((host, services) =>
     {
