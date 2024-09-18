@@ -26,6 +26,7 @@ builder
         config.AddJsonFile("appsettings.json");
         config.AddJsonFile("appsettings.Development.json", optional: true);
         config.AddUserSecrets<Program>();
+        config.AddEnvironmentVariables();
     })
     .ConfigureServices((host, services) =>
     {
