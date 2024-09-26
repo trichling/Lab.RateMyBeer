@@ -7,6 +7,7 @@ using Google.Protobuf.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.ConfigureHostConfiguration(config =>
